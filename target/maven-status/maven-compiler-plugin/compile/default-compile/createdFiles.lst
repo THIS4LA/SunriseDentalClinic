@@ -1,3 +1,4 @@
+com\sunrisedental\view\ReceptionistDashboardFrame.class
 com\sunrisedental\view\LoginFrame.class
 com\sunrisedental\SunriseDentalClinic.class
 com\sunrisedental\service\AuthenticationService.class
