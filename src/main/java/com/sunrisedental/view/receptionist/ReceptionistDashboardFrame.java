@@ -1,6 +1,5 @@
 package com.sunrisedental.view.receptionist;
 
-
 import com.sunrisedental.view.LoginFrame;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -177,6 +176,9 @@ public class ReceptionistDashboardFrame extends JFrame {
         btnPatients.addActionListener(
                 e -> showPatients()
         );
+        btnAppointments.addActionListener(
+                e -> showAppointments()
+        );
         btnLogout.addActionListener(
                 e -> logout()
         );
@@ -318,6 +320,19 @@ public class ReceptionistDashboardFrame extends JFrame {
 
         pnlContent.add(
                 new PatientPanel(),
+                BorderLayout.CENTER
+        );
+
+        pnlContent.revalidate();
+        pnlContent.repaint();
+    }
+
+    private void showAppointments() {
+
+        pnlContent.removeAll();
+
+        pnlContent.add(
+                new AppointmentPanel(),
                 BorderLayout.CENTER
         );
 

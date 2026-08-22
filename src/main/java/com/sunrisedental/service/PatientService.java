@@ -10,45 +10,91 @@ public class PatientService {
     private final PatientDAO patientDAO;
 
     public PatientService() {
-        patientDAO = new PatientDAO();
+
+        patientDAO =
+                new PatientDAO();
     }
 
-    public boolean addPatient(Patient patient) {
+    public boolean addPatient(
+            Patient patient) {
 
-        validatePatient(patient);
+        validatePatient(
+                patient
+        );
 
-        return patientDAO.insert(patient);
+        return patientDAO.insert(
+                patient
+        );
     }
 
-    public boolean updatePatient(Patient patient) {
+    public boolean updatePatient(
+            Patient patient) {
 
         if (patient.getPatientId() <= 0) {
+
             throw new IllegalArgumentException(
                     "Please select a patient first."
             );
         }
 
-        validatePatient(patient);
+        validatePatient(
+                patient
+        );
 
-        return patientDAO.update(patient);
+        return patientDAO.update(
+                patient
+        );
     }
 
-    public boolean deletePatient(int patientId) {
+    public boolean deletePatient(
+            int patientId) {
 
         if (patientId <= 0) {
+
             throw new IllegalArgumentException(
-                    "Please select a patient first."
+                    "Invalid patient ID."
             );
         }
 
-        return patientDAO.delete(patientId);
+        Patient patient =
+                patientDAO.findById(
+                        patientId
+                );
+
+        if (patient == null) {
+
+            throw new IllegalArgumentException(
+                    "Patient not found."
+            );
+        }
+
+        return patientDAO.delete(
+                patientId
+        );
+    }
+
+    public Patient getPatientById(
+            int patientId) {
+
+        if (patientId <= 0) {
+
+            throw new IllegalArgumentException(
+                    "Invalid patient ID."
+            );
+        }
+
+        return patientDAO.findById(
+                patientId
+        );
     }
 
     public List<Patient> getAllPatients() {
+
         return patientDAO.getAll();
     }
 
-    public List<Patient> searchPatients(String keyword) {
+    public List<Patient> searchPatients(
+            String keyword) {
 
         if (keyword == null
                 || keyword.trim().isEmpty()) {
@@ -61,37 +107,116 @@ public class PatientService {
         );
     }
 
-    private void validatePatient(Patient patient) {
+    private void validatePatient(
+            Patient patient) {
 
-        if (patient.getName() == null
-                || patient.getName().trim().isEmpty()) {
+        if (patient == null) {
+
+            throw new IllegalArgumentException(
+                    "Patient details are required."
+            );
+        }
+
+        validateName(
+                patient.getName()
+        );
+
+        validateAddress(
+                patient.getAddress()
+        );
+
+        validateContactNumber(
+                patient.getContactNumber()
+        );
+
+        validateEmail(
+                patient.getEmail()
+        );
+    }
+
+    private void validateName(
+            String name) {
+
+        if (name == null
+                || name.trim().isEmpty()) {
 
             throw new IllegalArgumentException(
                     "Patient name is required."
             );
         }
 
-        if (patient.getAddress() == null
-                || patient.getAddress().trim().isEmpty()) {
+        if (name.trim().length() < 2) {
+
+            throw new IllegalArgumentException(
+                    "Patient name must contain at least 2 characters."
+            );
+        }
+
+        if (!name.matches(
+                "[A-Za-z .'-]+"
+        )) {
+
+            throw new IllegalArgumentException(
+                    "Patient name contains invalid characters."
+            );
+        }
+    }
+
+    private void validateAddress(
+            String address) {
+
+        if (address == null
+                || address.trim().isEmpty()) {
 
             throw new IllegalArgumentException(
                     "Address is required."
             );
         }
 
-        if (patient.getContactNumber() == null
-                || patient.getContactNumber().trim().isEmpty()) {
+        if (address.trim().length() > 255) {
+
+            throw new IllegalArgumentException(
+                    "Address cannot exceed 255 characters."
+            );
+        }
+    }
+
+    private void validateContactNumber(
+            String contactNumber) {
+
+        if (contactNumber == null
+                || contactNumber.trim().isEmpty()) {
 
             throw new IllegalArgumentException(
                     "Contact number is required."
             );
         }
 
-        if (!patient.getContactNumber()
-                .matches("\\d{10}")) {
+        if (!contactNumber.matches(
+                "\\d{10}"
+        )) {
 
             throw new IllegalArgumentException(
-                    "Contact number must contain 10 digits."
+                    "Contact number must contain exactly 10 digits."
+            );
+        }
+    }
+
+    private void validateEmail(
+            String email) {
+
+        if (email == null
+                || email.trim().isEmpty()) {
+
+            return;
+        }
+
+        if (!email.matches(
+                "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"
+        )) {
+
+            throw new IllegalArgumentException(
+                    "Please enter a valid email address."
             );
         }
     }

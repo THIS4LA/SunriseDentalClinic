@@ -26,16 +26,32 @@ public class PatientDAO {
             PreparedStatement ps =
                     con.prepareStatement(sql);
 
-            ps.setString(1, patient.getName());
-            ps.setString(2, patient.getAddress());
-            ps.setString(3, patient.getContactNumber());
-            ps.setString(4, patient.getEmail());
+            ps.setString(
+                    1,
+                    patient.getName()
+            );
+
+            ps.setString(
+                    2,
+                    patient.getAddress()
+            );
+
+            ps.setString(
+                    3,
+                    patient.getContactNumber()
+            );
+
+            ps.setString(
+                    4,
+                    patient.getEmail()
+            );
 
             return ps.executeUpdate() > 0;
 
         } catch (Exception e) {
 
             e.printStackTrace();
+
             return false;
         }
     }
@@ -43,8 +59,8 @@ public class PatientDAO {
     public boolean update(Patient patient) {
 
         String sql =
-                "UPDATE patients SET "
-                + "name = ?, "
+                "UPDATE patients "
+                + "SET name = ?, "
                 + "address = ?, "
                 + "contact_number = ?, "
                 + "email = ? "
@@ -58,17 +74,37 @@ public class PatientDAO {
             PreparedStatement ps =
                     con.prepareStatement(sql);
 
-            ps.setString(1, patient.getName());
-            ps.setString(2, patient.getAddress());
-            ps.setString(3, patient.getContactNumber());
-            ps.setString(4, patient.getEmail());
-            ps.setInt(5, patient.getPatientId());
+            ps.setString(
+                    1,
+                    patient.getName()
+            );
+
+            ps.setString(
+                    2,
+                    patient.getAddress()
+            );
+
+            ps.setString(
+                    3,
+                    patient.getContactNumber()
+            );
+
+            ps.setString(
+                    4,
+                    patient.getEmail()
+            );
+
+            ps.setInt(
+                    5,
+                    patient.getPatientId()
+            );
 
             return ps.executeUpdate() > 0;
 
         } catch (Exception e) {
 
             e.printStackTrace();
+
             return false;
         }
     }
@@ -76,7 +112,8 @@ public class PatientDAO {
     public boolean delete(int patientId) {
 
         String sql =
-                "DELETE FROM patients WHERE patient_id = ?";
+                "DELETE FROM patients "
+                + "WHERE patient_id = ?";
 
         try {
 
@@ -86,15 +123,61 @@ public class PatientDAO {
             PreparedStatement ps =
                     con.prepareStatement(sql);
 
-            ps.setInt(1, patientId);
+            ps.setInt(
+                    1,
+                    patientId
+            );
 
             return ps.executeUpdate() > 0;
 
         } catch (Exception e) {
 
             e.printStackTrace();
+
             return false;
         }
+    }
+
+    public Patient findById(int patientId) {
+
+        String sql =
+                "SELECT patient_id, name, address, contact_number, email "
+                + "FROM patients "
+                + "WHERE patient_id = ?";
+
+        try {
+
+            Connection con =
+                    DatabaseConnection.getConnection();
+
+            PreparedStatement ps =
+                    con.prepareStatement(sql);
+
+            ps.setInt(
+                    1,
+                    patientId
+            );
+
+            ResultSet rs =
+                    ps.executeQuery();
+
+            if (rs.next()) {
+
+                return new Patient(
+                        rs.getInt("patient_id"),
+                        rs.getString("name"),
+                        rs.getString("address"),
+                        rs.getString("contact_number"),
+                        rs.getString("email")
+                );
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public List<Patient> getAll() {
@@ -103,7 +186,8 @@ public class PatientDAO {
                 new ArrayList<>();
 
         String sql =
-                "SELECT * FROM patients "
+                "SELECT patient_id, name, address, contact_number, email "
+                + "FROM patients "
                 + "ORDER BY patient_id DESC";
 
         try {
@@ -128,10 +212,13 @@ public class PatientDAO {
                                 rs.getString("email")
                         );
 
-                patients.add(patient);
+                patients.add(
+                        patient
+                );
             }
 
         } catch (Exception e) {
+
             e.printStackTrace();
         }
 
@@ -144,9 +231,11 @@ public class PatientDAO {
                 new ArrayList<>();
 
         String sql =
-                "SELECT * FROM patients "
+                "SELECT patient_id, name, address, contact_number, email "
+                + "FROM patients "
                 + "WHERE name LIKE ? "
                 + "OR contact_number LIKE ? "
+                + "OR email LIKE ? "
                 + "ORDER BY patient_id DESC";
 
         try {
@@ -160,8 +249,20 @@ public class PatientDAO {
             String searchValue =
                     "%" + keyword + "%";
 
-            ps.setString(1, searchValue);
-            ps.setString(2, searchValue);
+            ps.setString(
+                    1,
+                    searchValue
+            );
+
+            ps.setString(
+                    2,
+                    searchValue
+            );
+
+            ps.setString(
+                    3,
+                    searchValue
+            );
 
             ResultSet rs =
                     ps.executeQuery();
@@ -177,10 +278,13 @@ public class PatientDAO {
                                 rs.getString("email")
                         );
 
-                patients.add(patient);
+                patients.add(
+                        patient
+                );
             }
 
         } catch (Exception e) {
+
             e.printStackTrace();
         }
 

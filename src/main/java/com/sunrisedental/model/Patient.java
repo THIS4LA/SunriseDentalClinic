@@ -12,10 +12,10 @@ public class Patient {
     }
 
     public Patient(int patientId,
-                   String name,
-                   String address,
-                   String contactNumber,
-                   String email) {
+            String name,
+            String address,
+            String contactNumber,
+            String email) {
 
         this.patientId = patientId;
         this.name = name;
@@ -25,9 +25,9 @@ public class Patient {
     }
 
     public Patient(String name,
-                   String address,
-                   String contactNumber,
-                   String email) {
+            String address,
+            String contactNumber,
+            String email) {
 
         this.name = name;
         this.address = address;
@@ -73,5 +73,14 @@ public class Patient {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    /**
+     *
+     * @return
+     */
+    @Override
+    public String toString() {
+        return patientId + " - " + name;
     }
 }
