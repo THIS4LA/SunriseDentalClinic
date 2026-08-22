@@ -1,6 +1,13 @@
-com\sunrisedental\view\ReceptionistDashboardFrame.class
+com\sunrisedental\SunriseDental.class
 com\sunrisedental\view\LoginFrame.class
-com\sunrisedental\SunriseDentalClinic.class
-com\sunrisedental\service\AuthenticationService.class
 com\sunrisedental\dao\UserDAO.class
+com\sunrisedental\dao\PatientDAO.class
+com\sunrisedental\view\receptionist\PatientPanel.class
+com\sunrisedental\view\receptionist\DashboardPanel.class
+com\sunrisedental\view\receptionist\ReceptionistDashboardFrame.class
 com\sunrisedental\database\DatabaseConnection.class
+com\sunrisedental\service\PatientService.class
+com\sunrisedental\service\AuthenticationService.class
+com\sunrisedental\model\Patient.class
+com\sunrisedental\model\User.class
+com\sunrisedental\view\receptionist\PatientPanel$1.class

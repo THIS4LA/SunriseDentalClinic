@@ -1,5 +1,7 @@
-package com.sunrisedental.view;
+package com.sunrisedental.view.receptionist;
 
+
+import com.sunrisedental.view.LoginFrame;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -92,8 +94,8 @@ public class ReceptionistDashboardFrame extends JFrame {
                 )
         );
 
-        JLabel lblClinic =
-                new JLabel(
+        JLabel lblClinic
+                = new JLabel(
                         "SUNRISE DENTAL",
                         SwingConstants.CENTER
                 );
@@ -108,8 +110,8 @@ public class ReceptionistDashboardFrame extends JFrame {
                 )
         );
 
-        JLabel lblRole =
-                new JLabel(
+        JLabel lblRole
+                = new JLabel(
                         "Receptionist",
                         SwingConstants.CENTER
                 );
@@ -122,38 +124,38 @@ public class ReceptionistDashboardFrame extends JFrame {
                 )
         );
 
-        btnDashboard =
-                createSidebarButton(
+        btnDashboard
+                = createSidebarButton(
                         "Dashboard"
                 );
 
-        btnPatients =
-                createSidebarButton(
+        btnPatients
+                = createSidebarButton(
                         "Patients"
                 );
 
-        btnAppointments =
-                createSidebarButton(
+        btnAppointments
+                = createSidebarButton(
                         "Appointments"
                 );
 
-        btnBilling =
-                createSidebarButton(
+        btnBilling
+                = createSidebarButton(
                         "Billing"
                 );
 
-        btnReports =
-                createSidebarButton(
+        btnReports
+                = createSidebarButton(
                         "Reports"
                 );
 
-        btnHelp =
-                createSidebarButton(
+        btnHelp
+                = createSidebarButton(
                         "Help"
                 );
 
-        btnLogout =
-                createSidebarButton(
+        btnLogout
+                = createSidebarButton(
                         "Logout"
                 );
 
@@ -168,16 +170,24 @@ public class ReceptionistDashboardFrame extends JFrame {
         pnlSidebar.add(btnHelp);
         pnlSidebar.add(btnLogout);
 
+        //action listners
+        btnDashboard.addActionListener(
+                e -> showDashboard()
+        );
+        btnPatients.addActionListener(
+                e -> showPatients()
+        );
         btnLogout.addActionListener(
                 e -> logout()
         );
+
     }
 
     private JButton createSidebarButton(
             String text) {
 
-        JButton button =
-                new JButton(text);
+        JButton button
+                = new JButton(text);
 
         button.setFocusPainted(false);
 
@@ -206,7 +216,10 @@ public class ReceptionistDashboardFrame extends JFrame {
 
     private void createContentArea() {
 
-        pnlContent = new JPanel();
+        pnlContent
+                = new JPanel(
+                        new BorderLayout()
+                );
 
         pnlContent.setBackground(
                 new Color(
@@ -216,199 +229,15 @@ public class ReceptionistDashboardFrame extends JFrame {
                 )
         );
 
-        pnlContent.setLayout(
-                new BorderLayout()
-        );
-
-        JPanel pnlHeader =
-                new JPanel(
-                        new BorderLayout()
-                );
-
-        pnlHeader.setBackground(
-                Color.WHITE
-        );
-
-        pnlHeader.setBorder(
-                BorderFactory.createEmptyBorder(
-                        20,
-                        30,
-                        20,
-                        30
-                )
-        );
-
-        JLabel lblTitle =
-                new JLabel(
-                        "Receptionist Dashboard"
-                );
-
-        lblTitle.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        24
-                )
-        );
-
-        JLabel lblWelcome =
-                new JLabel(
-                        "Welcome, Receptionist"
-                );
-
-        lblWelcome.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.PLAIN,
-                        14
-                )
-        );
-
-        pnlHeader.add(
-                lblTitle,
-                BorderLayout.WEST
-        );
-
-        pnlHeader.add(
-                lblWelcome,
-                BorderLayout.EAST
-        );
-
-        pnlContent.add(
-                pnlHeader,
-                BorderLayout.NORTH
-        );
-
-        JPanel pnlDashboard =
-                new JPanel();
-
-        pnlDashboard.setBackground(
-                new Color(
-                        245,
-                        247,
-                        250
-                )
-        );
-
-        pnlDashboard.setBorder(
-                BorderFactory.createEmptyBorder(
-                        25,
-                        30,
-                        25,
-                        30
-                )
-        );
-
-        pnlDashboard.setLayout(
-                new GridLayout(
-                        2,
-                        1,
-                        20,
-                        25
-                )
-        );
-
-        JPanel pnlCards =
-                new JPanel(
-                        new GridLayout(
-                                1,
-                                3,
-                                20,
-                                0
-                        )
-                );
-
-        pnlCards.setOpaque(false);
-
-        pnlCards.add(
-                createCard(
-                        "Today's Appointments",
-                        "0"
-                )
-        );
-
-        pnlCards.add(
-                createCard(
-                        "Pending",
-                        "0"
-                )
-        );
-
-        pnlCards.add(
-                createCard(
-                        "Completed",
-                        "0"
-                )
-        );
-
-        JPanel pnlActions =
-                new JPanel(
-                        new GridLayout(
-                                2,
-                                2,
-                                20,
-                                20
-                        )
-                );
-
-        pnlActions.setOpaque(false);
-
-        JButton btnRegisterPatient =
-                new JButton(
-                        "Register Patient"
-                );
-
-        JButton btnNewAppointment =
-                new JButton(
-                        "New Appointment"
-                );
-
-        JButton btnSearchAppointment =
-                new JButton(
-                        "Search Appointment"
-                );
-
-        JButton btnGenerateBill =
-                new JButton(
-                        "Generate Bill"
-                );
-
-        pnlActions.add(
-                btnRegisterPatient
-        );
-
-        pnlActions.add(
-                btnNewAppointment
-        );
-
-        pnlActions.add(
-                btnSearchAppointment
-        );
-
-        pnlActions.add(
-                btnGenerateBill
-        );
-
-        pnlDashboard.add(
-                pnlCards
-        );
-
-        pnlDashboard.add(
-                pnlActions
-        );
-
-        pnlContent.add(
-                pnlDashboard,
-                BorderLayout.CENTER
-        );
+        showDashboard();
     }
 
     private JPanel createCard(
             String title,
             String value) {
 
-        JPanel panel =
-                new JPanel(
+        JPanel panel
+                = new JPanel(
                         new BorderLayout()
                 );
 
@@ -434,8 +263,8 @@ public class ReceptionistDashboardFrame extends JFrame {
                 )
         );
 
-        JLabel lblTitle =
-                new JLabel(title);
+        JLabel lblTitle
+                = new JLabel(title);
 
         lblTitle.setFont(
                 new Font(
@@ -445,8 +274,8 @@ public class ReceptionistDashboardFrame extends JFrame {
                 )
         );
 
-        JLabel lblValue =
-                new JLabel(value);
+        JLabel lblValue
+                = new JLabel(value);
 
         lblValue.setFont(
                 new Font(
@@ -469,18 +298,45 @@ public class ReceptionistDashboardFrame extends JFrame {
         return panel;
     }
 
+    //methods
+    private void showDashboard() {
+
+        pnlContent.removeAll();
+
+        pnlContent.add(
+                new DashboardPanel(),
+                BorderLayout.CENTER
+        );
+
+        pnlContent.revalidate();
+        pnlContent.repaint();
+    }
+
+    private void showPatients() {
+
+        pnlContent.removeAll();
+
+        pnlContent.add(
+                new PatientPanel(),
+                BorderLayout.CENTER
+        );
+
+        pnlContent.revalidate();
+        pnlContent.repaint();
+    }
+
     private void logout() {
 
-        int result =
-                JOptionPane.showConfirmDialog(
+        int result
+                = JOptionPane.showConfirmDialog(
                         this,
                         "Are you sure you want to logout?",
                         "Logout",
                         JOptionPane.YES_NO_OPTION
                 );
 
-        if (result ==
-                JOptionPane.YES_OPTION) {
+        if (result
+                == JOptionPane.YES_OPTION) {
 
             new LoginFrame()
                     .setVisible(true);

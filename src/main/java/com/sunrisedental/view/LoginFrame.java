@@ -3,9 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.sunrisedental.view;
+import com.sunrisedental.view.receptionist.ReceptionistDashboardFrame;
+
+import com.sunrisedental.model.User;
 
 import com.sunrisedental.service.AuthenticationService;
 import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -98,49 +102,71 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        {
 
-            String username
-                    = txtUsername.getText();
+        String username
+                = txtUsername.getText();
 
-            String password
-                    = new String(txtPassword.getPassword());
+        String password
+                = new String(
+                        txtPassword.getPassword()
+                );
 
-            try {
+        try {
 
-                boolean success
-                        = authenticationService.login(
-                                username,
-                                password
-                        );
-
-                if (success) {
-
-                    JOptionPane.showMessageDialog(
-                            this,
-                            "Login successful!"
+            User user
+                    = authenticationService.login(
+                            username,
+                            password
                     );
+
+            if (user != null) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Welcome " + user.getFullName(),
+                        "Login Successful",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+
+                if ("RECEPTIONIST".equalsIgnoreCase(
+                        user.getRole())) {
+
+                    ReceptionistDashboardFrame dashboard
+                            = new ReceptionistDashboardFrame();
+
+                    dashboard.setVisible(true);
+
+                    dispose();
 
                 } else {
 
                     JOptionPane.showMessageDialog(
                             this,
-                            "Invalid username or password.",
-                            "Login Failed",
-                            JOptionPane.ERROR_MESSAGE
+                            "No dashboard available for role: "
+                            + user.getRole()
                     );
                 }
 
-            } catch (IllegalArgumentException e) {
+            } else {
 
                 JOptionPane.showMessageDialog(
                         this,
-                        e.getMessage(),
-                        "Validation Error",
-                        JOptionPane.WARNING_MESSAGE
+                        "Invalid username or password.",
+                        "Login Failed",
+                        JOptionPane.ERROR_MESSAGE
                 );
 
+                txtPassword.setText("");
             }
+
+        } catch (IllegalArgumentException e) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    e.getMessage(),
+                    "Validation Error",
+                    JOptionPane.WARNING_MESSAGE
+            );
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 

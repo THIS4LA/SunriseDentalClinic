@@ -1,6 +1,7 @@
 package com.sunrisedental.service;
 
 import com.sunrisedental.dao.UserDAO;
+import com.sunrisedental.model.User;
 
 public class AuthenticationService {
 
@@ -10,21 +11,15 @@ public class AuthenticationService {
         userDAO = new UserDAO();
     }
 
-    public boolean login(
-            String username,
-            String password) {
+    public User login(String username, String password) {
 
-        if (username == null ||
-                username.trim().isEmpty()) {
-
+        if (username == null || username.trim().isEmpty()) {
             throw new IllegalArgumentException(
                     "Username is required."
             );
         }
 
-        if (password == null ||
-                password.trim().isEmpty()) {
-
+        if (password == null || password.trim().isEmpty()) {
             throw new IllegalArgumentException(
                     "Password is required."
             );

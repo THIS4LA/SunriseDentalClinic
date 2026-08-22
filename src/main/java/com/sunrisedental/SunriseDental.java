@@ -10,7 +10,7 @@ import com.sunrisedental.view.LoginFrame;
  *
  * @author Thisal_Karunarathna
  */
-public class SunriseDentalClinic {
+public class SunriseDental {
 
     public static void main(String[] args) {
 

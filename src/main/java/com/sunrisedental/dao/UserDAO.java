@@ -1,6 +1,7 @@
 package com.sunrisedental.dao;
 
 import com.sunrisedental.database.DatabaseConnection;
+import com.sunrisedental.model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,12 +9,11 @@ import java.sql.ResultSet;
 
 public class UserDAO {
 
-    public boolean authenticate(
-            String username,
-            String password) {
+    public User authenticate(String username, String password) {
 
         String sql =
-                "SELECT * FROM users "
+                "SELECT user_id, username, full_name, role "
+                + "FROM users "
                 + "WHERE username = ? "
                 + "AND password = ? "
                 + "AND status = 'ACTIVE'";
@@ -32,12 +32,20 @@ public class UserDAO {
             ResultSet rs =
                     ps.executeQuery();
 
-            return rs.next();
+            if (rs.next()) {
+
+                return new User(
+                        rs.getInt("user_id"),
+                        rs.getString("username"),
+                        rs.getString("full_name"),
+                        rs.getString("role")
+                );
+            }
 
         } catch (Exception e) {
-
             e.printStackTrace();
-            return false;
         }
+
+        return null;
     }
 }
