@@ -6,6 +6,14 @@ import com.sunrisedental.service.AppointmentService;
 import com.sunrisedental.model.Patient;
 import com.sunrisedental.service.PatientService;
 
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.TimePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
+import com.github.lgooddatepicker.components.TimePickerSettings;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -35,8 +43,8 @@ public class AppointmentPanel extends JPanel {
     private JTextField txtAppointmentNo;
     //private JTextField txtPatient;
     private JComboBox<Patient> cmbPatient;
-    private JTextField txtDate;
-    private JTextField txtTime;
+    private DatePicker datePicker;
+    private TimePicker timePicker;
     private JTextField txtSearch;
 
     private JComboBox<String> cmbDentist;
@@ -68,6 +76,7 @@ public class AppointmentPanel extends JPanel {
         generateAppointmentNumber();
 
         loadAppointments();
+
     }
 
     private void initUI() {
@@ -328,20 +337,37 @@ public class AppointmentPanel extends JPanel {
                 );
 
         JLabel lblDate
-                = new JLabel(
-                        "Appointment Date"
-                );
+                = new JLabel("Appointment Date");
 
-        txtDate
-                = new JTextField();
+        DatePickerSettings dateSettings
+                = new DatePickerSettings();
+
+        dateSettings.setFormatForDatesCommonEra(
+                "yyyy-MM-dd"
+        );
+
+        dateSettings.setDateRangeLimits(
+                LocalDate.now(),
+                null
+        );
+
+        datePicker
+                = new DatePicker(
+                        dateSettings
+                );
 
         JLabel lblTime
-                = new JLabel(
-                        "Appointment Time"
-                );
+                = new JLabel("Appointment Time");
 
-        txtTime
-                = new JTextField();
+        TimePickerSettings timeSettings
+                = new TimePickerSettings();
+
+        timeSettings.use24HourClockFormat();
+
+        timePicker =
+        new TimePicker(
+                timeSettings
+        );
 
         JLabel lblNotes
                 = new JLabel(
@@ -399,7 +425,7 @@ public class AppointmentPanel extends JPanel {
         );
 
         pnlFields.add(
-                txtDate
+                datePicker
         );
 
         pnlFields.add(
@@ -407,7 +433,7 @@ public class AppointmentPanel extends JPanel {
         );
 
         pnlFields.add(
-                txtTime
+                timePicker
         );
 
         pnlFields.add(
@@ -773,6 +799,39 @@ public class AppointmentPanel extends JPanel {
         cmbPatient.setSelectedIndex(-1);
     }
 
+    private String getSelectedDate() {
+
+        LocalDate selectedDate
+                = datePicker.getDate();
+
+        if (selectedDate == null) {
+
+            throw new IllegalArgumentException(
+                    "Please select an appointment date."
+            );
+        }
+
+        return selectedDate.toString();
+    }
+
+    private String getSelectedTime() {
+
+        LocalTime selectedTime
+                = timePicker.getTime();
+
+        if (selectedTime == null) {
+
+            throw new IllegalArgumentException(
+                    "Please select an appointment time."
+            );
+        }
+
+        return selectedTime
+                .withSecond(0)
+                .withNano(0)
+                .toString();
+    }
+
     private void generateAppointmentNumber() {
 
         String appointmentNo
@@ -804,8 +863,8 @@ public class AppointmentPanel extends JPanel {
                             selectedPatient.getName(),
                             cmbDentist.getSelectedItem().toString(),
                             cmbTreatment.getSelectedItem().toString(),
-                            txtDate.getText().trim(),
-                            txtTime.getText().trim(),
+                            getSelectedDate(),
+                            getSelectedTime(),
                             "PENDING",
                             txtNotes.getText().trim()
                     );
@@ -869,8 +928,8 @@ public class AppointmentPanel extends JPanel {
                             cmbTreatment
                                     .getSelectedItem()
                                     .toString(),
-                            txtDate.getText().trim(),
-                            txtTime.getText().trim(),
+                            getSelectedDate(),
+                            getSelectedTime(),
                             "PENDING",
                             txtNotes.getText().trim()
                     );
@@ -1007,6 +1066,45 @@ public class AppointmentPanel extends JPanel {
         }
     }
 
+    private void setSelectedDate(String dateString) {
+
+        if (dateString == null
+                || dateString.trim().isEmpty()) {
+
+            datePicker.clear();
+            return;
+        }
+
+        LocalDate date
+                = LocalDate.parse(dateString);
+
+        datePicker.setDate(date);
+    }
+
+    private void setSelectedTime(String timeString) {
+
+        if (timeString == null
+                || timeString.trim().isEmpty()) {
+
+            timePicker.clear();
+            return;
+        }
+
+        if (timeString.length() >= 8) {
+
+            timeString
+                    = timeString.substring(
+                            0,
+                            5
+                    );
+        }
+
+        LocalTime time
+                = LocalTime.parse(timeString);
+
+        timePicker.setTime(time);
+    }
+
     private void loadSelectedAppointment() {
 
         int row
@@ -1053,7 +1151,7 @@ public class AppointmentPanel extends JPanel {
                 )
         );
 
-        txtDate.setText(
+        setSelectedDate(
                 safeValue(
                         tableModel.getValueAt(
                                 row,
@@ -1062,7 +1160,7 @@ public class AppointmentPanel extends JPanel {
                 )
         );
 
-        txtTime.setText(
+        setSelectedTime(
                 safeValue(
                         tableModel.getValueAt(
                                 row,
@@ -1070,6 +1168,7 @@ public class AppointmentPanel extends JPanel {
                         )
                 )
         );
+
     }
 
     private String safeValue(
@@ -1085,8 +1184,8 @@ public class AppointmentPanel extends JPanel {
         cmbPatient.setSelectedIndex(
                 0
         );
-        txtDate.setText("");
-        txtTime.setText("");
+        datePicker.clear();
+        timePicker.clear();
         txtNotes.setText("");
 
         cmbDentist.setSelectedIndex(
@@ -1103,4 +1202,5 @@ public class AppointmentPanel extends JPanel {
 
         cmbPatient.requestFocus();
     }
+
 }
