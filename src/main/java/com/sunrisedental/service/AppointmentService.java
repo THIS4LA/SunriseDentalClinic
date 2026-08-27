@@ -139,6 +139,28 @@ public class AppointmentService {
         );
     }
 
+    public int getTodayAppointmentCount() {
+
+        return appointmentDAO
+                .countTodayAppointments();
+    }
+
+    public int getTodayPendingCount() {
+
+        return appointmentDAO
+                .countTodayAppointmentsByStatus(
+                        "PENDING"
+                );
+    }
+
+    public int getTodayCompletedCount() {
+
+        return appointmentDAO
+                .countTodayAppointmentsByStatus(
+                        "COMPLETED"
+                );
+    }
+
     private void validateAppointment(
             Appointment appointment) {
 
@@ -273,4 +295,5 @@ public class AppointmentService {
             );
         }
     }
+
 }

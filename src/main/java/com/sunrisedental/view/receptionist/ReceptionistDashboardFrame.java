@@ -311,12 +311,20 @@ public class ReceptionistDashboardFrame extends JFrame {
 
         pnlContent.removeAll();
 
+        DashboardPanel dashboardPanel
+                = new DashboardPanel(
+                        () -> showPatients(),
+                        () -> showAppointments(),
+                        () -> showBilling()
+                );
+
         pnlContent.add(
-                new DashboardPanel(),
+                dashboardPanel,
                 BorderLayout.CENTER
         );
 
         pnlContent.revalidate();
+
         pnlContent.repaint();
     }
 

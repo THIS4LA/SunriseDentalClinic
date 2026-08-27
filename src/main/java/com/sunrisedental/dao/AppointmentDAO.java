@@ -301,6 +301,72 @@ public class AppointmentDAO {
         return false;
     }
 
+    public int countTodayAppointments() {
+
+        String sql
+                = "SELECT COUNT(*) "
+                + "FROM appointments "
+                + "WHERE appointment_date = CURDATE() "
+                + "AND status <> 'CANCELLED'";
+
+        try {
+
+            Connection con
+                    = DatabaseConnection.getConnection();
+
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
+
+            ResultSet rs
+                    = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    public int countTodayAppointmentsByStatus(
+            String status) {
+
+        String sql
+                = "SELECT COUNT(*) "
+                + "FROM appointments "
+                + "WHERE appointment_date = CURDATE() "
+                + "AND status = ?";
+
+        try {
+
+            Connection con
+                    = DatabaseConnection.getConnection();
+
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
+
+            ps.setString(
+                    1,
+                    status
+            );
+
+            ResultSet rs
+                    = ps.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
     public boolean isDentistBookedExcept(
             String dentistName,
             String appointmentDate,

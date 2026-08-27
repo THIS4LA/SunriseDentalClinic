@@ -1,9 +1,12 @@
 package com.sunrisedental.view.receptionist;
 
+import com.sunrisedental.service.AppointmentService;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -11,9 +14,36 @@ import javax.swing.JPanel;
 
 public class DashboardPanel extends JPanel {
 
-    public DashboardPanel() {
+    private final AppointmentService appointmentService;
+
+    private final Runnable openPatients;
+    private final Runnable openAppointments;
+    private final Runnable openBilling;
+
+    private JLabel lblTodayAppointments;
+    private JLabel lblPending;
+    private JLabel lblCompleted;
+
+    public DashboardPanel(
+            Runnable openPatients,
+            Runnable openAppointments,
+            Runnable openBilling) {
+
+        this.openPatients
+                = openPatients;
+
+        this.openAppointments
+                = openAppointments;
+
+        this.openBilling
+                = openBilling;
+
+        appointmentService
+                = new AppointmentService();
 
         initUI();
+
+        loadDashboardStatistics();
     }
 
     private void initUI() {
@@ -31,13 +61,17 @@ public class DashboardPanel extends JPanel {
         );
 
         createHeader();
+
         createDashboardContent();
     }
 
+    // ==========================================================
+    // HEADER
+    // ==========================================================
     private void createHeader() {
 
-        JPanel pnlHeader =
-                new JPanel(
+        JPanel pnlHeader
+                = new JPanel(
                         new BorderLayout()
                 );
 
@@ -54,8 +88,8 @@ public class DashboardPanel extends JPanel {
                 )
         );
 
-        JLabel lblTitle =
-                new JLabel(
+        JLabel lblTitle
+                = new JLabel(
                         "Receptionist Dashboard"
                 );
 
@@ -67,8 +101,8 @@ public class DashboardPanel extends JPanel {
                 )
         );
 
-        JLabel lblWelcome =
-                new JLabel(
+        JLabel lblWelcome
+                = new JLabel(
                         "Welcome, Receptionist"
                 );
 
@@ -96,10 +130,13 @@ public class DashboardPanel extends JPanel {
         );
     }
 
+    // ==========================================================
+    // DASHBOARD CONTENT
+    // ==========================================================
     private void createDashboardContent() {
 
-        JPanel pnlDashboard =
-                new JPanel();
+        JPanel pnlDashboard
+                = new JPanel();
 
         pnlDashboard.setBackground(
                 new Color(
@@ -127,8 +164,11 @@ public class DashboardPanel extends JPanel {
                 )
         );
 
-        JPanel pnlCards =
-                new JPanel(
+        // ======================================================
+        // STATISTIC CARDS
+        // ======================================================
+        JPanel pnlCards
+                = new JPanel(
                         new GridLayout(
                                 1,
                                 3,
@@ -137,31 +177,51 @@ public class DashboardPanel extends JPanel {
                         )
                 );
 
-        pnlCards.setOpaque(false);
+        pnlCards.setOpaque(
+                false
+        );
+
+        lblTodayAppointments
+                = new JLabel(
+                        "0"
+                );
+
+        lblPending
+                = new JLabel(
+                        "0"
+                );
+
+        lblCompleted
+                = new JLabel(
+                        "0"
+                );
 
         pnlCards.add(
                 createCard(
                         "Today's Appointments",
-                        "0"
+                        lblTodayAppointments
                 )
         );
 
         pnlCards.add(
                 createCard(
                         "Pending",
-                        "0"
+                        lblPending
                 )
         );
 
         pnlCards.add(
                 createCard(
                         "Completed",
-                        "0"
+                        lblCompleted
                 )
         );
 
-        JPanel pnlActions =
-                new JPanel(
+        // ======================================================
+        // QUICK ACTIONS
+        // ======================================================
+        JPanel pnlActions
+                = new JPanel(
                         new GridLayout(
                                 2,
                                 2,
@@ -170,27 +230,48 @@ public class DashboardPanel extends JPanel {
                         )
                 );
 
-        pnlActions.setOpaque(false);
+        pnlActions.setOpaque(
+                false
+        );
 
-        JButton btnRegisterPatient =
-                new JButton(
+        JButton btnRegisterPatient
+                = createActionButton(
                         "Register Patient"
                 );
 
-        JButton btnNewAppointment =
-                new JButton(
+        JButton btnNewAppointment
+                = createActionButton(
                         "New Appointment"
                 );
 
-        JButton btnSearchAppointment =
-                new JButton(
+        JButton btnSearchAppointment
+                = createActionButton(
                         "Search Appointment"
                 );
 
-        JButton btnGenerateBill =
-                new JButton(
+        JButton btnGenerateBill
+                = createActionButton(
                         "Generate Bill"
                 );
+
+        // ======================================================
+        // NAVIGATION
+        // ======================================================
+        btnRegisterPatient.addActionListener(
+                e -> openPatients.run()
+        );
+
+        btnNewAppointment.addActionListener(
+                e -> openAppointments.run()
+        );
+
+        btnSearchAppointment.addActionListener(
+                e -> openAppointments.run()
+        );
+
+        btnGenerateBill.addActionListener(
+                e -> openBilling.run()
+        );
 
         pnlActions.add(
                 btnRegisterPatient
@@ -222,12 +303,15 @@ public class DashboardPanel extends JPanel {
         );
     }
 
+    // ==========================================================
+    // STATISTIC CARD
+    // ==========================================================
     private JPanel createCard(
             String title,
-            String value) {
+            JLabel lblValue) {
 
-        JPanel panel =
-                new JPanel(
+        JPanel panel
+                = new JPanel(
                         new BorderLayout()
                 );
 
@@ -237,7 +321,6 @@ public class DashboardPanel extends JPanel {
 
         panel.setBorder(
                 BorderFactory.createCompoundBorder(
-
                         BorderFactory.createLineBorder(
                                 new Color(
                                         220,
@@ -245,7 +328,6 @@ public class DashboardPanel extends JPanel {
                                         220
                                 )
                         ),
-
                         BorderFactory.createEmptyBorder(
                                 20,
                                 20,
@@ -255,8 +337,8 @@ public class DashboardPanel extends JPanel {
                 )
         );
 
-        JLabel lblTitle =
-                new JLabel(
+        JLabel lblTitle
+                = new JLabel(
                         title
                 );
 
@@ -267,11 +349,6 @@ public class DashboardPanel extends JPanel {
                         15
                 )
         );
-
-        JLabel lblValue =
-                new JLabel(
-                        value
-                );
 
         lblValue.setFont(
                 new Font(
@@ -292,5 +369,75 @@ public class DashboardPanel extends JPanel {
         );
 
         return panel;
+    }
+
+    // ==========================================================
+    // QUICK ACTION BUTTON
+    // ==========================================================
+    private JButton createActionButton(
+            String text) {
+
+        JButton button
+                = new JButton(
+                        text
+                );
+
+        button.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        14
+                )
+        );
+
+        button.setFocusPainted(
+                false
+        );
+
+        return button;
+    }
+
+    // ==========================================================
+    // LOAD ACTUAL DATABASE VALUES
+    // ==========================================================
+    private void loadDashboardStatistics() {
+
+        int today
+                = appointmentService
+                        .getTodayAppointmentCount();
+
+        int pending
+                = appointmentService
+                        .getTodayPendingCount();
+
+        int completed
+                = appointmentService
+                        .getTodayCompletedCount();
+
+        lblTodayAppointments.setText(
+                String.valueOf(
+                        today
+                )
+        );
+
+        lblPending.setText(
+                String.valueOf(
+                        pending
+                )
+        );
+
+        lblCompleted.setText(
+                String.valueOf(
+                        completed
+                )
+        );
+    }
+
+    // ==========================================================
+    // REFRESH DASHBOARD
+    // ==========================================================
+    public void refreshDashboard() {
+
+        loadDashboardStatistics();
     }
 }
