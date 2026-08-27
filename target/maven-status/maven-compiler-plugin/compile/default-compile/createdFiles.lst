@@ -6,6 +6,7 @@ com\sunrisedental\service\AppointmentService.class
 com\sunrisedental\service\BillingService.class
 com\sunrisedental\view\receptionist\DashboardPanel.class
 com\sunrisedental\view\receptionist\ReceptionistDashboardFrame.class
+com\sunrisedental\view\receptionist\HelpPanel$1.class
 com\sunrisedental\model\Appointment.class
 com\sunrisedental\database\DatabaseConnection.class
 com\sunrisedental\dao\AppointmentDAO.class
@@ -15,9 +16,11 @@ com\sunrisedental\view\receptionist\AppointmentPanel.class
 com\sunrisedental\SunriseDental.class
 com\sunrisedental\view\LoginFrame.class
 com\sunrisedental\model\Treatment.class
+com\sunrisedental\view\receptionist\HelpPanel.class
 com\sunrisedental\view\receptionist\AppointmentPanel$1.class
 com\sunrisedental\view\receptionist\ReportsPanel$1.class
 com\sunrisedental\view\receptionist\PatientPanel.class
+com\sunrisedental\view\receptionist\HelpPanel$HelpItem.class
 com\sunrisedental\dao\TreatmentDAO.class
 com\sunrisedental\model\ReportSummary.class
 com\sunrisedental\dao\BillDAO.class

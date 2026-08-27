@@ -185,6 +185,9 @@ public class ReceptionistDashboardFrame extends JFrame {
         btnReports.addActionListener(
                 e -> showReports()
         );
+        btnHelp.addActionListener(
+                e -> showHelp()
+        );
         btnLogout.addActionListener(
                 e -> logout()
         );
@@ -377,6 +380,20 @@ public class ReceptionistDashboardFrame extends JFrame {
         );
 
         pnlContent.revalidate();
+        pnlContent.repaint();
+    }
+
+    private void showHelp() {
+
+        pnlContent.removeAll();
+
+        pnlContent.add(
+                new HelpPanel(),
+                BorderLayout.CENTER
+        );
+
+        pnlContent.revalidate();
+
         pnlContent.repaint();
     }
 
