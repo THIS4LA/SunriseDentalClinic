@@ -5,7 +5,6 @@ import com.sunrisedental.model.Appointment;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 import java.util.List;
@@ -14,25 +13,11 @@ public class AppointmentService {
 
     private final AppointmentDAO appointmentDAO;
 
-    private static final DateTimeFormatter DATE_FORMAT =
-            DateTimeFormatter.ofPattern(
-                    "yyyy-MM-dd"
-            );
-
-    private static final DateTimeFormatter TIME_FORMAT =
-            DateTimeFormatter.ofPattern(
-                    "HH:mm"
-            );
-
     public AppointmentService() {
 
-        appointmentDAO =
-                new AppointmentDAO();
+        appointmentDAO
+                = new AppointmentDAO();
     }
-
-    // ----------------------------------------------------
-    // ADD APPOINTMENT
-    // ----------------------------------------------------
 
     public boolean addAppointment(
             Appointment appointment) {
@@ -41,8 +26,8 @@ public class AppointmentService {
                 appointment
         );
 
-        boolean booked =
-                appointmentDAO.isDentistBooked(
+        boolean booked
+                = appointmentDAO.isDentistBooked(
                         appointment.getDentistName(),
                         appointment.getAppointmentDate(),
                         appointment.getAppointmentTime()
@@ -61,16 +46,11 @@ public class AppointmentService {
         );
     }
 
-    // ----------------------------------------------------
-    // UPDATE APPOINTMENT
-    // ----------------------------------------------------
-
     public boolean updateAppointment(
             Appointment appointment) {
 
         if (appointment.getAppointmentNo() == null
-                || appointment
-                        .getAppointmentNo()
+                || appointment.getAppointmentNo()
                         .trim()
                         .isEmpty()) {
 
@@ -83,8 +63,8 @@ public class AppointmentService {
                 appointment
         );
 
-        boolean booked =
-                appointmentDAO
+        boolean booked
+                = appointmentDAO
                         .isDentistBookedExcept(
                                 appointment.getDentistName(),
                                 appointment.getAppointmentDate(),
@@ -105,17 +85,11 @@ public class AppointmentService {
         );
     }
 
-    // ----------------------------------------------------
-    // CANCEL APPOINTMENT
-    // ----------------------------------------------------
-
     public boolean cancelAppointment(
             String appointmentNo) {
 
         if (appointmentNo == null
-                || appointmentNo
-                        .trim()
-                        .isEmpty()) {
+                || appointmentNo.trim().isEmpty()) {
 
             throw new IllegalArgumentException(
                     "Appointment number is required."
@@ -127,28 +101,18 @@ public class AppointmentService {
         );
     }
 
-    // ----------------------------------------------------
-    // GET ALL
-    // ----------------------------------------------------
-
     public List<Appointment>
             getAllAppointments() {
 
         return appointmentDAO.getAll();
     }
 
-    // ----------------------------------------------------
-    // SEARCH
-    // ----------------------------------------------------
-
     public List<Appointment>
             searchAppointments(
                     String keyword) {
 
         if (keyword == null
-                || keyword
-                        .trim()
-                        .isEmpty()) {
+                || keyword.trim().isEmpty()) {
 
             return getAllAppointments();
         }
@@ -158,18 +122,14 @@ public class AppointmentService {
         );
     }
 
-    // ----------------------------------------------------
-    // GENERATE APPOINTMENT NUMBER
-    // ----------------------------------------------------
-
     public String generateAppointmentNumber() {
 
-        int sequence =
-                appointmentDAO
+        int sequence
+                = appointmentDAO
                         .getNextAppointmentSequence();
 
-        int year =
-                LocalDate.now()
+        int year
+                = LocalDate.now()
                         .getYear();
 
         return String.format(
@@ -178,10 +138,6 @@ public class AppointmentService {
                 sequence
         );
     }
-
-    // ----------------------------------------------------
-    // VALIDATION
-    // ----------------------------------------------------
 
     private void validateAppointment(
             Appointment appointment) {
@@ -194,8 +150,7 @@ public class AppointmentService {
         }
 
         if (appointment.getAppointmentNo() == null
-                || appointment
-                        .getAppointmentNo()
+                || appointment.getAppointmentNo()
                         .trim()
                         .isEmpty()) {
 
@@ -204,23 +159,16 @@ public class AppointmentService {
             );
         }
 
-        if (appointment.getPatientName() == null
-                || appointment
-                        .getPatientName()
-                        .trim()
-                        .isEmpty()) {
+        if (appointment.getPatientId() <= 0) {
 
             throw new IllegalArgumentException(
-                    "Patient name is required."
+                    "Please select a valid patient."
             );
         }
 
         if (appointment.getDentistName() == null
-                || appointment
-                        .getDentistName()
-                        .equals(
-                                "Select Dentist"
-                        )) {
+                || appointment.getDentistName()
+                        .equals("Select Dentist")) {
 
             throw new IllegalArgumentException(
                     "Please select a dentist."
@@ -228,11 +176,8 @@ public class AppointmentService {
         }
 
         if (appointment.getTreatmentType() == null
-                || appointment
-                        .getTreatmentType()
-                        .equals(
-                                "Select Treatment"
-                        )) {
+                || appointment.getTreatmentType()
+                        .equals("Select Treatment")) {
 
             throw new IllegalArgumentException(
                     "Please select a treatment."
@@ -248,17 +193,11 @@ public class AppointmentService {
         );
     }
 
-    // ----------------------------------------------------
-    // DATE VALIDATION
-    // ----------------------------------------------------
-
     private void validateDate(
             String dateText) {
 
         if (dateText == null
-                || dateText
-                        .trim()
-                        .isEmpty()) {
+                || dateText.trim().isEmpty()) {
 
             throw new IllegalArgumentException(
                     "Appointment date is required."
@@ -267,10 +206,9 @@ public class AppointmentService {
 
         try {
 
-            LocalDate appointmentDate =
-                    LocalDate.parse(
-                            dateText,
-                            DATE_FORMAT
+            LocalDate appointmentDate
+                    = LocalDate.parse(
+                            dateText
                     );
 
             if (appointmentDate.isBefore(
@@ -284,23 +222,16 @@ public class AppointmentService {
         } catch (DateTimeParseException e) {
 
             throw new IllegalArgumentException(
-                    "Invalid appointment date. "
-                    + "Use yyyy-MM-dd format."
+                    "Invalid appointment date."
             );
         }
     }
-
-    // ----------------------------------------------------
-    // TIME VALIDATION
-    // ----------------------------------------------------
 
     private void validateTime(
             String timeText) {
 
         if (timeText == null
-                || timeText
-                        .trim()
-                        .isEmpty()) {
+                || timeText.trim().isEmpty()) {
 
             throw new IllegalArgumentException(
                     "Appointment time is required."
@@ -309,16 +240,36 @@ public class AppointmentService {
 
         try {
 
-            LocalTime.parse(
-                    timeText,
-                    TIME_FORMAT
-            );
+            LocalTime appointmentTime
+                    = LocalTime.parse(
+                            timeText
+                    );
+
+            LocalTime openingTime
+                    = LocalTime.of(
+                            8,
+                            0
+                    );
+
+            LocalTime closingTime
+                    = LocalTime.of(
+                            18,
+                            0
+                    );
+
+            if (appointmentTime.isBefore(openingTime)
+                    || appointmentTime.isAfter(closingTime)) {
+
+                throw new IllegalArgumentException(
+                        "Appointment time must be between "
+                        + "08:00 and 18:00."
+                );
+            }
 
         } catch (DateTimeParseException e) {
 
             throw new IllegalArgumentException(
-                    "Invalid appointment time. "
-                    + "Use HH:mm format."
+                    "Invalid appointment time."
             );
         }
     }

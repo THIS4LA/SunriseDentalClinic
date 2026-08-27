@@ -3,7 +3,7 @@ package com.sunrisedental.model;
 public class Appointment {
 
     private String appointmentNo;
-    private String patientName;
+    private int patientId;
     private String dentistName;
     private String treatmentType;
     private String appointmentDate;
@@ -16,7 +16,7 @@ public class Appointment {
 
     public Appointment(
             String appointmentNo,
-            String patientName,
+            int patientId,
             String dentistName,
             String treatmentType,
             String appointmentDate,
@@ -25,7 +25,7 @@ public class Appointment {
             String notes) {
 
         this.appointmentNo = appointmentNo;
-        this.patientName = patientName;
+        this.patientId = patientId;
         this.dentistName = dentistName;
         this.treatmentType = treatmentType;
         this.appointmentDate = appointmentDate;
@@ -42,12 +42,12 @@ public class Appointment {
         this.appointmentNo = appointmentNo;
     }
 
-    public String getPatientName() {
-        return patientName;
+    public int getPatientId() {
+        return patientId;
     }
 
-    public void setPatientName(String patientName) {
-        this.patientName = patientName;
+    public void setPatientId(int patientId) {
+        this.patientId = patientId;
     }
 
     public String getDentistName() {

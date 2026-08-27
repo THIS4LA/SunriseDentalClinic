@@ -179,6 +179,9 @@ public class ReceptionistDashboardFrame extends JFrame {
         btnAppointments.addActionListener(
                 e -> showAppointments()
         );
+        btnBilling.addActionListener(
+                e -> showBilling()
+        );
         btnLogout.addActionListener(
                 e -> logout()
         );
@@ -333,6 +336,19 @@ public class ReceptionistDashboardFrame extends JFrame {
 
         pnlContent.add(
                 new AppointmentPanel(),
+                BorderLayout.CENTER
+        );
+
+        pnlContent.revalidate();
+        pnlContent.repaint();
+    }
+
+    private void showBilling() {
+
+        pnlContent.removeAll();
+
+        pnlContent.add(
+                new BillingPanel(),
                 BorderLayout.CENTER
         );
 

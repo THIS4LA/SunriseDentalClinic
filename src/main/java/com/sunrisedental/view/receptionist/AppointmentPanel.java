@@ -346,15 +346,15 @@ public class AppointmentPanel extends JPanel {
                 "yyyy-MM-dd"
         );
 
-        dateSettings.setDateRangeLimits(
-                LocalDate.now(),
-                null
-        );
-
         datePicker
                 = new DatePicker(
                         dateSettings
                 );
+
+        dateSettings.setDateRangeLimits(
+                LocalDate.now(),
+                LocalDate.now().plusYears(2)
+        );
 
         JLabel lblTime
                 = new JLabel("Appointment Time");
@@ -364,9 +364,22 @@ public class AppointmentPanel extends JPanel {
 
         timeSettings.use24HourClockFormat();
 
-        timePicker =
-        new TimePicker(
-                timeSettings
+        timePicker
+                = new TimePicker(timeSettings);
+
+        // Set allowed appointment time range
+        timeSettings.setVetoPolicy(
+                time -> {
+
+                    LocalTime openingTime
+                    = LocalTime.of(8, 0);
+
+                    LocalTime closingTime
+                    = LocalTime.of(18, 0);
+
+                    return !time.isBefore(openingTime)
+                    && !time.isAfter(closingTime);
+                }
         );
 
         JLabel lblNotes
@@ -860,7 +873,7 @@ public class AppointmentPanel extends JPanel {
             Appointment appointment
                     = new Appointment(
                             txtAppointmentNo.getText().trim(),
-                            selectedPatient.getName(),
+                            selectedPatient.getPatientId(),
                             cmbDentist.getSelectedItem().toString(),
                             cmbTreatment.getSelectedItem().toString(),
                             getSelectedDate(),
@@ -902,26 +915,25 @@ public class AppointmentPanel extends JPanel {
 
     private void updateAppointment() {
 
-        if (txtAppointmentNo
-                .getText()
-                .trim()
-                .isEmpty()) {
+        Patient selectedPatient
+                = (Patient) cmbPatient.getSelectedItem();
 
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Please select an appointment first."
+        if (selectedPatient == null) {
+
+            throw new IllegalArgumentException(
+                    "Please select a patient."
             );
-
-            return;
         }
 
         try {
 
             Appointment appointment
                     = new Appointment(
-                            txtAppointmentNo.getText().trim(),
-                            cmbPatient.getSelectedItem()
-                                    .toString(),
+                            txtAppointmentNo
+                                    .getText()
+                                    .trim(),
+                            selectedPatient
+                                    .getPatientId(),
                             cmbDentist
                                     .getSelectedItem()
                                     .toString(),
@@ -931,7 +943,9 @@ public class AppointmentPanel extends JPanel {
                             getSelectedDate(),
                             getSelectedTime(),
                             "PENDING",
-                            txtNotes.getText().trim()
+                            txtNotes
+                                    .getText()
+                                    .trim()
                     );
 
             boolean success
@@ -1055,7 +1069,7 @@ public class AppointmentPanel extends JPanel {
             tableModel.addRow(
                     new Object[]{
                         appointment.getAppointmentNo(),
-                        appointment.getPatientName(),
+                        appointment.getPatientId(),
                         appointment.getDentistName(),
                         appointment.getTreatmentType(),
                         appointment.getAppointmentDate(),

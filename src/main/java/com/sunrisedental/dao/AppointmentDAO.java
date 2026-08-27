@@ -12,40 +12,31 @@ import java.util.List;
 
 public class AppointmentDAO {
 
-    // ----------------------------------------------------
-    // INSERT APPOINTMENT
-    // ----------------------------------------------------
-
     public boolean insert(Appointment appointment) {
 
-        String sql =
-                "INSERT INTO appointments "
-                + "(appointment_no, "
-                + "patient_name, "
-                + "dentist_name, "
-                + "treatment_type, "
-                + "appointment_date, "
-                + "appointment_time, "
-                + "status, "
-                + "notes) "
+        String sql
+                = "INSERT INTO appointments "
+                + "(appointment_no, patient_id, dentist_name, "
+                + "treatment_type, appointment_date, appointment_time, "
+                + "status, notes) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
             ps.setString(
                     1,
                     appointment.getAppointmentNo()
             );
 
-            ps.setString(
+            ps.setInt(
                     2,
-                    appointment.getPatientName()
+                    appointment.getPatientId()
             );
 
             ps.setString(
@@ -83,20 +74,15 @@ public class AppointmentDAO {
         } catch (Exception e) {
 
             e.printStackTrace();
-
             return false;
         }
     }
 
-    // ----------------------------------------------------
-    // UPDATE APPOINTMENT
-    // ----------------------------------------------------
-
     public boolean update(Appointment appointment) {
 
-        String sql =
-                "UPDATE appointments SET "
-                + "patient_name = ?, "
+        String sql
+                = "UPDATE appointments SET "
+                + "patient_id = ?, "
                 + "dentist_name = ?, "
                 + "treatment_type = ?, "
                 + "appointment_date = ?, "
@@ -106,15 +92,15 @@ public class AppointmentDAO {
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
-            ps.setString(
+            ps.setInt(
                     1,
-                    appointment.getPatientName()
+                    appointment.getPatientId()
             );
 
             ps.setString(
@@ -152,29 +138,24 @@ public class AppointmentDAO {
         } catch (Exception e) {
 
             e.printStackTrace();
-
             return false;
         }
     }
 
-    // ----------------------------------------------------
-    // CANCEL APPOINTMENT
-    // ----------------------------------------------------
-
     public boolean cancel(String appointmentNo) {
 
-        String sql =
-                "UPDATE appointments "
+        String sql
+                = "UPDATE appointments "
                 + "SET status = 'CANCELLED' "
                 + "WHERE appointment_no = ?";
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
             ps.setString(
                     1,
@@ -186,43 +167,35 @@ public class AppointmentDAO {
         } catch (Exception e) {
 
             e.printStackTrace();
-
             return false;
         }
     }
 
-    // ----------------------------------------------------
-    // GET ALL APPOINTMENTS
-    // ----------------------------------------------------
-
     public List<Appointment> getAll() {
 
-        List<Appointment> appointments =
-                new ArrayList<>();
+        List<Appointment> appointments
+                = new ArrayList<>();
 
-        String sql =
-                "SELECT * FROM appointments "
+        String sql
+                = "SELECT * FROM appointments "
                 + "ORDER BY appointment_date DESC, "
                 + "appointment_time DESC";
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
-            ResultSet rs =
-                    ps.executeQuery();
+            ResultSet rs
+                    = ps.executeQuery();
 
             while (rs.next()) {
 
-                Appointment appointment =
-                        createAppointmentFromResultSet(rs);
-
                 appointments.add(
-                        appointment
+                        createAppointmentFromResultSet(rs)
                 );
             }
 
@@ -233,73 +206,50 @@ public class AppointmentDAO {
 
         return appointments;
     }
-
-    // ----------------------------------------------------
-    // SEARCH APPOINTMENTS
-    // ----------------------------------------------------
 
     public List<Appointment> search(
             String keyword) {
 
-        List<Appointment> appointments =
-                new ArrayList<>();
+        List<Appointment> appointments
+                = new ArrayList<>();
 
-        String sql =
-                "SELECT * FROM appointments "
-                + "WHERE appointment_no LIKE ? "
-                + "OR patient_name LIKE ? "
-                + "OR dentist_name LIKE ? "
-                + "OR treatment_type LIKE ? "
-                + "OR status LIKE ? "
-                + "ORDER BY appointment_date DESC, "
-                + "appointment_time DESC";
+        String sql
+                = "SELECT a.* "
+                + "FROM appointments a "
+                + "JOIN patients p "
+                + "ON a.patient_id = p.patient_id "
+                + "WHERE a.appointment_no LIKE ? "
+                + "OR p.name LIKE ? "
+                + "OR a.dentist_name LIKE ? "
+                + "OR a.treatment_type LIKE ? "
+                + "OR a.status LIKE ? "
+                + "ORDER BY a.appointment_date DESC, "
+                + "a.appointment_time DESC";
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
-            String searchValue =
-                    "%" + keyword + "%";
+            String searchValue
+                    = "%" + keyword + "%";
 
-            ps.setString(
-                    1,
-                    searchValue
-            );
+            ps.setString(1, searchValue);
+            ps.setString(2, searchValue);
+            ps.setString(3, searchValue);
+            ps.setString(4, searchValue);
+            ps.setString(5, searchValue);
 
-            ps.setString(
-                    2,
-                    searchValue
-            );
-
-            ps.setString(
-                    3,
-                    searchValue
-            );
-
-            ps.setString(
-                    4,
-                    searchValue
-            );
-
-            ps.setString(
-                    5,
-                    searchValue
-            );
-
-            ResultSet rs =
-                    ps.executeQuery();
+            ResultSet rs
+                    = ps.executeQuery();
 
             while (rs.next()) {
 
-                Appointment appointment =
-                        createAppointmentFromResultSet(rs);
-
                 appointments.add(
-                        appointment
+                        createAppointmentFromResultSet(rs)
                 );
             }
 
@@ -310,18 +260,14 @@ public class AppointmentDAO {
 
         return appointments;
     }
-
-    // ----------------------------------------------------
-    // CHECK DOUBLE BOOKING
-    // ----------------------------------------------------
 
     public boolean isDentistBooked(
             String dentistName,
             String appointmentDate,
             String appointmentTime) {
 
-        String sql =
-                "SELECT COUNT(*) "
+        String sql
+                = "SELECT COUNT(*) "
                 + "FROM appointments "
                 + "WHERE dentist_name = ? "
                 + "AND appointment_date = ? "
@@ -330,32 +276,20 @@ public class AppointmentDAO {
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
-            ps.setString(
-                    1,
-                    dentistName
-            );
+            ps.setString(1, dentistName);
+            ps.setString(2, appointmentDate);
+            ps.setString(3, appointmentTime);
 
-            ps.setString(
-                    2,
-                    appointmentDate
-            );
-
-            ps.setString(
-                    3,
-                    appointmentTime
-            );
-
-            ResultSet rs =
-                    ps.executeQuery();
+            ResultSet rs
+                    = ps.executeQuery();
 
             if (rs.next()) {
-
                 return rs.getInt(1) > 0;
             }
 
@@ -367,18 +301,14 @@ public class AppointmentDAO {
         return false;
     }
 
-    // ----------------------------------------------------
-    // DOUBLE BOOKING CHECK FOR UPDATE
-    // ----------------------------------------------------
-
     public boolean isDentistBookedExcept(
             String dentistName,
             String appointmentDate,
             String appointmentTime,
             String currentAppointmentNo) {
 
-        String sql =
-                "SELECT COUNT(*) "
+        String sql
+                = "SELECT COUNT(*) "
                 + "FROM appointments "
                 + "WHERE dentist_name = ? "
                 + "AND appointment_date = ? "
@@ -388,37 +318,21 @@ public class AppointmentDAO {
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
-            ps.setString(
-                    1,
-                    dentistName
-            );
+            ps.setString(1, dentistName);
+            ps.setString(2, appointmentDate);
+            ps.setString(3, appointmentTime);
+            ps.setString(4, currentAppointmentNo);
 
-            ps.setString(
-                    2,
-                    appointmentDate
-            );
-
-            ps.setString(
-                    3,
-                    appointmentTime
-            );
-
-            ps.setString(
-                    4,
-                    currentAppointmentNo
-            );
-
-            ResultSet rs =
-                    ps.executeQuery();
+            ResultSet rs
+                    = ps.executeQuery();
 
             if (rs.next()) {
-
                 return rs.getInt(1) > 0;
             }
 
@@ -430,29 +344,24 @@ public class AppointmentDAO {
         return false;
     }
 
-    // ----------------------------------------------------
-    // GET NEXT ID FOR APPOINTMENT NUMBER
-    // ----------------------------------------------------
-
     public int getNextAppointmentSequence() {
 
-        String sql =
-                "SELECT COALESCE(MAX(appointment_id), 0) + 1 "
+        String sql
+                = "SELECT COALESCE(MAX(appointment_id), 0) + 1 "
                 + "FROM appointments";
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
-            ResultSet rs =
-                    ps.executeQuery();
+            ResultSet rs
+                    = ps.executeQuery();
 
             if (rs.next()) {
-
                 return rs.getInt(1);
             }
 
@@ -464,16 +373,12 @@ public class AppointmentDAO {
         return 1;
     }
 
-    // ----------------------------------------------------
-    // CONVERT RESULTSET TO APPOINTMENT OBJECT
-    // ----------------------------------------------------
-
     private Appointment createAppointmentFromResultSet(
             ResultSet rs) throws Exception {
 
         return new Appointment(
                 rs.getString("appointment_no"),
-                rs.getString("patient_name"),
+                rs.getInt("patient_id"),
                 rs.getString("dentist_name"),
                 rs.getString("treatment_type"),
                 rs.getString("appointment_date"),
