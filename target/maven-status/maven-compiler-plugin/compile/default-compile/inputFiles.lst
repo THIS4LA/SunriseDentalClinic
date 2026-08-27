@@ -1,18 +1,21 @@
 C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\dao\AppointmentDAO.java
 C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\dao\BillDAO.java
 C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\dao\PatientDAO.java
+C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\dao\ReportDAO.java
 C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\dao\TreatmentDAO.java
 C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\dao\UserDAO.java
 C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\database\DatabaseConnection.java
 C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\model\Appointment.java
 C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\model\Bill.java
 C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\model\Patient.java
+C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\model\ReportSummary.java
 C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\model\Treatment.java
 C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\model\User.java
 C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\service\AppointmentService.java
 C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\service\AuthenticationService.java
 C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\service\BillingService.java
 C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\service\PatientService.java
+C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\service\ReportService.java
 C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\SunriseDental.java
 C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\view\LoginFrame.java
 C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\view\receptionist\AppointmentPanel.java
@@ -20,3 +23,4 @@ C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\
 C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\view\receptionist\DashboardPanel.java
 C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\view\receptionist\PatientPanel.java
 C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\view\receptionist\ReceptionistDashboardFrame.java
+C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\src\main\java\com\sunrisedental\view\receptionist\ReportsPanel.java
