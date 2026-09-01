@@ -3,13 +3,15 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.sunrisedental.view;
+
 import com.sunrisedental.view.receptionist.ReceptionistDashboardFrame;
+import com.sunrisedental.view.dentist.DentistDashboardFrame;
 
 import com.sunrisedental.model.User;
 
 import com.sunrisedental.service.AuthenticationService;
+import com.sunrisedental.view.dentist.DentistDashboardFrame;
 import javax.swing.JOptionPane;
-
 
 /**
  *
@@ -135,6 +137,18 @@ public class LoginFrame extends javax.swing.JFrame {
                             = new ReceptionistDashboardFrame();
 
                     dashboard.setVisible(true);
+
+                    dispose();
+
+                } else if ("DENTIST".equalsIgnoreCase(
+                        user.getRole())) {
+
+                    DentistDashboardFrame dashboardDentist
+                            = new DentistDashboardFrame(
+                                    user.getUserId()
+                            );
+
+                    dashboardDentist.setVisible(true);
 
                     dispose();
 
