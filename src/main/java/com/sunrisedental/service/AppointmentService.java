@@ -296,4 +296,47 @@ public class AppointmentService {
         }
     }
 
+    //Methods for Specific Dentist Appointments
+    public List<Appointment> getAppointmentsForDentist(
+            int dentistId) {
+
+        if (dentistId <= 0) {
+
+            throw new IllegalArgumentException(
+                    "Invalid dentist."
+            );
+        }
+
+        return appointmentDAO
+                .getAppointmentsByDentistId(
+                        dentistId
+                );
+    }
+
+    public List<Appointment> searchAppointmentsForDentist(
+            int dentistId,
+            String keyword) {
+
+        if (dentistId <= 0) {
+
+            throw new IllegalArgumentException(
+                    "Invalid dentist."
+            );
+        }
+
+        if (keyword == null
+                || keyword.trim().isEmpty()) {
+
+            return getAppointmentsForDentist(
+                    dentistId
+            );
+        }
+
+        return appointmentDAO
+                .searchAppointmentsByDentistId(
+                        dentistId,
+                        keyword.trim()
+                );
+    }
+
 }

@@ -453,4 +453,205 @@ public class AppointmentDAO {
                 rs.getString("notes")
         );
     }
+
+    //Methods for Specific Dentist Appointments
+    public List<Appointment> getAppointmentsByDentistId(
+            int dentistId) {
+
+        List<Appointment> appointments
+                = new ArrayList<>();
+
+        String sql
+                = "SELECT "
+                + "a.appointment_no, "
+                + "p.name AS patient_id, "
+                + "d.dentist_name, "
+                + "a.treatment_type, "
+                + "a.appointment_date, "
+                + "a.appointment_time, "
+                + "a.status, "
+                + "a.notes "
+                + "FROM appointments a "
+                + "JOIN patients p "
+                + "ON a.patient_id = p.patient_id "
+                + "JOIN dentists d "
+                + "ON a.dentist_id = d.dentist_id "
+                + "WHERE a.dentist_id = ? "
+                + "ORDER BY "
+                + "a.appointment_date ASC, "
+                + "a.appointment_time ASC";
+
+        try {
+
+            Connection con
+                    = DatabaseConnection.getConnection();
+
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
+
+            ps.setInt(
+                    1,
+                    dentistId
+            );
+
+            ResultSet rs
+                    = ps.executeQuery();
+
+            while (rs.next()) {
+
+                Appointment appointment
+                        = new Appointment(
+                                rs.getString(
+                                        "appointment_no"
+                                ),
+                                rs.getInt(
+                                        "patient_id"
+                                ),
+                                rs.getString(
+                                        "dentist_name"
+                                ),
+                                rs.getString(
+                                        "treatment_type"
+                                ),
+                                rs.getString(
+                                        "appointment_date"
+                                ),
+                                rs.getString(
+                                        "appointment_time"
+                                ),
+                                rs.getString(
+                                        "status"
+                                ),
+                                rs.getString(
+                                        "notes"
+                                )
+                        );
+
+                appointments.add(
+                        appointment
+                );
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return appointments;
+    }
+
+    public List<Appointment> searchAppointmentsByDentistId(
+            int dentistId,
+            String keyword) {
+
+        List<Appointment> appointments
+                = new ArrayList<>();
+
+        String sql
+                = "SELECT "
+                + "a.appointment_no, "
+                + "p.name AS patient_name, "
+                + "d.dentist_name, "
+                + "a.treatment_type, "
+                + "a.appointment_date, "
+                + "a.appointment_time, "
+                + "a.status, "
+                + "a.notes "
+                + "FROM appointments a "
+                + "JOIN patients p "
+                + "ON a.patient_id = p.patient_id "
+                + "JOIN dentists d "
+                + "ON a.dentist_id = d.dentist_id "
+                + "WHERE a.dentist_id = ? "
+                + "AND ("
+                + "a.appointment_no LIKE ? "
+                + "OR p.name LIKE ? "
+                + "OR a.treatment_type LIKE ? "
+                + "OR a.status LIKE ?"
+                + ") "
+                + "ORDER BY "
+                + "a.appointment_date ASC, "
+                + "a.appointment_time ASC";
+
+        try {
+
+            Connection con
+                    = DatabaseConnection.getConnection();
+
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
+
+            String searchValue
+                    = "%" + keyword + "%";
+
+            ps.setInt(
+                    1,
+                    dentistId
+            );
+
+            ps.setString(
+                    2,
+                    searchValue
+            );
+
+            ps.setString(
+                    3,
+                    searchValue
+            );
+
+            ps.setString(
+                    4,
+                    searchValue
+            );
+
+            ps.setString(
+                    5,
+                    searchValue
+            );
+
+            ResultSet rs
+                    = ps.executeQuery();
+
+            while (rs.next()) {
+
+                Appointment appointment
+                        = new Appointment(
+                                rs.getString(
+                                        "appointment_no"
+                                ),
+                                rs.getInt(
+                                        "patient_id"
+                                ),
+                                rs.getString(
+                                        "dentist_name"
+                                ),
+                                rs.getString(
+                                        "treatment_type"
+                                ),
+                                rs.getString(
+                                        "appointment_date"
+                                ),
+                                rs.getString(
+                                        "appointment_time"
+                                ),
+                                rs.getString(
+                                        "status"
+                                ),
+                                rs.getString(
+                                        "notes"
+                                )
+                        );
+
+                appointments.add(
+                        appointment
+                );
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return appointments;
+    }
 }
