@@ -899,4 +899,76 @@ public class AppointmentDAO {
             return false;
         }
     }
+
+    public Appointment findByAppointmentNo(
+            String appointmentNo) {
+
+        String sql
+                = "SELECT "
+                + "appointment_no, "
+                + "patient_id, "
+                + "dentist_id, "
+                + "treatment_type, "
+                + "appointment_date, "
+                + "appointment_time, "
+                + "status, "
+                + "notes "
+                + "FROM appointments "
+                + "WHERE appointment_no = ?";
+
+        try {
+
+            Connection con
+                    = DatabaseConnection.getConnection();
+
+            PreparedStatement ps
+                    = con.prepareStatement(
+                            sql
+                    );
+
+            ps.setString(
+                    1,
+                    appointmentNo
+            );
+
+            ResultSet rs
+                    = ps.executeQuery();
+
+            if (rs.next()) {
+
+                return new Appointment(
+                        rs.getString(
+                                "appointment_no"
+                        ),
+                        rs.getInt(
+                                "patient_id"
+                        ),
+                        rs.getInt(
+                                "dentist_id"
+                        ),
+                        rs.getString(
+                                "treatment_type"
+                        ),
+                        rs.getString(
+                                "appointment_date"
+                        ),
+                        rs.getString(
+                                "appointment_time"
+                        ),
+                        rs.getString(
+                                "status"
+                        ),
+                        rs.getString(
+                                "notes"
+                        )
+                );
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

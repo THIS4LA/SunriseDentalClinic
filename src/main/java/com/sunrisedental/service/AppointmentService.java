@@ -436,4 +436,22 @@ public class AppointmentService {
                 );
     }
 
+    //Appointment for Admin
+    public Appointment findByAppointmentNo(
+            String appointmentNo) {
+
+        if (appointmentNo == null
+                || appointmentNo.trim().isEmpty()) {
+
+            throw new IllegalArgumentException(
+                    "Appointment number is required."
+            );
+        }
+
+        return appointmentDAO
+                .findByAppointmentNo(
+                        appointmentNo.trim()
+                );
+    }
+
 }

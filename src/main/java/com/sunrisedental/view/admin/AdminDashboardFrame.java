@@ -442,9 +442,14 @@ public class AdminDashboardFrame
 
     private void showAppointments() {
 
-        showTemporaryPanel(
-                "Appointment Management"
+        pnlContent.removeAll();
+
+        pnlContent.add(
+                new AppointmentsPanel(),
+                BorderLayout.CENTER
         );
+
+        refreshContent();
     }
 
     private void showTreatments() {
