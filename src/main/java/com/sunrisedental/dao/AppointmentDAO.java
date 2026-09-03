@@ -859,4 +859,44 @@ public class AppointmentDAO {
 
         return 0;
     }
+
+    //Appointment Status For Reception
+    public boolean updateAppointmentStatus(
+            String appointmentNo,
+            String status) {
+
+        String sql
+                = "UPDATE appointments "
+                + "SET status = ? "
+                + "WHERE appointment_no = ?";
+
+        try {
+
+            Connection con
+                    = DatabaseConnection.getConnection();
+
+            PreparedStatement ps
+                    = con.prepareStatement(
+                            sql
+                    );
+
+            ps.setString(
+                    1,
+                    status
+            );
+
+            ps.setString(
+                    2,
+                    appointmentNo
+            );
+
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return false;
+        }
+    }
 }

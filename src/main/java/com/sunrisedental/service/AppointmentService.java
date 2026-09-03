@@ -408,4 +408,32 @@ public class AppointmentService {
                 );
     }
 
+    //Appointment Status For Reception
+    public boolean updateAppointmentStatus(
+            String appointmentNo,
+            String status) {
+
+        if (appointmentNo == null
+                || appointmentNo.trim().isEmpty()) {
+
+            throw new IllegalArgumentException(
+                    "Appointment number is required."
+            );
+        }
+
+        if (status == null
+                || status.trim().isEmpty()) {
+
+            throw new IllegalArgumentException(
+                    "Appointment status is required."
+            );
+        }
+
+        return appointmentDAO
+                .updateAppointmentStatus(
+                        appointmentNo.trim(),
+                        status.trim()
+                );
+    }
+
 }

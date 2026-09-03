@@ -51,12 +51,14 @@ public class AppointmentPanel extends JPanel {
     private JComboBox<Patient> cmbPatient;
     private JComboBox<Dentist> cmbDentist;
     private JComboBox<String> cmbTreatment;
+    private JComboBox<String> cmbStatus;
 
     private JTextArea txtNotes;
 
     private JButton btnSave;
     private JButton btnUpdate;
     private JButton btnCancel;
+    private JButton btnComplete;
     private JButton btnClear;
     private JButton btnSearch;
 
@@ -273,7 +275,7 @@ public class AppointmentPanel extends JPanel {
         JPanel pnlFields
                 = new JPanel(
                         new GridLayout(
-                                4,
+                                5,
                                 4,
                                 15,
                                 12
@@ -332,6 +334,20 @@ public class AppointmentPanel extends JPanel {
                             "Extraction",
                             "Root Canal",
                             "Teeth Whitening"
+                        }
+                );
+
+        JLabel lblStatus
+                = new JLabel(
+                        "Status"
+                );
+
+        cmbStatus
+                = new JComboBox<>(
+                        new String[]{
+                            "PENDING",
+                            "COMPLETED",
+                            "CANCELLED"
                         }
                 );
 
@@ -433,6 +449,22 @@ public class AppointmentPanel extends JPanel {
         );
 
         pnlFields.add(
+                lblStatus
+        );
+
+        pnlFields.add(
+                cmbStatus
+        );
+
+        pnlFields.add(
+                new JLabel()
+        );
+
+        pnlFields.add(
+                new JLabel()
+        );
+
+        pnlFields.add(
                 lblDate
         );
 
@@ -495,6 +527,11 @@ public class AppointmentPanel extends JPanel {
                         "Cancel Appointment"
                 );
 
+        btnComplete
+                = createSecondaryButton(
+                        "Mark Completed"
+                );
+
         btnClear
                 = createSecondaryButton(
                         "Clear"
@@ -510,6 +547,10 @@ public class AppointmentPanel extends JPanel {
 
         pnlButtons.add(
                 btnCancel
+        );
+
+        pnlButtons.add(
+                btnComplete
         );
 
         pnlButtons.add(
@@ -531,6 +572,10 @@ public class AppointmentPanel extends JPanel {
 
         btnCancel.addActionListener(
                 e -> cancelAppointment()
+        );
+
+        btnComplete.addActionListener(
+                e -> completeAppointment()
         );
 
         btnClear.addActionListener(
@@ -912,7 +957,9 @@ public class AppointmentPanel extends JPanel {
                                     .toString(),
                             getSelectedDate(),
                             getSelectedTime(),
-                            "PENDING",
+                            cmbStatus
+                                    .getSelectedItem()
+                                    .toString(),
                             txtNotes
                                     .getText()
                                     .trim()
@@ -1072,6 +1119,57 @@ public class AppointmentPanel extends JPanel {
         }
     }
 
+    private void completeAppointment() {
+
+        String appointmentNo
+                = txtAppointmentNo
+                        .getText()
+                        .trim();
+
+        if (appointmentNo.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Please select an appointment first."
+            );
+
+            return;
+        }
+
+        int result
+                = JOptionPane.showConfirmDialog(
+                        this,
+                        "Mark this appointment as completed?",
+                        "Complete Appointment",
+                        JOptionPane.YES_NO_OPTION
+                );
+
+        if (result
+                != JOptionPane.YES_OPTION) {
+
+            return;
+        }
+
+        boolean success
+                = appointmentService
+                        .updateAppointmentStatus(
+                                appointmentNo,
+                                "COMPLETED"
+                        );
+
+        if (success) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Appointment marked as completed."
+            );
+
+            clearForm();
+
+            loadAppointments();
+        }
+    }
+
     private void searchAppointments() {
 
         String keyword
@@ -1214,6 +1312,15 @@ public class AppointmentPanel extends JPanel {
                 )
         );
 
+        cmbStatus.setSelectedItem(
+                safeValue(
+                        tableModel.getValueAt(
+                                row,
+                                6
+                        )
+                )
+        );
+
         setSelectedDate(
                 safeValue(
                         tableModel.getValueAt(
@@ -1231,6 +1338,16 @@ public class AppointmentPanel extends JPanel {
                         )
                 )
         );
+
+        cmbStatus.setSelectedItem(
+                safeValue(
+                        tableModel.getValueAt(
+                                row,
+                                6
+                        )
+                )
+        );
+
     }
 
     private String safeValue(
@@ -1252,6 +1369,10 @@ public class AppointmentPanel extends JPanel {
         );
 
         cmbTreatment.setSelectedIndex(
+                0
+        );
+
+        cmbStatus.setSelectedIndex(
                 0
         );
 
