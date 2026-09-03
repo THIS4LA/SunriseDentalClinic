@@ -15,12 +15,11 @@ public class DentistDAO {
     // ==========================================================
     // INSERT DENTIST
     // ==========================================================
-
     public boolean insert(
             Dentist dentist) {
 
-        String sql =
-                "INSERT INTO dentists "
+        String sql
+                = "INSERT INTO dentists "
                 + "(user_id, "
                 + "dentist_name, "
                 + "specialization, "
@@ -31,11 +30,11 @@ public class DentistDAO {
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
             ps.setInt(
                     1,
@@ -80,12 +79,11 @@ public class DentistDAO {
     // ==========================================================
     // UPDATE DENTIST
     // ==========================================================
-
     public boolean update(
             Dentist dentist) {
 
-        String sql =
-                "UPDATE dentists SET "
+        String sql
+                = "UPDATE dentists SET "
                 + "dentist_name = ?, "
                 + "specialization = ?, "
                 + "contact_number = ?, "
@@ -95,11 +93,11 @@ public class DentistDAO {
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
             ps.setString(
                     1,
@@ -141,33 +139,76 @@ public class DentistDAO {
         }
     }
 
+    public boolean updateOwnProfile(
+            int dentistId,
+            String contactNumber,
+            String email) {
+
+        String sql
+                = "UPDATE dentists "
+                + "SET contact_number = ?, "
+                + "email = ? "
+                + "WHERE dentist_id = ?";
+
+        try {
+
+            Connection con
+                    = DatabaseConnection.getConnection();
+
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
+
+            ps.setString(
+                    1,
+                    contactNumber
+            );
+
+            ps.setString(
+                    2,
+                    email
+            );
+
+            ps.setInt(
+                    3,
+                    dentistId
+            );
+
+            return ps.executeUpdate() > 0;
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            return false;
+        }
+    }
+
     // ==========================================================
     // FIND BY DENTIST ID
     // ==========================================================
-
     public Dentist findByDentistId(
             int dentistId) {
 
-        String sql =
-                "SELECT * "
+        String sql
+                = "SELECT * "
                 + "FROM dentists "
                 + "WHERE dentist_id = ?";
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
             ps.setInt(
                     1,
                     dentistId
             );
 
-            ResultSet rs =
-                    ps.executeQuery();
+            ResultSet rs
+                    = ps.executeQuery();
 
             if (rs.next()) {
 
@@ -187,30 +228,29 @@ public class DentistDAO {
     // ==========================================================
     // FIND BY USER ID
     // ==========================================================
-
     public Dentist findByUserId(
             int userId) {
 
-        String sql =
-                "SELECT * "
+        String sql
+                = "SELECT * "
                 + "FROM dentists "
                 + "WHERE user_id = ?";
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
             ps.setInt(
                     1,
                     userId
             );
 
-            ResultSet rs =
-                    ps.executeQuery();
+            ResultSet rs
+                    = ps.executeQuery();
 
             if (rs.next()) {
 
@@ -230,30 +270,29 @@ public class DentistDAO {
     // ==========================================================
     // GET DENTIST ID FROM USER ID
     // ==========================================================
-
     public int getDentistIdByUserId(
             int userId) {
 
-        String sql =
-                "SELECT dentist_id "
+        String sql
+                = "SELECT dentist_id "
                 + "FROM dentists "
                 + "WHERE user_id = ?";
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
             ps.setInt(
                     1,
                     userId
             );
 
-            ResultSet rs =
-                    ps.executeQuery();
+            ResultSet rs
+                    = ps.executeQuery();
 
             if (rs.next()) {
 
@@ -273,27 +312,26 @@ public class DentistDAO {
     // ==========================================================
     // GET ALL DENTISTS
     // ==========================================================
-
     public List<Dentist> getAll() {
 
-        List<Dentist> dentists =
-                new ArrayList<>();
+        List<Dentist> dentists
+                = new ArrayList<>();
 
-        String sql =
-                "SELECT * "
+        String sql
+                = "SELECT * "
                 + "FROM dentists "
                 + "ORDER BY dentist_name ASC";
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
-            ResultSet rs =
-                    ps.executeQuery();
+            ResultSet rs
+                    = ps.executeQuery();
 
             while (rs.next()) {
 
@@ -315,28 +353,27 @@ public class DentistDAO {
     // ==========================================================
     // GET ACTIVE DENTISTS
     // ==========================================================
-
     public List<Dentist> getActiveDentists() {
 
-        List<Dentist> dentists =
-                new ArrayList<>();
+        List<Dentist> dentists
+                = new ArrayList<>();
 
-        String sql =
-                "SELECT * "
+        String sql
+                = "SELECT * "
                 + "FROM dentists "
                 + "WHERE status = 'ACTIVE' "
                 + "ORDER BY dentist_name ASC";
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
-            ResultSet rs =
-                    ps.executeQuery();
+            ResultSet rs
+                    = ps.executeQuery();
 
             while (rs.next()) {
 
@@ -358,15 +395,14 @@ public class DentistDAO {
     // ==========================================================
     // SEARCH DENTISTS
     // ==========================================================
-
     public List<Dentist> search(
             String keyword) {
 
-        List<Dentist> dentists =
-                new ArrayList<>();
+        List<Dentist> dentists
+                = new ArrayList<>();
 
-        String sql =
-                "SELECT * "
+        String sql
+                = "SELECT * "
                 + "FROM dentists "
                 + "WHERE dentist_name LIKE ? "
                 + "OR specialization LIKE ? "
@@ -376,14 +412,14 @@ public class DentistDAO {
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
-            String searchValue =
-                    "%" + keyword + "%";
+            String searchValue
+                    = "%" + keyword + "%";
 
             ps.setString(
                     1,
@@ -405,8 +441,8 @@ public class DentistDAO {
                     searchValue
             );
 
-            ResultSet rs =
-                    ps.executeQuery();
+            ResultSet rs
+                    = ps.executeQuery();
 
             while (rs.next()) {
 
@@ -428,30 +464,29 @@ public class DentistDAO {
     // ==========================================================
     // CHECK USER ALREADY LINKED TO DENTIST
     // ==========================================================
-
     public boolean existsByUserId(
             int userId) {
 
-        String sql =
-                "SELECT COUNT(*) "
+        String sql
+                = "SELECT COUNT(*) "
                 + "FROM dentists "
                 + "WHERE user_id = ?";
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
             ps.setInt(
                     1,
                     userId
             );
 
-            ResultSet rs =
-                    ps.executeQuery();
+            ResultSet rs
+                    = ps.executeQuery();
 
             if (rs.next()) {
 
@@ -469,30 +504,29 @@ public class DentistDAO {
     // ==========================================================
     // CHECK EMAIL
     // ==========================================================
-
     public boolean existsByEmail(
             String email) {
 
-        String sql =
-                "SELECT COUNT(*) "
+        String sql
+                = "SELECT COUNT(*) "
                 + "FROM dentists "
                 + "WHERE email = ?";
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
             ps.setString(
                     1,
                     email
             );
 
-            ResultSet rs =
-                    ps.executeQuery();
+            ResultSet rs
+                    = ps.executeQuery();
 
             if (rs.next()) {
 
@@ -510,23 +544,22 @@ public class DentistDAO {
     // ==========================================================
     // CHANGE STATUS
     // ==========================================================
-
     public boolean updateStatus(
             int dentistId,
             String status) {
 
-        String sql =
-                "UPDATE dentists "
+        String sql
+                = "UPDATE dentists "
                 + "SET status = ? "
                 + "WHERE dentist_id = ?";
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
             ps.setString(
                     1,
@@ -551,7 +584,6 @@ public class DentistDAO {
     // ==========================================================
     // RESULTSET -> DENTIST
     // ==========================================================
-
     private Dentist createDentistFromResultSet(
             ResultSet rs) throws Exception {
 
@@ -559,27 +591,21 @@ public class DentistDAO {
                 rs.getInt(
                         "dentist_id"
                 ),
-
                 rs.getInt(
                         "user_id"
                 ),
-
                 rs.getString(
                         "dentist_name"
                 ),
-
                 rs.getString(
                         "specialization"
                 ),
-
                 rs.getString(
                         "contact_number"
                 ),
-
                 rs.getString(
                         "email"
                 ),
-
                 rs.getString(
                         "status"
                 )

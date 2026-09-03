@@ -478,17 +478,9 @@ public class DentistDashboardFrame extends JFrame {
 
         pnlContent.removeAll();
 
-        /*
         pnlContent.add(
                 new DentistProfilePanel(
                         userId
-                ),
-                BorderLayout.CENTER
-        );
-         */
-        pnlContent.add(
-                createTemporaryPanel(
-                        "Dentist Profile"
                 ),
                 BorderLayout.CENTER
         );

@@ -11,14 +11,13 @@ public class DentistService {
 
     public DentistService() {
 
-        dentistDAO =
-                new DentistDAO();
+        dentistDAO
+                = new DentistDAO();
     }
 
     // ==========================================================
     // ADD DENTIST
     // ==========================================================
-
     public boolean addDentist(
             Dentist dentist) {
 
@@ -61,7 +60,6 @@ public class DentistService {
     // ==========================================================
     // UPDATE DENTIST
     // ==========================================================
-
     public boolean updateDentist(
             Dentist dentist) {
 
@@ -83,8 +81,8 @@ public class DentistService {
                 dentist
         );
 
-        Dentist existing =
-                dentistDAO.findByDentistId(
+        Dentist existing
+                = dentistDAO.findByDentistId(
                         dentist.getDentistId()
                 );
 
@@ -98,8 +96,8 @@ public class DentistService {
         if (dentist.getEmail() != null
                 && !dentist.getEmail().trim().isEmpty()) {
 
-            Dentist dentistByUser =
-                    dentistDAO.findByUserId(
+            Dentist dentistByUser
+                    = dentistDAO.findByUserId(
                             dentist.getUserId()
                     );
 
@@ -115,10 +113,67 @@ public class DentistService {
         );
     }
 
+    public boolean updateOwnProfile(
+            int dentistId,
+            String contactNumber,
+            String email) {
+
+        if (dentistId <= 0) {
+
+            throw new IllegalArgumentException(
+                    "Invalid dentist."
+            );
+        }
+
+        if (contactNumber == null
+                || contactNumber.trim().isEmpty()) {
+
+            throw new IllegalArgumentException(
+                    "Contact number is required."
+            );
+        }
+
+        contactNumber
+                = contactNumber.trim();
+
+        if (!contactNumber.matches(
+                "^[0-9+\\- ]{9,15}$")) {
+
+            throw new IllegalArgumentException(
+                    "Invalid contact number."
+            );
+        }
+
+        if (email != null
+                && !email.trim().isEmpty()) {
+
+            email
+                    = email.trim();
+
+            if (!email.matches(
+                    "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
+
+                throw new IllegalArgumentException(
+                        "Invalid email address."
+                );
+            }
+
+        } else {
+
+            email = "";
+        }
+
+        return dentistDAO
+                .updateOwnProfile(
+                        dentistId,
+                        contactNumber,
+                        email
+                );
+    }
+
     // ==========================================================
     // GET BY DENTIST ID
     // ==========================================================
-
     public Dentist getDentistById(
             int dentistId) {
 
@@ -129,8 +184,8 @@ public class DentistService {
             );
         }
 
-        Dentist dentist =
-                dentistDAO.findByDentistId(
+        Dentist dentist
+                = dentistDAO.findByDentistId(
                         dentistId
                 );
 
@@ -147,7 +202,6 @@ public class DentistService {
     // ==========================================================
     // GET DENTIST PROFILE USING LOGIN USER ID
     // ==========================================================
-
     public Dentist getDentistByUserId(
             int userId) {
 
@@ -158,8 +212,8 @@ public class DentistService {
             );
         }
 
-        Dentist dentist =
-                dentistDAO.findByUserId(
+        Dentist dentist
+                = dentistDAO.findByUserId(
                         userId
                 );
 
@@ -177,7 +231,6 @@ public class DentistService {
     // ==========================================================
     // GET DENTIST ID FROM LOGIN USER ID
     // ==========================================================
-
     public int getDentistIdByUserId(
             int userId) {
 
@@ -188,8 +241,8 @@ public class DentistService {
             );
         }
 
-        int dentistId =
-                dentistDAO.getDentistIdByUserId(
+        int dentistId
+                = dentistDAO.getDentistIdByUserId(
                         userId
                 );
 
@@ -207,7 +260,6 @@ public class DentistService {
     // ==========================================================
     // GET ALL
     // ==========================================================
-
     public List<Dentist> getAllDentists() {
 
         return dentistDAO.getAll();
@@ -216,7 +268,6 @@ public class DentistService {
     // ==========================================================
     // GET ACTIVE
     // ==========================================================
-
     public List<Dentist> getActiveDentists() {
 
         return dentistDAO.getActiveDentists();
@@ -225,7 +276,6 @@ public class DentistService {
     // ==========================================================
     // SEARCH
     // ==========================================================
-
     public List<Dentist> searchDentists(
             String keyword) {
 
@@ -243,7 +293,6 @@ public class DentistService {
     // ==========================================================
     // ACTIVATE
     // ==========================================================
-
     public boolean activateDentist(
             int dentistId) {
 
@@ -260,7 +309,6 @@ public class DentistService {
     // ==========================================================
     // DEACTIVATE
     // ==========================================================
-
     public boolean deactivateDentist(
             int dentistId) {
 
@@ -277,7 +325,6 @@ public class DentistService {
     // ==========================================================
     // VALIDATION
     // ==========================================================
-
     private void validateDentist(
             Dentist dentist) {
 
@@ -327,8 +374,8 @@ public class DentistService {
             );
         }
 
-        String contactNumber =
-                dentist.getContactNumber()
+        String contactNumber
+                = dentist.getContactNumber()
                         .trim();
 
         if (!contactNumber.matches(
@@ -344,8 +391,8 @@ public class DentistService {
                         .trim()
                         .isEmpty()) {
 
-            String email =
-                    dentist.getEmail()
+            String email
+                    = dentist.getEmail()
                             .trim();
 
             if (!email.matches(
@@ -367,8 +414,8 @@ public class DentistService {
             );
         }
 
-        String status =
-                dentist.getStatus()
+        String status
+                = dentist.getStatus()
                         .trim()
                         .toUpperCase();
 
@@ -396,8 +443,8 @@ public class DentistService {
             );
         }
 
-        Dentist dentist =
-                dentistDAO.findByDentistId(
+        Dentist dentist
+                = dentistDAO.findByDentistId(
                         dentistId
                 );
 

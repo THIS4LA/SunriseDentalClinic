@@ -16,6 +16,7 @@ com\sunrisedental\model\TreatmentRecord.class
 com\sunrisedental\SunriseDental.class
 com\sunrisedental\view\dentist\TreatmentRecordsPanel$1.class
 com\sunrisedental\model\Treatment.class
+com\sunrisedental\view\dentist\DentistProfilePanel.class
 com\sunrisedental\view\dentist\DentistReportsPanel.class
 com\sunrisedental\view\dentist\TreatmentRecordsPanel.class
 com\sunrisedental\view\receptionist\ReportsPanel$1.class
