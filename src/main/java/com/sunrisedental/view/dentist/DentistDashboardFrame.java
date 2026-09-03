@@ -410,17 +410,9 @@ public class DentistDashboardFrame extends JFrame {
 
         pnlContent.removeAll();
 
-        /*
         pnlContent.add(
-                new DentistSchedulePanel(
+                new SchedulePanel(
                         userId
-                ),
-                BorderLayout.CENTER
-        );
-         */
-        pnlContent.add(
-                createTemporaryPanel(
-                        "My Schedule"
                 ),
                 BorderLayout.CENTER
         );
@@ -435,17 +427,9 @@ public class DentistDashboardFrame extends JFrame {
 
         pnlContent.removeAll();
 
-        /*
         pnlContent.add(
-                new DentistPatientsPanel(
+                new PatientsPanel(
                         userId
-                ),
-                BorderLayout.CENTER
-        );
-         */
-        pnlContent.add(
-                createTemporaryPanel(
-                        "Patients"
                 ),
                 BorderLayout.CENTER
         );
@@ -460,17 +444,9 @@ public class DentistDashboardFrame extends JFrame {
 
         pnlContent.removeAll();
 
-        /*
         pnlContent.add(
                 new TreatmentRecordsPanel(
                         userId
-                ),
-                BorderLayout.CENTER
-        );
-         */
-        pnlContent.add(
-                createTemporaryPanel(
-                        "Treatment Records"
                 ),
                 BorderLayout.CENTER
         );
