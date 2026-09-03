@@ -9,6 +9,7 @@ import com.sunrisedental.model.Appointment;
 import com.sunrisedental.model.Bill;
 import com.sunrisedental.model.Treatment;
 import com.sunrisedental.model.Patient;
+import com.sunrisedental.model.Dentist;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -29,6 +30,8 @@ public class BillingService {
 
     private final PatientDAO patientDAO;
 
+    private final DentistService dentistService;
+
     public BillingService() {
 
         appointmentDAO
@@ -42,6 +45,9 @@ public class BillingService {
 
         billDAO
                 = new BillDAO();
+
+        dentistService
+                = new DentistService();
     }
 
     public Patient getPatient(
@@ -105,14 +111,30 @@ public class BillingService {
             if (rs.next()) {
 
                 return new Appointment(
-                        rs.getString("appointment_no"),
-                        rs.getInt("patient_id"),
-                        rs.getString("dentist_name"),
-                        rs.getString("treatment_type"),
-                        rs.getString("appointment_date"),
-                        rs.getString("appointment_time"),
-                        rs.getString("status"),
-                        rs.getString("notes")
+                        rs.getString(
+                                "appointment_no"
+                        ),
+                        rs.getInt(
+                                "patient_id"
+                        ),
+                        rs.getInt(
+                                "dentist_id"
+                        ),
+                        rs.getString(
+                                "treatment_type"
+                        ),
+                        rs.getString(
+                                "appointment_date"
+                        ),
+                        rs.getString(
+                                "appointment_time"
+                        ),
+                        rs.getString(
+                                "status"
+                        ),
+                        rs.getString(
+                                "notes"
+                        )
                 );
             }
 
@@ -228,5 +250,21 @@ public class BillingService {
     public List<Bill> getAllBills() {
 
         return billDAO.getAll();
+    }
+
+    public Dentist getDentist(
+            Appointment appointment) {
+
+        if (appointment == null) {
+
+            throw new IllegalArgumentException(
+                    "Appointment information is required."
+            );
+        }
+
+        return dentistService
+                .getDentistById(
+                        appointment.getDentistId()
+                );
     }
 }

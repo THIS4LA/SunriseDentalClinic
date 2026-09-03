@@ -49,16 +49,6 @@ public class AppointmentService {
     public boolean updateAppointment(
             Appointment appointment) {
 
-        if (appointment.getAppointmentNo() == null
-                || appointment.getAppointmentNo()
-                        .trim()
-                        .isEmpty()) {
-
-            throw new IllegalArgumentException(
-                    "Appointment number is required."
-            );
-        }
-
         validateAppointment(
                 appointment
         );
@@ -162,61 +152,61 @@ public class AppointmentService {
     }
 
     private void validateAppointment(
-        Appointment appointment) {
+            Appointment appointment) {
 
-    if (appointment == null) {
+        if (appointment == null) {
 
-        throw new IllegalArgumentException(
-                "Appointment information is required."
+            throw new IllegalArgumentException(
+                    "Appointment information is required."
+            );
+        }
+
+        if (appointment.getAppointmentNo() == null
+                || appointment.getAppointmentNo()
+                        .trim()
+                        .isEmpty()) {
+
+            throw new IllegalArgumentException(
+                    "Appointment number is required."
+            );
+        }
+
+        if (appointment.getPatientId() <= 0) {
+
+            throw new IllegalArgumentException(
+                    "Please select a valid patient."
+            );
+        }
+
+        if (appointment.getDentistId() <= 0) {
+
+            throw new IllegalArgumentException(
+                    "Please select a valid dentist."
+            );
+        }
+
+        if (appointment.getTreatmentType() == null
+                || appointment.getTreatmentType()
+                        .trim()
+                        .isEmpty()
+                || appointment.getTreatmentType()
+                        .equalsIgnoreCase(
+                                "Select Treatment"
+                        )) {
+
+            throw new IllegalArgumentException(
+                    "Please select a treatment."
+            );
+        }
+
+        validateDate(
+                appointment.getAppointmentDate()
+        );
+
+        validateTime(
+                appointment.getAppointmentTime()
         );
     }
-
-    if (appointment.getAppointmentNo() == null
-            || appointment.getAppointmentNo()
-                    .trim()
-                    .isEmpty()) {
-
-        throw new IllegalArgumentException(
-                "Appointment number is required."
-        );
-    }
-
-    if (appointment.getPatientId() <= 0) {
-
-        throw new IllegalArgumentException(
-                "Please select a valid patient."
-        );
-    }
-
-    if (appointment.getDentistId() <= 0) {
-
-        throw new IllegalArgumentException(
-                "Please select a valid dentist."
-        );
-    }
-
-    if (appointment.getTreatmentType() == null
-            || appointment.getTreatmentType()
-                    .trim()
-                    .isEmpty()
-            || appointment.getTreatmentType()
-                    .equalsIgnoreCase(
-                            "Select Treatment"
-                    )) {
-
-        throw new IllegalArgumentException(
-                "Please select a treatment."
-        );
-    }
-
-    validateDate(
-            appointment.getAppointmentDate()
-    );
-
-    validateTime(
-            appointment.getAppointmentTime()
-    );
-}
 
     private void validateDate(
             String dateText) {

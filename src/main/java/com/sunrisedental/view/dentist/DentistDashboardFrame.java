@@ -104,7 +104,7 @@ public class DentistDashboardFrame extends JFrame {
 
         pnlSidebar.setLayout(
                 new GridLayout(
-                        12,
+                        11,
                         1,
                         0,
                         8
@@ -393,17 +393,9 @@ public class DentistDashboardFrame extends JFrame {
 
         pnlContent.removeAll();
 
-        /*
         pnlContent.add(
-                new DentistAppointmentsPanel(
+                new MyAppointmentsPanel(
                         userId
-                ),
-                BorderLayout.CENTER
-        );
-         */
-        pnlContent.add(
-                createTemporaryPanel(
-                        "My Appointments"
                 ),
                 BorderLayout.CENTER
         );

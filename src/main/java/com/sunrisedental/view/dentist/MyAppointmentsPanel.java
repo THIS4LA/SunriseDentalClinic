@@ -1,8 +1,10 @@
 package com.sunrisedental.view.dentist;
 
 import com.sunrisedental.model.Appointment;
+import com.sunrisedental.model.Patient;
 import com.sunrisedental.service.AppointmentService;
 import com.sunrisedental.service.DentistService;
+import com.sunrisedental.service.PatientService;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -33,6 +35,7 @@ public class MyAppointmentsPanel
 
     private final AppointmentService appointmentService;
     private final DentistService dentistService;
+    private final PatientService patientService;
 
     private JTextField txtSearch;
 
@@ -46,14 +49,17 @@ public class MyAppointmentsPanel
     public MyAppointmentsPanel(
             int userId) {
 
-        this.userId =
-                userId;
+        this.userId
+                = userId;
 
-        appointmentService =
-                new AppointmentService();
+        appointmentService
+                = new AppointmentService();
 
-        dentistService =
-                new DentistService();
+        dentistService
+                = new DentistService();
+
+        patientService
+                = new PatientService();
 
         initUI();
 
@@ -98,8 +104,8 @@ public class MyAppointmentsPanel
 
     private JPanel createHeader() {
 
-        JPanel panel =
-                new JPanel(
+        JPanel panel
+                = new JPanel(
                         new GridLayout(
                                 2,
                                 1,
@@ -112,8 +118,8 @@ public class MyAppointmentsPanel
                 false
         );
 
-        JLabel lblTitle =
-                new JLabel(
+        JLabel lblTitle
+                = new JLabel(
                         "My Appointments"
                 );
 
@@ -125,8 +131,8 @@ public class MyAppointmentsPanel
                 )
         );
 
-        JLabel lblDescription =
-                new JLabel(
+        JLabel lblDescription
+                = new JLabel(
                         "View appointments assigned to you"
                 );
 
@@ -159,8 +165,8 @@ public class MyAppointmentsPanel
 
     private JPanel createMainPanel() {
 
-        JPanel main =
-                new JPanel(
+        JPanel main
+                = new JPanel(
                         new BorderLayout(
                                 0,
                                 15
@@ -195,8 +201,8 @@ public class MyAppointmentsPanel
 
     private JPanel createFilterPanel() {
 
-        JPanel panel =
-                new JPanel(
+        JPanel panel
+                = new JPanel(
                         new BorderLayout(
                                 10,
                                 0
@@ -209,7 +215,6 @@ public class MyAppointmentsPanel
 
         panel.setBorder(
                 BorderFactory.createCompoundBorder(
-
                         BorderFactory.createLineBorder(
                                 new Color(
                                         220,
@@ -217,7 +222,6 @@ public class MyAppointmentsPanel
                                         230
                                 )
                         ),
-
                         BorderFactory.createEmptyBorder(
                                 15,
                                 15,
@@ -227,8 +231,8 @@ public class MyAppointmentsPanel
                 )
         );
 
-        JLabel lblTitle =
-                new JLabel(
+        JLabel lblTitle
+                = new JLabel(
                         "Appointment Search"
                 );
 
@@ -240,8 +244,8 @@ public class MyAppointmentsPanel
                 )
         );
 
-        JPanel pnlSearch =
-                new JPanel(
+        JPanel pnlSearch
+                = new JPanel(
                         new FlowLayout(
                                 FlowLayout.RIGHT,
                                 8,
@@ -253,8 +257,8 @@ public class MyAppointmentsPanel
                 false
         );
 
-        txtSearch =
-                new JTextField();
+        txtSearch
+                = new JTextField();
 
         txtSearch.setPreferredSize(
                 new Dimension(
@@ -263,13 +267,13 @@ public class MyAppointmentsPanel
                 )
         );
 
-        btnSearch =
-                createPrimaryButton(
+        btnSearch
+                = createPrimaryButton(
                         "Search"
                 );
 
-        btnRefresh =
-                createSecondaryButton(
+        btnRefresh
+                = createSecondaryButton(
                         "Refresh"
                 );
 
@@ -317,8 +321,8 @@ public class MyAppointmentsPanel
 
     private JPanel createTablePanel() {
 
-        JPanel panel =
-                new JPanel(
+        JPanel panel
+                = new JPanel(
                         new BorderLayout(
                                 0,
                                 10
@@ -331,7 +335,6 @@ public class MyAppointmentsPanel
 
         panel.setBorder(
                 BorderFactory.createCompoundBorder(
-
                         BorderFactory.createLineBorder(
                                 new Color(
                                         220,
@@ -339,7 +342,6 @@ public class MyAppointmentsPanel
                                         230
                                 )
                         ),
-
                         BorderFactory.createEmptyBorder(
                                 15,
                                 15,
@@ -349,8 +351,8 @@ public class MyAppointmentsPanel
                 )
         );
 
-        JLabel lblTitle =
-                new JLabel(
+        JLabel lblTitle
+                = new JLabel(
                         "Assigned Appointments"
                 );
 
@@ -362,8 +364,8 @@ public class MyAppointmentsPanel
                 )
         );
 
-        tableModel =
-                new DefaultTableModel(
+        tableModel
+                = new DefaultTableModel(
                         new Object[]{
                             "Appointment No",
                             "Patient",
@@ -375,17 +377,17 @@ public class MyAppointmentsPanel
                         0
                 ) {
 
-                    @Override
-                    public boolean isCellEditable(
-                            int row,
-                            int column) {
+            @Override
+            public boolean isCellEditable(
+                    int row,
+                    int column) {
 
-                        return false;
-                    }
-                };
+                return false;
+            }
+        };
 
-        tblAppointments =
-                new JTable(
+        tblAppointments
+                = new JTable(
                         tableModel
                 );
 
@@ -425,8 +427,8 @@ public class MyAppointmentsPanel
     private JButton createPrimaryButton(
             String text) {
 
-        JButton button =
-                new JButton(
+        JButton button
+                = new JButton(
                         text
                 );
 
@@ -459,8 +461,8 @@ public class MyAppointmentsPanel
     private JButton createSecondaryButton(
             String text) {
 
-        JButton button =
-                new JButton(
+        JButton button
+                = new JButton(
                         text
                 );
 
@@ -482,13 +484,15 @@ public class MyAppointmentsPanel
 
         try {
 
-            dentistId =
-                    dentistService
+            dentistId
+                    = dentistService
                             .getDentistIdByUserId(
                                     userId
                             );
 
         } catch (IllegalArgumentException e) {
+
+            dentistId = -1;
 
             JOptionPane.showMessageDialog(
                     this,
@@ -505,8 +509,8 @@ public class MyAppointmentsPanel
             return;
         }
 
-        List<Appointment> appointments =
-                appointmentService
+        List<Appointment> appointments
+                = appointmentService
                         .getAppointmentsForDentist(
                                 dentistId
                         );
@@ -522,13 +526,13 @@ public class MyAppointmentsPanel
             return;
         }
 
-        String keyword =
-                txtSearch
+        String keyword
+                = txtSearch
                         .getText()
                         .trim();
 
-        List<Appointment> appointments =
-                appointmentService
+        List<Appointment> appointments
+                = appointmentService
                         .searchAppointmentsForDentist(
                                 dentistId,
                                 keyword
@@ -537,6 +541,22 @@ public class MyAppointmentsPanel
         populateTable(
                 appointments
         );
+    }
+
+    private String getPatientName(
+            int patientId) {
+
+        Patient patient
+                = patientService.getPatientById(
+                        patientId
+                );
+
+        if (patient == null) {
+
+            return "Unknown Patient";
+        }
+
+        return patient.getName();
     }
 
     private void populateTable(
@@ -552,7 +572,9 @@ public class MyAppointmentsPanel
             tableModel.addRow(
                     new Object[]{
                         appointment.getAppointmentNo(),
-                        appointment.getPatientId(),
+                        getPatientName(
+                                appointment.getPatientId()
+                        ),
                         appointment.getTreatmentType(),
                         appointment.getAppointmentDate(),
                         appointment.getAppointmentTime(),

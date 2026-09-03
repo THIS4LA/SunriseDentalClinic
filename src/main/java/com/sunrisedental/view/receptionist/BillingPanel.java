@@ -2,9 +2,11 @@ package com.sunrisedental.view.receptionist;
 
 import com.sunrisedental.model.Appointment;
 import com.sunrisedental.model.Bill;
+import com.sunrisedental.model.Dentist;
 import com.sunrisedental.model.Treatment;
 import com.sunrisedental.service.BillingService;
 import com.sunrisedental.model.Patient;
+import com.sunrisedental.service.DentistService;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -32,9 +34,11 @@ import javax.swing.table.DefaultTableModel;
 public class BillingPanel extends JPanel {
 
     private final BillingService billingService;
+    private final DentistService dentistService;
 
     private Appointment currentAppointment;
     private Patient currentPatient;
+    private Dentist currentDentist;
     private Treatment currentTreatment;
 
     private JTextField txtSearchAppointment;
@@ -66,6 +70,9 @@ public class BillingPanel extends JPanel {
 
         billingService
                 = new BillingService();
+
+        dentistService
+                = new DentistService();
 
         initUI();
 
@@ -773,6 +780,11 @@ public class BillingPanel extends JPanel {
                             currentAppointment
                     );
 
+            currentDentist
+                    = billingService.getDentist(
+                            currentAppointment
+                    );
+
             currentTreatment
                     = billingService.getTreatment(
                             currentAppointment
@@ -783,8 +795,7 @@ public class BillingPanel extends JPanel {
             );
 
             txtDentist.setText(
-                    currentAppointment
-                            .getDentistName()
+                    currentDentist.getName()
             );
 
             txtTreatment.setText(
@@ -1045,11 +1056,31 @@ public class BillingPanel extends JPanel {
         }
     }
 
+    private String getDentistNameById(
+            int dentistId) {
+
+        try {
+
+            Dentist dentist
+                    = dentistService
+                            .getDentistById(
+                                    dentistId
+                            );
+
+            return dentist.getName();
+
+        } catch (IllegalArgumentException e) {
+
+            return "Unknown Dentist";
+        }
+    }
+
     private void clearForm() {
 
         currentAppointment = null;
         currentPatient = null;
         currentTreatment = null;
+        currentDentist = null;
 
         txtSearchAppointment.setText("");
 
