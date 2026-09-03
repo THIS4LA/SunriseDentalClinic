@@ -418,9 +418,14 @@ public class AdminDashboardFrame
 
     private void showDentists() {
 
-        showTemporaryPanel(
-                "Dentist Management"
+        pnlContent.removeAll();
+
+        pnlContent.add(
+                new DentistsPanel(),
+                BorderLayout.CENTER
         );
+
+        refreshContent();
     }
 
     private void showPatients() {

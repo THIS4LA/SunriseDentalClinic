@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO {
-    
+
     // ==========================================================
     // LOGIN
     // ==========================================================
@@ -428,5 +428,148 @@ public class UserDAO {
         }
 
         return 0;
+    }
+
+    public List<User> getDentistUsers() {
+
+        List<User> users
+                = new ArrayList<>();
+
+        String sql
+                = "SELECT "
+                + "user_id, "
+                + "username, "
+                + "full_name, "
+                + "role "
+                + "FROM users "
+                + "WHERE role = 'DENTIST' "
+                + "ORDER BY full_name ASC";
+
+        try {
+
+            Connection con
+                    = DatabaseConnection.getConnection();
+
+            PreparedStatement ps
+                    = con.prepareStatement(
+                            sql
+                    );
+
+            ResultSet rs
+                    = ps.executeQuery();
+
+            while (rs.next()) {
+
+                User user
+                        = new User();
+
+                user.setUserId(
+                        rs.getInt(
+                                "user_id"
+                        )
+                );
+
+                user.setUsername(
+                        rs.getString(
+                                "username"
+                        )
+                );
+
+                user.setFullName(
+                        rs.getString(
+                                "full_name"
+                        )
+                );
+
+                user.setRole(
+                        rs.getString(
+                                "role"
+                        )
+                );
+
+                users.add(
+                        user
+                );
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return users;
+    }
+
+    public List<User> getAvailableDentistUsers() {
+
+        List<User> users
+                = new ArrayList<>();
+
+        String sql
+                = "SELECT "
+                + "u.user_id, "
+                + "u.username, "
+                + "u.full_name, "
+                + "u.role "
+                + "FROM users u "
+                + "LEFT JOIN dentists d "
+                + "ON u.user_id = d.user_id "
+                + "WHERE u.role = 'DENTIST' "
+                + "AND d.user_id IS NULL "
+                + "ORDER BY u.full_name ASC";
+
+        try {
+
+            Connection con
+                    = DatabaseConnection.getConnection();
+
+            PreparedStatement ps
+                    = con.prepareStatement(
+                            sql
+                    );
+
+            ResultSet rs
+                    = ps.executeQuery();
+
+            while (rs.next()) {
+
+                User user
+                        = new User();
+
+                user.setUserId(
+                        rs.getInt(
+                                "user_id"
+                        )
+                );
+
+                user.setUsername(
+                        rs.getString(
+                                "username"
+                        )
+                );
+
+                user.setFullName(
+                        rs.getString(
+                                "full_name"
+                        )
+                );
+
+                user.setRole(
+                        rs.getString(
+                                "role"
+                        )
+                );
+
+                users.add(
+                        user
+                );
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return users;
     }
 }

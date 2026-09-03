@@ -11,14 +11,13 @@ public class UserService {
 
     public UserService() {
 
-        userDAO =
-                new UserDAO();
+        userDAO
+                = new UserDAO();
     }
 
     // ==========================================================
     // ADD USER
     // ==========================================================
-
     public boolean addUser(
             String username,
             String password,
@@ -41,8 +40,8 @@ public class UserService {
                 role
         );
 
-        username =
-                username.trim();
+        username
+                = username.trim();
 
         if (userDAO.usernameExists(
                 username)) {
@@ -64,7 +63,6 @@ public class UserService {
     // ==========================================================
     // UPDATE USER
     // ==========================================================
-
     public boolean updateUser(
             int userId,
             String fullName,
@@ -96,7 +94,6 @@ public class UserService {
     // ==========================================================
     // RESET PASSWORD
     // ==========================================================
-
     public boolean resetPassword(
             int userId,
             String password) {
@@ -122,7 +119,6 @@ public class UserService {
     // ==========================================================
     // GET USERS
     // ==========================================================
-
     public List<User> getAllUsers() {
 
         return userDAO
@@ -147,7 +143,6 @@ public class UserService {
     // ==========================================================
     // TOTAL USERS
     // ==========================================================
-
     public int getTotalUserCount() {
 
         return userDAO
@@ -157,7 +152,6 @@ public class UserService {
     // ==========================================================
     // VALIDATION
     // ==========================================================
-
     private void validateUsername(
             String username) {
 
@@ -175,6 +169,12 @@ public class UserService {
                     "Username must contain at least 4 characters."
             );
         }
+    }
+
+    public List<User> getAvailableDentistUsers() {
+
+        return userDAO
+                .getAvailableDentistUsers();
     }
 
     private void validatePassword(

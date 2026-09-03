@@ -29,6 +29,7 @@ com\sunrisedental\dao\TreatmentRecordDAO.class
 com\sunrisedental\view\receptionist\PatientPanel.class
 com\sunrisedental\view\receptionist\HelpPanel$HelpItem.class
 com\sunrisedental\view\dentist\PatientsPanel.class
+com\sunrisedental\view\admin\DentistsPanel.class
 com\sunrisedental\view\dentist\MyAppointmentsPanel$1.class
 com\sunrisedental\view\dentist\SchedulePanel.class
 com\sunrisedental\service\TreatmentRecordService.class
@@ -53,6 +54,7 @@ com\sunrisedental\view\LoginFrame.class
 com\sunrisedental\view\receptionist\HelpPanel.class
 com\sunrisedental\view\receptionist\AppointmentPanel$1.class
 com\sunrisedental\dao\DentistDAO.class
+com\sunrisedental\view\admin\DentistsPanel$1.class
 com\sunrisedental\dao\TreatmentDAO.class
 com\sunrisedental\dao\BillDAO.class
 com\sunrisedental\service\PatientService.class
