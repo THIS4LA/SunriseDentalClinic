@@ -430,9 +430,14 @@ public class AdminDashboardFrame
 
     private void showPatients() {
 
-        showTemporaryPanel(
-                "Patient Management"
+        pnlContent.removeAll();
+
+        pnlContent.add(
+                new PatientsPanel(),
+                BorderLayout.CENTER
         );
+
+        refreshContent();
     }
 
     private void showAppointments() {

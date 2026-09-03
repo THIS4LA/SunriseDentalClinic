@@ -458,4 +458,96 @@ public class PatientDAO {
 
         return patients;
     }
+
+    public List<Patient> searchPatients(
+            String keyword) {
+
+        List<Patient> patients
+                = new java.util.ArrayList<>();
+
+        String sql
+                = "SELECT "
+                + "patient_id, "
+                + "name, "
+                + "address, "
+                + "contact_number, "
+                + "email "
+                + "FROM patients "
+                + "WHERE CAST(patient_id AS CHAR) LIKE ? "
+                + "OR name LIKE ? "
+                + "OR contact_number LIKE ? "
+                + "OR email LIKE ? "
+                + "ORDER BY name ASC";
+
+        try {
+
+            Connection con
+                    = DatabaseConnection.getConnection();
+
+            PreparedStatement ps
+                    = con.prepareStatement(
+                            sql
+                    );
+
+            String value
+                    = "%"
+                    + keyword
+                    + "%";
+
+            ps.setString(
+                    1,
+                    value
+            );
+
+            ps.setString(
+                    2,
+                    value
+            );
+
+            ps.setString(
+                    3,
+                    value
+            );
+
+            ps.setString(
+                    4,
+                    value
+            );
+
+            ResultSet rs
+                    = ps.executeQuery();
+
+            while (rs.next()) {
+
+                Patient patient
+                        = new Patient(
+                                rs.getInt(
+                                        "patient_id"
+                                ),
+                                rs.getString(
+                                        "name"
+                                ),
+                                rs.getString(
+                                        "address"
+                                ),
+                                rs.getString(
+                                        "contact_number"
+                                ),
+                                rs.getString(
+                                        "email"
+                                )
+                        );
+
+                patients.add(
+                        patient
+                );
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return patients;
+    }
 }

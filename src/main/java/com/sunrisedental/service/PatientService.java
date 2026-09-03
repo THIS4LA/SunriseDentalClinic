@@ -102,9 +102,10 @@ public class PatientService {
             return getAllPatients();
         }
 
-        return patientDAO.search(
-                keyword.trim()
-        );
+        return patientDAO
+                .searchPatients(
+                        keyword.trim()
+                );
     }
 
     private void validatePatient(
