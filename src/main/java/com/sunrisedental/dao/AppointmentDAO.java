@@ -766,5 +766,97 @@ public class AppointmentDAO {
         }
 
         return appointments;
-    }       
+    }
+
+    public int countTodayAppointmentsForDentist(
+            int dentistId) {
+
+        String sql
+                = "SELECT COUNT(*) "
+                + "FROM appointments "
+                + "WHERE dentist_id = ? "
+                + "AND appointment_date = CURDATE() "
+                + "AND status <> 'CANCELLED'";
+
+        try {
+
+            Connection con
+                    = DatabaseConnection.getConnection();
+
+            PreparedStatement ps
+                    = con.prepareStatement(
+                            sql
+                    );
+
+            ps.setInt(
+                    1,
+                    dentistId
+            );
+
+            ResultSet rs
+                    = ps.executeQuery();
+
+            if (rs.next()) {
+
+                return rs.getInt(
+                        1
+                );
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
+
+    public int countTodayAppointmentsByStatusForDentist(
+            int dentistId,
+            String status) {
+
+        String sql
+                = "SELECT COUNT(*) "
+                + "FROM appointments "
+                + "WHERE dentist_id = ? "
+                + "AND appointment_date = CURDATE() "
+                + "AND status = ?";
+
+        try {
+
+            Connection con
+                    = DatabaseConnection.getConnection();
+
+            PreparedStatement ps
+                    = con.prepareStatement(
+                            sql
+                    );
+
+            ps.setInt(
+                    1,
+                    dentistId
+            );
+
+            ps.setString(
+                    2,
+                    status
+            );
+
+            ResultSet rs
+                    = ps.executeQuery();
+
+            if (rs.next()) {
+
+                return rs.getInt(
+                        1
+                );
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return 0;
+    }
 }

@@ -1,5 +1,10 @@
 package com.sunrisedental.view.dentist;
 
+import com.sunrisedental.model.Dentist;
+
+import com.sunrisedental.service.AppointmentService;
+import com.sunrisedental.service.DentistService;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -8,11 +13,18 @@ import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class DashboardPanel extends JPanel {
+public class DashboardPanel
+        extends JPanel {
 
     private final int userId;
+
+    private int dentistId;
+
+    private final AppointmentService appointmentService;
+    private final DentistService dentistService;
 
     private final Runnable openAppointments;
     private final Runnable openPatients;
@@ -23,6 +35,8 @@ public class DashboardPanel extends JPanel {
     private JLabel lblPending;
     private JLabel lblCompleted;
 
+    private JLabel lblWelcome;
+
     public DashboardPanel(
             int userId,
             Runnable openAppointments,
@@ -30,7 +44,8 @@ public class DashboardPanel extends JPanel {
             Runnable openTreatmentRecords,
             Runnable openSchedule) {
 
-        this.userId = userId;
+        this.userId =
+                userId;
 
         this.openAppointments =
                 openAppointments;
@@ -44,7 +59,15 @@ public class DashboardPanel extends JPanel {
         this.openSchedule =
                 openSchedule;
 
+        appointmentService =
+                new AppointmentService();
+
+        dentistService =
+                new DentistService();
+
         initUI();
+
+        loadDentist();
 
         loadDashboardStatistics();
     }
@@ -109,7 +132,7 @@ public class DashboardPanel extends JPanel {
                 )
         );
 
-        JLabel lblWelcome =
+        lblWelcome =
                 new JLabel(
                         "Welcome, Dentist"
                 );
@@ -174,7 +197,7 @@ public class DashboardPanel extends JPanel {
         );
 
         // ======================================================
-        // STATISTIC CARDS
+        // KPI CARDS
         // ======================================================
 
         JPanel pnlCards =
@@ -266,7 +289,7 @@ public class DashboardPanel extends JPanel {
                 );
 
         // ======================================================
-        // ACTION LISTENERS
+        // NAVIGATION
         // ======================================================
 
         btnAppointments.addActionListener(
@@ -316,7 +339,7 @@ public class DashboardPanel extends JPanel {
     }
 
     // ==========================================================
-    // DASHBOARD CARD
+    // KPI CARD
     // ==========================================================
 
     private JPanel createCard(
@@ -387,7 +410,7 @@ public class DashboardPanel extends JPanel {
     }
 
     // ==========================================================
-    // QUICK ACTION BUTTON
+    // ACTION BUTTON
     // ==========================================================
 
     private JButton createActionButton(
@@ -414,30 +437,111 @@ public class DashboardPanel extends JPanel {
     }
 
     // ==========================================================
+    // LOAD LOGGED-IN DENTIST
+    // ==========================================================
+
+    private void loadDentist() {
+
+        try {
+
+            Dentist dentist =
+                    dentistService
+                            .getDentistByUserId(
+                                    userId
+                            );
+
+            dentistId =
+                    dentist.getDentistId();
+
+            lblWelcome.setText(
+                    "Welcome, "
+                    + dentist.getName()
+            );
+
+        } catch (IllegalArgumentException e) {
+
+            dentistId =
+                    -1;
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    e.getMessage(),
+                    "Dentist Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
+    // ==========================================================
     // DASHBOARD STATISTICS
     // ==========================================================
 
     private void loadDashboardStatistics() {
 
-        /*
-         * We will connect these values to the database
-         * after creating DentistService / DentistDAO.
-         *
-         * The queries must use userId so that the dentist
-         * only sees their own appointments.
-         */
+        if (dentistId <= 0) {
 
-        lblTodayAppointments.setText(
-                "0"
-        );
+            lblTodayAppointments.setText(
+                    "0"
+            );
 
-        lblPending.setText(
-                "0"
-        );
+            lblPending.setText(
+                    "0"
+            );
 
-        lblCompleted.setText(
-                "0"
-        );
+            lblCompleted.setText(
+                    "0"
+            );
+
+            return;
+        }
+
+        try {
+
+            int today =
+                    appointmentService
+                            .getTodayAppointmentCountForDentist(
+                                    dentistId
+                            );
+
+            int pending =
+                    appointmentService
+                            .getTodayPendingCountForDentist(
+                                    dentistId
+                            );
+
+            int completed =
+                    appointmentService
+                            .getTodayCompletedCountForDentist(
+                                    dentistId
+                            );
+
+            lblTodayAppointments.setText(
+                    String.valueOf(
+                            today
+                    )
+            );
+
+            lblPending.setText(
+                    String.valueOf(
+                            pending
+                    )
+            );
+
+            lblCompleted.setText(
+                    String.valueOf(
+                            completed
+                    )
+            );
+
+        } catch (IllegalArgumentException e) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    e.getMessage(),
+                    "Dashboard Error",
+                    JOptionPane.WARNING_MESSAGE
+            );
+        }
     }
 
     // ==========================================================

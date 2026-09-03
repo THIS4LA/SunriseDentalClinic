@@ -358,4 +358,54 @@ public class AppointmentService {
                 );
     }
 
+    public int getTodayAppointmentCountForDentist(
+            int dentistId) {
+
+        if (dentistId <= 0) {
+
+            throw new IllegalArgumentException(
+                    "Invalid dentist."
+            );
+        }
+
+        return appointmentDAO
+                .countTodayAppointmentsForDentist(
+                        dentistId
+                );
+    }
+
+    public int getTodayPendingCountForDentist(
+            int dentistId) {
+
+        if (dentistId <= 0) {
+
+            throw new IllegalArgumentException(
+                    "Invalid dentist."
+            );
+        }
+
+        return appointmentDAO
+                .countTodayAppointmentsByStatusForDentist(
+                        dentistId,
+                        "PENDING"
+                );
+    }
+
+    public int getTodayCompletedCountForDentist(
+            int dentistId) {
+
+        if (dentistId <= 0) {
+
+            throw new IllegalArgumentException(
+                    "Invalid dentist."
+            );
+        }
+
+        return appointmentDAO
+                .countTodayAppointmentsByStatusForDentist(
+                        dentistId,
+                        "COMPLETED"
+                );
+    }
+
 }
