@@ -3,6 +3,8 @@ package com.sunrisedental.view.receptionist;
 import com.sunrisedental.model.Appointment;
 import com.sunrisedental.service.AppointmentService;
 
+import com.sunrisedental.model.Dentist;
+import com.sunrisedental.service.DentistService;
 import com.sunrisedental.model.Patient;
 import com.sunrisedental.service.PatientService;
 
@@ -39,15 +41,15 @@ public class AppointmentPanel extends JPanel {
 
     private final AppointmentService appointmentService;
     private final PatientService patientService;
+    private final DentistService dentistService;
 
     private JTextField txtAppointmentNo;
-    //private JTextField txtPatient;
-    private JComboBox<Patient> cmbPatient;
     private DatePicker datePicker;
     private TimePicker timePicker;
     private JTextField txtSearch;
 
-    private JComboBox<String> cmbDentist;
+    private JComboBox<Patient> cmbPatient;
+    private JComboBox<Dentist> cmbDentist;
     private JComboBox<String> cmbTreatment;
 
     private JTextArea txtNotes;
@@ -69,14 +71,18 @@ public class AppointmentPanel extends JPanel {
         patientService
                 = new PatientService();
 
+        dentistService
+                = new DentistService();
+
         initUI();
 
         loadPatients();
 
+        loadDentists();
+
         generateAppointmentNumber();
 
         loadAppointments();
-
     }
 
     private void initUI() {
@@ -309,14 +315,7 @@ public class AppointmentPanel extends JPanel {
                 );
 
         cmbDentist
-                = new JComboBox<>(
-                        new String[]{
-                            "Select Dentist",
-                            "Dr. Silva",
-                            "Dr. Perera",
-                            "Dr. Fernando"
-                        }
-                );
+                = new JComboBox<>();
 
         JLabel lblTreatment
                 = new JLabel(
@@ -795,6 +794,25 @@ public class AppointmentPanel extends JPanel {
         return button;
     }
 
+    private void loadDentists() {
+
+        cmbDentist.removeAllItems();
+
+        List<Dentist> dentists
+                = dentistService.getActiveDentists();
+
+        for (Dentist dentist : dentists) {
+
+            cmbDentist.addItem(
+                    dentist
+            );
+        }
+
+        cmbDentist.setSelectedIndex(
+                -1
+        );
+    }
+
     private void loadPatients() {
 
         cmbPatient.removeAllItems();
@@ -870,16 +888,34 @@ public class AppointmentPanel extends JPanel {
                 );
             }
 
+            Dentist selectedDentist
+                    = (Dentist) cmbDentist.getSelectedItem();
+
+            if (selectedDentist == null) {
+
+                throw new IllegalArgumentException(
+                        "Please select a dentist."
+                );
+            }
+
             Appointment appointment
                     = new Appointment(
-                            txtAppointmentNo.getText().trim(),
-                            selectedPatient.getPatientId(),
-                            cmbDentist.getSelectedItem().toString(),
-                            cmbTreatment.getSelectedItem().toString(),
+                            txtAppointmentNo
+                                    .getText()
+                                    .trim(),
+                            selectedPatient
+                                    .getPatientId(),
+                            selectedDentist
+                                    .getDentistId(),
+                            cmbTreatment
+                                    .getSelectedItem()
+                                    .toString(),
                             getSelectedDate(),
                             getSelectedTime(),
                             "PENDING",
-                            txtNotes.getText().trim()
+                            txtNotes
+                                    .getText()
+                                    .trim()
                     );
 
             boolean success
@@ -915,17 +951,27 @@ public class AppointmentPanel extends JPanel {
 
     private void updateAppointment() {
 
-        Patient selectedPatient
-                = (Patient) cmbPatient.getSelectedItem();
-
-        if (selectedPatient == null) {
-
-            throw new IllegalArgumentException(
-                    "Please select a patient."
-            );
-        }
-
         try {
+
+            Patient selectedPatient
+                    = (Patient) cmbPatient.getSelectedItem();
+
+            if (selectedPatient == null) {
+
+                throw new IllegalArgumentException(
+                        "Please select a patient."
+                );
+            }
+
+            Dentist selectedDentist
+                    = (Dentist) cmbDentist.getSelectedItem();
+
+            if (selectedDentist == null) {
+
+                throw new IllegalArgumentException(
+                        "Please select a dentist."
+                );
+            }
 
             Appointment appointment
                     = new Appointment(
@@ -934,9 +980,8 @@ public class AppointmentPanel extends JPanel {
                                     .trim(),
                             selectedPatient
                                     .getPatientId(),
-                            cmbDentist
-                                    .getSelectedItem()
-                                    .toString(),
+                            selectedDentist
+                                    .getDentistId(),
                             cmbTreatment
                                     .getSelectedItem()
                                     .toString(),
@@ -1069,8 +1114,12 @@ public class AppointmentPanel extends JPanel {
             tableModel.addRow(
                     new Object[]{
                         appointment.getAppointmentNo(),
-                        appointment.getPatientId(),
-                        appointment.getDentistName(),
+                        getPatientNameById(
+                                appointment.getPatientId()
+                        ),
+                        getDentistNameById(
+                                appointment.getDentistId()
+                        ),
                         appointment.getTreatmentType(),
                         appointment.getAppointmentDate(),
                         appointment.getAppointmentTime(),
@@ -1138,7 +1187,7 @@ public class AppointmentPanel extends JPanel {
                 )
         );
 
-        cmbPatient.setSelectedItem(
+        selectPatientByName(
                 safeValue(
                         tableModel.getValueAt(
                                 row,
@@ -1147,7 +1196,7 @@ public class AppointmentPanel extends JPanel {
                 )
         );
 
-        cmbDentist.setSelectedItem(
+        selectDentistByName(
                 safeValue(
                         tableModel.getValueAt(
                                 row,
@@ -1182,7 +1231,6 @@ public class AppointmentPanel extends JPanel {
                         )
                 )
         );
-
     }
 
     private String safeValue(
@@ -1196,25 +1244,113 @@ public class AppointmentPanel extends JPanel {
     private void clearForm() {
 
         cmbPatient.setSelectedIndex(
-                0
+                -1
         );
-        datePicker.clear();
-        timePicker.clear();
-        txtNotes.setText("");
 
         cmbDentist.setSelectedIndex(
-                0
+                -1
         );
 
         cmbTreatment.setSelectedIndex(
                 0
         );
 
+        datePicker.clear();
+
+        timePicker.clear();
+
+        txtNotes.setText("");
+
         tblAppointments.clearSelection();
 
         generateAppointmentNumber();
 
         cmbPatient.requestFocus();
+    }
+
+    private String getPatientNameById(
+            int patientId) {
+
+        List<Patient> patients
+                = patientService.getAllPatients();
+
+        for (Patient patient : patients) {
+
+            if (patient.getPatientId()
+                    == patientId) {
+
+                return patient.getName();
+            }
+        }
+
+        return "Unknown Patient";
+    }
+
+    private String getDentistNameById(
+            int dentistId) {
+
+        try {
+
+            Dentist dentist
+                    = dentistService
+                            .getDentistById(
+                                    dentistId
+                            );
+
+            return dentist.getName();
+
+        } catch (IllegalArgumentException e) {
+
+            return "Unknown Dentist";
+        }
+    }
+
+    private void selectPatientByName(
+            String patientName) {
+
+        for (int i = 0;
+                i < cmbPatient.getItemCount();
+                i++) {
+
+            Patient patient
+                    = cmbPatient.getItemAt(i);
+
+            if (patient.getName()
+                    .equalsIgnoreCase(
+                            patientName
+                    )) {
+
+                cmbPatient.setSelectedIndex(
+                        i
+                );
+
+                return;
+            }
+        }
+    }
+
+    private void selectDentistByName(
+            String dentistName) {
+
+        for (int i = 0;
+                i < cmbDentist.getItemCount();
+                i++) {
+
+            Dentist dentist
+                    = cmbDentist.getItemAt(i);
+
+            if (dentist.getName()
+                    .equalsIgnoreCase(
+                            dentistName
+                    )) {
+
+                cmbDentist.setSelectedIndex(
+                        i
+                );
+
+                return;
+            }
+        }
     }
 
 }

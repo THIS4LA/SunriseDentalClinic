@@ -16,7 +16,7 @@ public class AppointmentDAO {
 
         String sql
                 = "INSERT INTO appointments "
-                + "(appointment_no, patient_id, dentist_name, "
+                + "(appointment_no, patient_id, dentist_id, "
                 + "treatment_type, appointment_date, appointment_time, "
                 + "status, notes) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -39,9 +39,9 @@ public class AppointmentDAO {
                     appointment.getPatientId()
             );
 
-            ps.setString(
+            ps.setInt(
                     3,
-                    appointment.getDentistName()
+                    appointment.getDentistId()
             );
 
             ps.setString(
@@ -83,7 +83,7 @@ public class AppointmentDAO {
         String sql
                 = "UPDATE appointments SET "
                 + "patient_id = ?, "
-                + "dentist_name = ?, "
+                + "dentist_id = ?, "
                 + "treatment_type = ?, "
                 + "appointment_date = ?, "
                 + "appointment_time = ?, "
@@ -103,9 +103,9 @@ public class AppointmentDAO {
                     appointment.getPatientId()
             );
 
-            ps.setString(
+            ps.setInt(
                     2,
-                    appointment.getDentistName()
+                    appointment.getDentistId()
             );
 
             ps.setString(
@@ -218,9 +218,11 @@ public class AppointmentDAO {
                 + "FROM appointments a "
                 + "JOIN patients p "
                 + "ON a.patient_id = p.patient_id "
+                + "JOIN dentists d "
+                + "ON a.dentist_id = d.dentist_id "
                 + "WHERE a.appointment_no LIKE ? "
                 + "OR p.name LIKE ? "
-                + "OR a.dentist_name LIKE ? "
+                + "OR d.dentist_name LIKE ? "
                 + "OR a.treatment_type LIKE ? "
                 + "OR a.status LIKE ? "
                 + "ORDER BY a.appointment_date DESC, "
@@ -262,14 +264,14 @@ public class AppointmentDAO {
     }
 
     public boolean isDentistBooked(
-            String dentistName,
+            int dentistId,
             String appointmentDate,
             String appointmentTime) {
 
         String sql
                 = "SELECT COUNT(*) "
                 + "FROM appointments "
-                + "WHERE dentist_name = ? "
+                + "WHERE dentist_id = ? "
                 + "AND appointment_date = ? "
                 + "AND appointment_time = ? "
                 + "AND status <> 'CANCELLED'";
@@ -282,14 +284,26 @@ public class AppointmentDAO {
             PreparedStatement ps
                     = con.prepareStatement(sql);
 
-            ps.setString(1, dentistName);
-            ps.setString(2, appointmentDate);
-            ps.setString(3, appointmentTime);
+            ps.setInt(
+                    1,
+                    dentistId
+            );
+
+            ps.setString(
+                    2,
+                    appointmentDate
+            );
+
+            ps.setString(
+                    3,
+                    appointmentTime
+            );
 
             ResultSet rs
                     = ps.executeQuery();
 
             if (rs.next()) {
+
                 return rs.getInt(1) > 0;
             }
 
@@ -368,7 +382,7 @@ public class AppointmentDAO {
     }
 
     public boolean isDentistBookedExcept(
-            String dentistName,
+            int dentistId,
             String appointmentDate,
             String appointmentTime,
             String currentAppointmentNo) {
@@ -376,7 +390,7 @@ public class AppointmentDAO {
         String sql
                 = "SELECT COUNT(*) "
                 + "FROM appointments "
-                + "WHERE dentist_name = ? "
+                + "WHERE dentist_id = ? "
                 + "AND appointment_date = ? "
                 + "AND appointment_time = ? "
                 + "AND appointment_no <> ? "
@@ -390,15 +404,31 @@ public class AppointmentDAO {
             PreparedStatement ps
                     = con.prepareStatement(sql);
 
-            ps.setString(1, dentistName);
-            ps.setString(2, appointmentDate);
-            ps.setString(3, appointmentTime);
-            ps.setString(4, currentAppointmentNo);
+            ps.setInt(
+                    1,
+                    dentistId
+            );
+
+            ps.setString(
+                    2,
+                    appointmentDate
+            );
+
+            ps.setString(
+                    3,
+                    appointmentTime
+            );
+
+            ps.setString(
+                    4,
+                    currentAppointmentNo
+            );
 
             ResultSet rs
                     = ps.executeQuery();
 
             if (rs.next()) {
+
                 return rs.getInt(1) > 0;
             }
 
@@ -445,7 +475,7 @@ public class AppointmentDAO {
         return new Appointment(
                 rs.getString("appointment_no"),
                 rs.getInt("patient_id"),
-                rs.getString("dentist_name"),
+                rs.getInt("dentist_id"),
                 rs.getString("treatment_type"),
                 rs.getString("appointment_date"),
                 rs.getString("appointment_time"),
@@ -464,18 +494,14 @@ public class AppointmentDAO {
         String sql
                 = "SELECT "
                 + "a.appointment_no, "
-                + "p.name AS patient_id, "
-                + "d.dentist_name, "
+                + "a.patient_id, "
+                + "a.dentist_id, "
                 + "a.treatment_type, "
                 + "a.appointment_date, "
                 + "a.appointment_time, "
                 + "a.status, "
                 + "a.notes "
                 + "FROM appointments a "
-                + "JOIN patients p "
-                + "ON a.patient_id = p.patient_id "
-                + "JOIN dentists d "
-                + "ON a.dentist_id = d.dentist_id "
                 + "WHERE a.dentist_id = ? "
                 + "ORDER BY "
                 + "a.appointment_date ASC, "
@@ -507,8 +533,8 @@ public class AppointmentDAO {
                                 rs.getInt(
                                         "patient_id"
                                 ),
-                                rs.getString(
-                                        "dentist_name"
+                                rs.getInt(
+                                        "dentist_id"
                                 ),
                                 rs.getString(
                                         "treatment_type"
@@ -550,8 +576,8 @@ public class AppointmentDAO {
         String sql
                 = "SELECT "
                 + "a.appointment_no, "
-                + "p.name AS patient_name, "
-                + "d.dentist_name, "
+                + "a.patient_id, "
+                + "a.dentist_id, "
                 + "a.treatment_type, "
                 + "a.appointment_date, "
                 + "a.appointment_time, "
@@ -560,8 +586,6 @@ public class AppointmentDAO {
                 + "FROM appointments a "
                 + "JOIN patients p "
                 + "ON a.patient_id = p.patient_id "
-                + "JOIN dentists d "
-                + "ON a.dentist_id = d.dentist_id "
                 + "WHERE a.dentist_id = ? "
                 + "AND ("
                 + "a.appointment_no LIKE ? "
@@ -622,8 +646,8 @@ public class AppointmentDAO {
                                 rs.getInt(
                                         "patient_id"
                                 ),
-                                rs.getString(
-                                        "dentist_name"
+                                rs.getInt(
+                                        "dentist_id"
                                 ),
                                 rs.getString(
                                         "treatment_type"

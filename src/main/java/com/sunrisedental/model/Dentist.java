@@ -94,6 +94,6 @@ public class Dentist {
 
     @Override
     public String toString() {
-        return dentistId + " - " + name;
+        return name;
     }
 }

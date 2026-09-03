@@ -4,7 +4,7 @@ public class Appointment {
 
     private String appointmentNo;
     private int patientId;
-    private String dentistName;
+    private int dentistId;
     private String treatmentType;
     private String appointmentDate;
     private String appointmentTime;
@@ -17,7 +17,7 @@ public class Appointment {
     public Appointment(
             String appointmentNo,
             int patientId,
-            String dentistName,
+            int dentistId,
             String treatmentType,
             String appointmentDate,
             String appointmentTime,
@@ -26,7 +26,7 @@ public class Appointment {
 
         this.appointmentNo = appointmentNo;
         this.patientId = patientId;
-        this.dentistName = dentistName;
+        this.dentistId = dentistId;
         this.treatmentType = treatmentType;
         this.appointmentDate = appointmentDate;
         this.appointmentTime = appointmentTime;
@@ -50,12 +50,12 @@ public class Appointment {
         this.patientId = patientId;
     }
 
-    public String getDentistName() {
-        return dentistName;
+    public int getDentistId() {
+        return dentistId;
     }
 
-    public void setDentistName(String dentistName) {
-        this.dentistName = dentistName;
+    public void setDentistId(int dentistId) {
+        this.dentistId = dentistId;
     }
 
     public String getTreatmentType() {
