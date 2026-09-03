@@ -10,6 +10,7 @@ import com.sunrisedental.view.dentist.DentistDashboardFrame;
 import com.sunrisedental.model.User;
 
 import com.sunrisedental.service.AuthenticationService;
+import com.sunrisedental.view.admin.AdminDashboardFrame;
 import com.sunrisedental.view.dentist.DentistDashboardFrame;
 import javax.swing.JOptionPane;
 
@@ -152,6 +153,19 @@ public class LoginFrame extends javax.swing.JFrame {
 
                     dispose();
 
+                } else if ("ADMIN".equalsIgnoreCase(
+                        user.getRole())) {
+
+                    AdminDashboardFrame dashboardAdmin
+                            = new AdminDashboardFrame(
+                                    user.getUserId()
+                            );
+
+                    dashboardAdmin.setVisible(
+                            true
+                    );
+
+                    dispose();
                 } else {
 
                     JOptionPane.showMessageDialog(

@@ -34,8 +34,10 @@ com\sunrisedental\model\ReportSummary.class
 com\sunrisedental\model\Dentist.class
 com\sunrisedental\service\AuthenticationService.class
 com\sunrisedental\model\Patient.class
+com\sunrisedental\view\admin\AdminDashboardFrame.class
 com\sunrisedental\view\receptionist\BillingPanel.class
 com\sunrisedental\dao\PatientDAO.class
+com\sunrisedental\view\admin\DashboardPanel.class
 com\sunrisedental\service\AppointmentService.class
 com\sunrisedental\view\receptionist\ReceptionistDashboardFrame.class
 com\sunrisedental\view\receptionist\HelpPanel$1.class
