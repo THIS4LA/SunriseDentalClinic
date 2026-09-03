@@ -39,8 +39,8 @@ public class AdminDashboardFrame
     public AdminDashboardFrame(
             int userId) {
 
-        this.userId =
-                userId;
+        this.userId
+                = userId;
 
         initUI();
 
@@ -65,7 +65,6 @@ public class AdminDashboardFrame
     // ==========================================================
     // MAIN UI
     // ==========================================================
-
     private void initUI() {
 
         setLayout(
@@ -90,11 +89,10 @@ public class AdminDashboardFrame
     // ==========================================================
     // SIDEBAR
     // ==========================================================
-
     private void createSidebar() {
 
-        pnlSidebar =
-                new JPanel();
+        pnlSidebar
+                = new JPanel();
 
         pnlSidebar.setPreferredSize(
                 new Dimension(
@@ -129,8 +127,8 @@ public class AdminDashboardFrame
                 )
         );
 
-        JLabel lblClinic =
-                new JLabel(
+        JLabel lblClinic
+                = new JLabel(
                         "SUNRISE DENTAL",
                         SwingConstants.CENTER
                 );
@@ -147,8 +145,8 @@ public class AdminDashboardFrame
                 )
         );
 
-        JLabel lblRole =
-                new JLabel(
+        JLabel lblRole
+                = new JLabel(
                         "Administrator",
                         SwingConstants.CENTER
                 );
@@ -169,58 +167,58 @@ public class AdminDashboardFrame
                 )
         );
 
-        btnDashboard =
-                createSidebarButton(
+        btnDashboard
+                = createSidebarButton(
                         "Dashboard"
                 );
 
-        btnUsers =
-                createSidebarButton(
+        btnUsers
+                = createSidebarButton(
                         "Users"
                 );
 
-        btnDentists =
-                createSidebarButton(
+        btnDentists
+                = createSidebarButton(
                         "Dentists"
                 );
 
-        btnPatients =
-                createSidebarButton(
+        btnPatients
+                = createSidebarButton(
                         "Patients"
                 );
 
-        btnAppointments =
-                createSidebarButton(
+        btnAppointments
+                = createSidebarButton(
                         "Appointments"
                 );
 
-        btnTreatments =
-                createSidebarButton(
+        btnTreatments
+                = createSidebarButton(
                         "Treatments"
                 );
 
-        btnBilling =
-                createSidebarButton(
+        btnBilling
+                = createSidebarButton(
                         "Billing"
                 );
 
-        btnReports =
-                createSidebarButton(
+        btnReports
+                = createSidebarButton(
                         "Reports"
                 );
 
-        btnAuditLogs =
-                createSidebarButton(
+        btnAuditLogs
+                = createSidebarButton(
                         "Audit Logs"
                 );
 
-        btnHelp =
-                createSidebarButton(
+        btnHelp
+                = createSidebarButton(
                         "Help"
                 );
 
-        btnLogout =
-                createSidebarButton(
+        btnLogout
+                = createSidebarButton(
                         "Logout"
                 );
 
@@ -324,8 +322,8 @@ public class AdminDashboardFrame
     private JButton createSidebarButton(
             String text) {
 
-        JButton button =
-                new JButton(
+        JButton button
+                = new JButton(
                         text
                 );
 
@@ -359,11 +357,10 @@ public class AdminDashboardFrame
     // ==========================================================
     // CONTENT AREA
     // ==========================================================
-
     private void createContentArea() {
 
-        pnlContent =
-                new JPanel(
+        pnlContent
+                = new JPanel(
                         new BorderLayout()
                 );
 
@@ -381,13 +378,12 @@ public class AdminDashboardFrame
     // ==========================================================
     // DASHBOARD
     // ==========================================================
-
     private void showDashboard() {
 
         pnlContent.removeAll();
 
-        DashboardPanel dashboardPanel =
-                new DashboardPanel(
+        DashboardPanel dashboardPanel
+                = new DashboardPanel(
                         userId,
                         () -> showUsers(),
                         () -> showDentists(),
@@ -404,14 +400,20 @@ public class AdminDashboardFrame
     }
 
     // ==========================================================
-    // TEMPORARY SECTIONS
+    // SECTIONS
     // ==========================================================
-
     private void showUsers() {
 
-        showTemporaryPanel(
-                "User Management"
+        pnlContent.removeAll();
+
+        pnlContent.add(
+                new UsersPanel(
+                        userId
+                ),
+                BorderLayout.CENTER
         );
+
+        refreshContent();
     }
 
     private void showDentists() {
@@ -488,8 +490,8 @@ public class AdminDashboardFrame
     private JPanel createTemporaryPanel(
             String title) {
 
-        JPanel panel =
-                new JPanel(
+        JPanel panel
+                = new JPanel(
                         new BorderLayout()
                 );
 
@@ -510,8 +512,8 @@ public class AdminDashboardFrame
                 )
         );
 
-        JLabel lblTitle =
-                new JLabel(
+        JLabel lblTitle
+                = new JLabel(
                         title
                 );
 
@@ -541,11 +543,10 @@ public class AdminDashboardFrame
     // ==========================================================
     // LOGOUT
     // ==========================================================
-
     private void logout() {
 
-        int result =
-                JOptionPane.showConfirmDialog(
+        int result
+                = JOptionPane.showConfirmDialog(
                         this,
                         "Are you sure you want to logout?",
                         "Logout",
