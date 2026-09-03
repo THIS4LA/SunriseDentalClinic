@@ -11,8 +11,8 @@ public class PatientService {
 
     public PatientService() {
 
-        patientDAO =
-                new PatientDAO();
+        patientDAO
+                = new PatientDAO();
     }
 
     public boolean addPatient(
@@ -56,8 +56,8 @@ public class PatientService {
             );
         }
 
-        Patient patient =
-                patientDAO.findById(
+        Patient patient
+                = patientDAO.findById(
                         patientId
                 );
 
@@ -219,5 +219,47 @@ public class PatientService {
                     "Please enter a valid email address."
             );
         }
+    }
+
+    public List<Patient> getPatientsForDentist(
+            int dentistId) {
+
+        if (dentistId <= 0) {
+
+            throw new IllegalArgumentException(
+                    "Invalid dentist."
+            );
+        }
+
+        return patientDAO
+                .getPatientsByDentistId(
+                        dentistId
+                );
+    }
+
+    public List<Patient> searchPatientsForDentist(
+            int dentistId,
+            String keyword) {
+
+        if (dentistId <= 0) {
+
+            throw new IllegalArgumentException(
+                    "Invalid dentist."
+            );
+        }
+
+        if (keyword == null
+                || keyword.trim().isEmpty()) {
+
+            return getPatientsForDentist(
+                    dentistId
+            );
+        }
+
+        return patientDAO
+                .searchPatientsByDentistId(
+                        dentistId,
+                        keyword.trim()
+                );
     }
 }

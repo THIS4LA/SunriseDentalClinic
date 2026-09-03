@@ -13,18 +13,18 @@ public class PatientDAO {
 
     public boolean insert(Patient patient) {
 
-        String sql =
-                "INSERT INTO patients "
+        String sql
+                = "INSERT INTO patients "
                 + "(name, address, contact_number, email) "
                 + "VALUES (?, ?, ?, ?)";
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
             ps.setString(
                     1,
@@ -58,8 +58,8 @@ public class PatientDAO {
 
     public boolean update(Patient patient) {
 
-        String sql =
-                "UPDATE patients "
+        String sql
+                = "UPDATE patients "
                 + "SET name = ?, "
                 + "address = ?, "
                 + "contact_number = ?, "
@@ -68,11 +68,11 @@ public class PatientDAO {
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
             ps.setString(
                     1,
@@ -111,17 +111,17 @@ public class PatientDAO {
 
     public boolean delete(int patientId) {
 
-        String sql =
-                "DELETE FROM patients "
+        String sql
+                = "DELETE FROM patients "
                 + "WHERE patient_id = ?";
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
             ps.setInt(
                     1,
@@ -140,26 +140,26 @@ public class PatientDAO {
 
     public Patient findById(int patientId) {
 
-        String sql =
-                "SELECT patient_id, name, address, contact_number, email "
+        String sql
+                = "SELECT patient_id, name, address, contact_number, email "
                 + "FROM patients "
                 + "WHERE patient_id = ?";
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
             ps.setInt(
                     1,
                     patientId
             );
 
-            ResultSet rs =
-                    ps.executeQuery();
+            ResultSet rs
+                    = ps.executeQuery();
 
             if (rs.next()) {
 
@@ -182,29 +182,29 @@ public class PatientDAO {
 
     public List<Patient> getAll() {
 
-        List<Patient> patients =
-                new ArrayList<>();
+        List<Patient> patients
+                = new ArrayList<>();
 
-        String sql =
-                "SELECT patient_id, name, address, contact_number, email "
+        String sql
+                = "SELECT patient_id, name, address, contact_number, email "
                 + "FROM patients "
                 + "ORDER BY patient_id DESC";
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
-            ResultSet rs =
-                    ps.executeQuery();
+            ResultSet rs
+                    = ps.executeQuery();
 
             while (rs.next()) {
 
-                Patient patient =
-                        new Patient(
+                Patient patient
+                        = new Patient(
                                 rs.getInt("patient_id"),
                                 rs.getString("name"),
                                 rs.getString("address"),
@@ -225,13 +225,82 @@ public class PatientDAO {
         return patients;
     }
 
+    public List<Patient> getPatientsByDentistId(
+            int dentistId) {
+
+        List<Patient> patients
+                = new ArrayList<>();
+
+        String sql
+                = "SELECT DISTINCT "
+                + "p.patient_id, "
+                + "p.name, "
+                + "p.address, "
+                + "p.contact_number, "
+                + "p.email "
+                + "FROM patients p "
+                + "JOIN appointments a "
+                + "ON p.patient_id = a.patient_id "
+                + "WHERE a.dentist_id = ? "
+                + "ORDER BY p.name ASC";
+
+        try {
+
+            Connection con
+                    = DatabaseConnection.getConnection();
+
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
+
+            ps.setInt(
+                    1,
+                    dentistId
+            );
+
+            ResultSet rs
+                    = ps.executeQuery();
+
+            while (rs.next()) {
+
+                Patient patient
+                        = new Patient(
+                                rs.getInt(
+                                        "patient_id"
+                                ),
+                                rs.getString(
+                                        "name"
+                                ),
+                                rs.getString(
+                                        "address"
+                                ),
+                                rs.getString(
+                                        "contact_number"
+                                ),
+                                rs.getString(
+                                        "email"
+                                )
+                        );
+
+                patients.add(
+                        patient
+                );
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return patients;
+    }
+
     public List<Patient> search(String keyword) {
 
-        List<Patient> patients =
-                new ArrayList<>();
+        List<Patient> patients
+                = new ArrayList<>();
 
-        String sql =
-                "SELECT patient_id, name, address, contact_number, email "
+        String sql
+                = "SELECT patient_id, name, address, contact_number, email "
                 + "FROM patients "
                 + "WHERE name LIKE ? "
                 + "OR contact_number LIKE ? "
@@ -240,14 +309,14 @@ public class PatientDAO {
 
         try {
 
-            Connection con =
-                    DatabaseConnection.getConnection();
+            Connection con
+                    = DatabaseConnection.getConnection();
 
-            PreparedStatement ps =
-                    con.prepareStatement(sql);
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
 
-            String searchValue =
-                    "%" + keyword + "%";
+            String searchValue
+                    = "%" + keyword + "%";
 
             ps.setString(
                     1,
@@ -264,18 +333,117 @@ public class PatientDAO {
                     searchValue
             );
 
-            ResultSet rs =
-                    ps.executeQuery();
+            ResultSet rs
+                    = ps.executeQuery();
 
             while (rs.next()) {
 
-                Patient patient =
-                        new Patient(
+                Patient patient
+                        = new Patient(
                                 rs.getInt("patient_id"),
                                 rs.getString("name"),
                                 rs.getString("address"),
                                 rs.getString("contact_number"),
                                 rs.getString("email")
+                        );
+
+                patients.add(
+                        patient
+                );
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return patients;
+    }
+
+    public List<Patient> searchPatientsByDentistId(
+            int dentistId,
+            String keyword) {
+
+        List<Patient> patients
+                = new ArrayList<>();
+
+        String sql
+                = "SELECT DISTINCT "
+                + "p.patient_id, "
+                + "p.name, "
+                + "p.address, "
+                + "p.contact_number, "
+                + "p.email "
+                + "FROM patients p "
+                + "JOIN appointments a "
+                + "ON p.patient_id = a.patient_id "
+                + "WHERE a.dentist_id = ? "
+                + "AND ("
+                + "p.name LIKE ? "
+                + "OR p.contact_number LIKE ? "
+                + "OR p.email LIKE ? "
+                + "OR CAST(p.patient_id AS CHAR) LIKE ?"
+                + ") "
+                + "ORDER BY p.name ASC";
+
+        try {
+
+            Connection con
+                    = DatabaseConnection.getConnection();
+
+            PreparedStatement ps
+                    = con.prepareStatement(sql);
+
+            String searchValue
+                    = "%" + keyword + "%";
+
+            ps.setInt(
+                    1,
+                    dentistId
+            );
+
+            ps.setString(
+                    2,
+                    searchValue
+            );
+
+            ps.setString(
+                    3,
+                    searchValue
+            );
+
+            ps.setString(
+                    4,
+                    searchValue
+            );
+
+            ps.setString(
+                    5,
+                    searchValue
+            );
+
+            ResultSet rs
+                    = ps.executeQuery();
+
+            while (rs.next()) {
+
+                Patient patient
+                        = new Patient(
+                                rs.getInt(
+                                        "patient_id"
+                                ),
+                                rs.getString(
+                                        "name"
+                                ),
+                                rs.getString(
+                                        "address"
+                                ),
+                                rs.getString(
+                                        "contact_number"
+                                ),
+                                rs.getString(
+                                        "email"
+                                )
                         );
 
                 patients.add(
