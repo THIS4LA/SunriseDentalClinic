@@ -678,4 +678,93 @@ public class AppointmentDAO {
 
         return appointments;
     }
+
+    public List<Appointment> getScheduleByDentistAndDate(
+            int dentistId,
+            String appointmentDate) {
+
+        List<Appointment> appointments
+                = new ArrayList<>();
+
+        String sql
+                = "SELECT "
+                + "appointment_no, "
+                + "patient_id, "
+                + "dentist_id, "
+                + "treatment_type, "
+                + "appointment_date, "
+                + "appointment_time, "
+                + "status, "
+                + "notes "
+                + "FROM appointments "
+                + "WHERE dentist_id = ? "
+                + "AND appointment_date = ? "
+                + "AND status <> 'CANCELLED' "
+                + "ORDER BY appointment_time ASC";
+
+        try {
+
+            Connection con
+                    = DatabaseConnection.getConnection();
+
+            PreparedStatement ps
+                    = con.prepareStatement(
+                            sql
+                    );
+
+            ps.setInt(
+                    1,
+                    dentistId
+            );
+
+            ps.setString(
+                    2,
+                    appointmentDate
+            );
+
+            ResultSet rs
+                    = ps.executeQuery();
+
+            while (rs.next()) {
+
+                Appointment appointment
+                        = new Appointment(
+                                rs.getString(
+                                        "appointment_no"
+                                ),
+                                rs.getInt(
+                                        "patient_id"
+                                ),
+                                rs.getInt(
+                                        "dentist_id"
+                                ),
+                                rs.getString(
+                                        "treatment_type"
+                                ),
+                                rs.getString(
+                                        "appointment_date"
+                                ),
+                                rs.getString(
+                                        "appointment_time"
+                                ),
+                                rs.getString(
+                                        "status"
+                                ),
+                                rs.getString(
+                                        "notes"
+                                )
+                        );
+
+                appointments.add(
+                        appointment
+                );
+            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        return appointments;
+    }       
 }

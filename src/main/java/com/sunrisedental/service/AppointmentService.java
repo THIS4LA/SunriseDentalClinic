@@ -332,4 +332,30 @@ public class AppointmentService {
                 );
     }
 
+    public List<Appointment> getScheduleForDentist(
+            int dentistId,
+            String appointmentDate) {
+
+        if (dentistId <= 0) {
+
+            throw new IllegalArgumentException(
+                    "Invalid dentist."
+            );
+        }
+
+        if (appointmentDate == null
+                || appointmentDate.trim().isEmpty()) {
+
+            throw new IllegalArgumentException(
+                    "Schedule date is required."
+            );
+        }
+
+        return appointmentDAO
+                .getScheduleByDentistAndDate(
+                        dentistId,
+                        appointmentDate
+                );
+    }
+
 }
