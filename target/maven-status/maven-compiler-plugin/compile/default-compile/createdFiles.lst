@@ -1,10 +1,13 @@
 com\sunrisedental\view\receptionist\BillingPanel$1.class
+com\sunrisedental\view\dentist\HelpPanel.class
 com\sunrisedental\service\ReportService.class
+com\sunrisedental\view\dentist\HelpPanel$1.class
 com\sunrisedental\dao\UserDAO.class
 com\sunrisedental\service\DentistReportService.class
 com\sunrisedental\service\BillingService.class
 com\sunrisedental\view\receptionist\DashboardPanel.class
 com\sunrisedental\view\dentist\DentistDashboardFrame.class
+com\sunrisedental\view\dentist\HelpPanel$HelpItem.class
 com\sunrisedental\model\Appointment.class
 com\sunrisedental\database\DatabaseConnection.class
 com\sunrisedental\dao\DentistReportDAO.class
