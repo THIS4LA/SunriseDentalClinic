@@ -51,6 +51,7 @@ com\sunrisedental\service\AppointmentService.class
 com\sunrisedental\view\receptionist\ReceptionistDashboardFrame.class
 com\sunrisedental\view\receptionist\HelpPanel$1.class
 com\sunrisedental\view\dentist\PatientsPanel$1.class
+com\sunrisedental\view\admin\BillingPanel$1.class
 com\sunrisedental\view\dentist\MyAppointmentsPanel.class
 com\sunrisedental\view\dentist\SchedulePanel$1.class
 com\sunrisedental\service\DentistService.class
@@ -58,6 +59,7 @@ com\sunrisedental\model\User.class
 com\sunrisedental\view\LoginFrame.class
 com\sunrisedental\view\receptionist\HelpPanel.class
 com\sunrisedental\service\TreatmentService.class
+com\sunrisedental\view\admin\BillingPanel.class
 com\sunrisedental\view\receptionist\AppointmentPanel$1.class
 com\sunrisedental\dao\DentistDAO.class
 com\sunrisedental\view\admin\DentistsPanel$1.class

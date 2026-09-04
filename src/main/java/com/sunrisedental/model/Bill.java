@@ -10,6 +10,12 @@ public class Bill {
 
     private String appointmentNo;
 
+    private int patientId;
+
+    private int dentistId;
+
+    private String treatmentName;
+
     private BigDecimal consultationFee;
 
     private BigDecimal treatmentFee;
@@ -37,63 +43,128 @@ public class Bill {
             String paymentMethod,
             String paymentStatus) {
 
-        this.billNo = billNo;
-        this.appointmentNo = appointmentNo;
-        this.consultationFee = consultationFee;
-        this.treatmentFee = treatmentFee;
-        this.discount = discount;
-        this.totalAmount = totalAmount;
-        this.paymentMethod = paymentMethod;
-        this.paymentStatus = paymentStatus;
+        this.billNo =
+                billNo;
+
+        this.appointmentNo =
+                appointmentNo;
+
+        this.consultationFee =
+                consultationFee;
+
+        this.treatmentFee =
+                treatmentFee;
+
+        this.discount =
+                discount;
+
+        this.totalAmount =
+                totalAmount;
+
+        this.paymentMethod =
+                paymentMethod;
+
+        this.paymentStatus =
+                paymentStatus;
     }
 
     public int getBillId() {
+
         return billId;
     }
 
-    public void setBillId(int billId) {
-        this.billId = billId;
+    public void setBillId(
+            int billId) {
+
+        this.billId =
+                billId;
     }
 
     public String getBillNo() {
+
         return billNo;
     }
 
     public String getAppointmentNo() {
+
         return appointmentNo;
     }
 
+    public int getPatientId() {
+
+        return patientId;
+    }
+
+    public void setPatientId(
+            int patientId) {
+
+        this.patientId =
+                patientId;
+    }
+
+    public int getDentistId() {
+
+        return dentistId;
+    }
+
+    public void setDentistId(
+            int dentistId) {
+
+        this.dentistId =
+                dentistId;
+    }
+
+    public String getTreatmentName() {
+
+        return treatmentName;
+    }
+
+    public void setTreatmentName(
+            String treatmentName) {
+
+        this.treatmentName =
+                treatmentName;
+    }
+
     public BigDecimal getConsultationFee() {
+
         return consultationFee;
     }
 
     public BigDecimal getTreatmentFee() {
+
         return treatmentFee;
     }
 
     public BigDecimal getDiscount() {
+
         return discount;
     }
 
     public BigDecimal getTotalAmount() {
+
         return totalAmount;
     }
 
     public String getPaymentMethod() {
+
         return paymentMethod;
     }
 
     public String getPaymentStatus() {
+
         return paymentStatus;
     }
 
     public String getCreatedAt() {
+
         return createdAt;
     }
 
     public void setCreatedAt(
             String createdAt) {
 
-        this.createdAt = createdAt;
+        this.createdAt =
+                createdAt;
     }
 }

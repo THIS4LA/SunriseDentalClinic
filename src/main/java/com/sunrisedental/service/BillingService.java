@@ -267,4 +267,101 @@ public class BillingService {
                         appointment.getDentistId()
                 );
     }
+
+    public List<Bill> searchBills(
+            String keyword) {
+
+        if (keyword == null
+                || keyword.trim().isEmpty()) {
+
+            return getAllBills();
+        }
+
+        return billDAO
+                .searchBills(
+                        keyword.trim()
+                );
+    }
+
+    public Bill getBillById(
+            int billId) {
+
+        if (billId <= 0) {
+
+            throw new IllegalArgumentException(
+                    "Invalid bill."
+            );
+        }
+
+        Bill bill
+                = billDAO
+                        .getBillById(
+                                billId
+                        );
+
+        if (bill == null) {
+
+            throw new IllegalArgumentException(
+                    "Bill not found."
+            );
+        }
+
+        return bill;
+    }
+
+    public boolean updatePaymentDetails(
+            int billId,
+            String paymentMethod,
+            String paymentStatus) {
+
+        if (billId <= 0) {
+
+            throw new IllegalArgumentException(
+                    "Invalid bill."
+            );
+        }
+
+        if (paymentMethod == null
+                || paymentMethod.trim().isEmpty()) {
+
+            throw new IllegalArgumentException(
+                    "Payment method is required."
+            );
+        }
+
+        if (!paymentMethod.equalsIgnoreCase(
+                "CASH")
+                && !paymentMethod.equalsIgnoreCase(
+                        "CARD")) {
+
+            throw new IllegalArgumentException(
+                    "Invalid payment method."
+            );
+        }
+
+        if (paymentStatus == null
+                || paymentStatus.trim().isEmpty()) {
+
+            throw new IllegalArgumentException(
+                    "Payment status is required."
+            );
+        }
+
+        if (!paymentStatus.equalsIgnoreCase(
+                "PENDING")
+                && !paymentStatus.equalsIgnoreCase(
+                        "PAID")) {
+
+            throw new IllegalArgumentException(
+                    "Invalid payment status."
+            );
+        }
+
+        return billDAO
+                .updatePaymentDetails(
+                        billId,
+                        paymentMethod.toUpperCase(),
+                        paymentStatus.toUpperCase()
+                );
+    }
 }

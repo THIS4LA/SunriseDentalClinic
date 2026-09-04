@@ -466,9 +466,14 @@ public class AdminDashboardFrame
 
     private void showBilling() {
 
-        showTemporaryPanel(
-                "Billing Management"
+        pnlContent.removeAll();
+
+        pnlContent.add(
+                new BillingPanel(),
+                BorderLayout.CENTER
         );
+
+        refreshContent();
     }
 
     private void showReports() {
