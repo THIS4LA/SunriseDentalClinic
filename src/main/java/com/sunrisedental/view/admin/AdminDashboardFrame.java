@@ -30,8 +30,6 @@ public class AdminDashboardFrame
     private JButton btnTreatments;
     private JButton btnBilling;
     private JButton btnReports;
-    private JButton btnAuditLogs;
-    private JButton btnHelp;
     private JButton btnLogout;
 
     private final int userId;
@@ -39,8 +37,8 @@ public class AdminDashboardFrame
     public AdminDashboardFrame(
             int userId) {
 
-        this.userId
-                = userId;
+        this.userId =
+                userId;
 
         initUI();
 
@@ -65,6 +63,7 @@ public class AdminDashboardFrame
     // ==========================================================
     // MAIN UI
     // ==========================================================
+
     private void initUI() {
 
         setLayout(
@@ -89,10 +88,11 @@ public class AdminDashboardFrame
     // ==========================================================
     // SIDEBAR
     // ==========================================================
+
     private void createSidebar() {
 
-        pnlSidebar
-                = new JPanel();
+        pnlSidebar =
+                new JPanel();
 
         pnlSidebar.setPreferredSize(
                 new Dimension(
@@ -111,7 +111,7 @@ public class AdminDashboardFrame
 
         pnlSidebar.setLayout(
                 new GridLayout(
-                        13,
+                        11,
                         1,
                         0,
                         8
@@ -127,8 +127,12 @@ public class AdminDashboardFrame
                 )
         );
 
-        JLabel lblClinic
-                = new JLabel(
+        // ======================================================
+        // CLINIC TITLE
+        // ======================================================
+
+        JLabel lblClinic =
+                new JLabel(
                         "SUNRISE DENTAL",
                         SwingConstants.CENTER
                 );
@@ -145,8 +149,12 @@ public class AdminDashboardFrame
                 )
         );
 
-        JLabel lblRole
-                = new JLabel(
+        // ======================================================
+        // ROLE LABEL
+        // ======================================================
+
+        JLabel lblRole =
+                new JLabel(
                         "Administrator",
                         SwingConstants.CENTER
                 );
@@ -167,60 +175,58 @@ public class AdminDashboardFrame
                 )
         );
 
-        btnDashboard
-                = createSidebarButton(
+        // ======================================================
+        // SIDEBAR BUTTONS
+        // ======================================================
+
+        btnDashboard =
+                createSidebarButton(
                         "Dashboard"
                 );
 
-        btnUsers
-                = createSidebarButton(
+        btnUsers =
+                createSidebarButton(
                         "Users"
                 );
 
-        btnDentists
-                = createSidebarButton(
+        btnDentists =
+                createSidebarButton(
                         "Dentists"
                 );
 
-        btnPatients
-                = createSidebarButton(
+        btnPatients =
+                createSidebarButton(
                         "Patients"
                 );
 
-        btnAppointments
-                = createSidebarButton(
+        btnAppointments =
+                createSidebarButton(
                         "Appointments"
                 );
 
-        btnTreatments
-                = createSidebarButton(
+        btnTreatments =
+                createSidebarButton(
                         "Treatments"
                 );
 
-        btnBilling
-                = createSidebarButton(
+        btnBilling =
+                createSidebarButton(
                         "Billing"
                 );
 
-        btnReports
-                = createSidebarButton(
+        btnReports =
+                createSidebarButton(
                         "Reports"
                 );
 
-        btnAuditLogs
-                = createSidebarButton(
-                        "Audit Logs"
-                );
-
-        btnHelp
-                = createSidebarButton(
-                        "Help"
-                );
-
-        btnLogout
-                = createSidebarButton(
+        btnLogout =
+                createSidebarButton(
                         "Logout"
                 );
+
+        // ======================================================
+        // ADD COMPONENTS TO SIDEBAR
+        // ======================================================
 
         pnlSidebar.add(
                 lblClinic
@@ -263,16 +269,12 @@ public class AdminDashboardFrame
         );
 
         pnlSidebar.add(
-                btnAuditLogs
-        );
-
-        pnlSidebar.add(
-                btnHelp
-        );
-
-        pnlSidebar.add(
                 btnLogout
         );
+
+        // ======================================================
+        // ACTION LISTENERS
+        // ======================================================
 
         btnDashboard.addActionListener(
                 e -> showDashboard()
@@ -306,24 +308,20 @@ public class AdminDashboardFrame
                 e -> showReports()
         );
 
-        btnAuditLogs.addActionListener(
-                e -> showAuditLogs()
-        );
-
-        btnHelp.addActionListener(
-                e -> showHelp()
-        );
-
         btnLogout.addActionListener(
                 e -> logout()
         );
     }
 
+    // ==========================================================
+    // SIDEBAR BUTTON STYLE
+    // ==========================================================
+
     private JButton createSidebarButton(
             String text) {
 
-        JButton button
-                = new JButton(
+        JButton button =
+                new JButton(
                         text
                 );
 
@@ -357,10 +355,11 @@ public class AdminDashboardFrame
     // ==========================================================
     // CONTENT AREA
     // ==========================================================
+
     private void createContentArea() {
 
-        pnlContent
-                = new JPanel(
+        pnlContent =
+                new JPanel(
                         new BorderLayout()
                 );
 
@@ -378,16 +377,21 @@ public class AdminDashboardFrame
     // ==========================================================
     // DASHBOARD
     // ==========================================================
+
     private void showDashboard() {
 
         pnlContent.removeAll();
 
-        DashboardPanel dashboardPanel
-                = new DashboardPanel(
+        DashboardPanel dashboardPanel =
+                new DashboardPanel(
                         userId,
+
                         () -> showUsers(),
+
                         () -> showDentists(),
+
                         () -> showTreatments(),
+
                         () -> showReports()
                 );
 
@@ -400,8 +404,9 @@ public class AdminDashboardFrame
     }
 
     // ==========================================================
-    // SECTIONS
+    // USERS
     // ==========================================================
+
     private void showUsers() {
 
         pnlContent.removeAll();
@@ -416,6 +421,10 @@ public class AdminDashboardFrame
         refreshContent();
     }
 
+    // ==========================================================
+    // DENTISTS
+    // ==========================================================
+
     private void showDentists() {
 
         pnlContent.removeAll();
@@ -427,6 +436,10 @@ public class AdminDashboardFrame
 
         refreshContent();
     }
+
+    // ==========================================================
+    // PATIENTS
+    // ==========================================================
 
     private void showPatients() {
 
@@ -440,6 +453,10 @@ public class AdminDashboardFrame
         refreshContent();
     }
 
+    // ==========================================================
+    // APPOINTMENTS
+    // ==========================================================
+
     private void showAppointments() {
 
         pnlContent.removeAll();
@@ -451,6 +468,10 @@ public class AdminDashboardFrame
 
         refreshContent();
     }
+
+    // ==========================================================
+    // TREATMENTS
+    // ==========================================================
 
     private void showTreatments() {
 
@@ -464,6 +485,10 @@ public class AdminDashboardFrame
         refreshContent();
     }
 
+    // ==========================================================
+    // BILLING
+    // ==========================================================
+
     private void showBilling() {
 
         pnlContent.removeAll();
@@ -476,87 +501,25 @@ public class AdminDashboardFrame
         refreshContent();
     }
 
+    // ==========================================================
+    // REPORTS
+    // ==========================================================
+
     private void showReports() {
-
-        showTemporaryPanel(
-                "Admin Reports"
-        );
-    }
-
-    private void showAuditLogs() {
-
-        showTemporaryPanel(
-                "Audit Logs"
-        );
-    }
-
-    private void showHelp() {
-
-        showTemporaryPanel(
-                "Admin Help Center"
-        );
-    }
-
-    private void showTemporaryPanel(
-            String title) {
 
         pnlContent.removeAll();
 
         pnlContent.add(
-                createTemporaryPanel(
-                        title
-                ),
+                new ReportsPanel(),
                 BorderLayout.CENTER
         );
 
         refreshContent();
     }
 
-    private JPanel createTemporaryPanel(
-            String title) {
-
-        JPanel panel
-                = new JPanel(
-                        new BorderLayout()
-                );
-
-        panel.setBackground(
-                new Color(
-                        245,
-                        247,
-                        250
-                )
-        );
-
-        panel.setBorder(
-                BorderFactory.createEmptyBorder(
-                        30,
-                        30,
-                        30,
-                        30
-                )
-        );
-
-        JLabel lblTitle
-                = new JLabel(
-                        title
-                );
-
-        lblTitle.setFont(
-                new Font(
-                        "Segoe UI",
-                        Font.BOLD,
-                        24
-                )
-        );
-
-        panel.add(
-                lblTitle,
-                BorderLayout.NORTH
-        );
-
-        return panel;
-    }
+    // ==========================================================
+    // REFRESH CONTENT
+    // ==========================================================
 
     private void refreshContent() {
 
@@ -568,10 +531,11 @@ public class AdminDashboardFrame
     // ==========================================================
     // LOGOUT
     // ==========================================================
+
     private void logout() {
 
-        int result
-                = JOptionPane.showConfirmDialog(
+        int result =
+                JOptionPane.showConfirmDialog(
                         this,
                         "Are you sure you want to logout?",
                         "Logout",
