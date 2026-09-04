@@ -50,4 +50,10 @@ public class Treatment {
     public String getStatus() {
         return status;
     }
+
+    @Override
+    public String toString() {
+
+        return treatmentName;
+    }
 }

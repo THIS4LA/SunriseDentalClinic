@@ -454,9 +454,14 @@ public class AdminDashboardFrame
 
     private void showTreatments() {
 
-        showTemporaryPanel(
-                "Treatment Management"
+        pnlContent.removeAll();
+
+        pnlContent.add(
+                new TreatmentsPanel(),
+                BorderLayout.CENTER
         );
+
+        refreshContent();
     }
 
     private void showBilling() {
