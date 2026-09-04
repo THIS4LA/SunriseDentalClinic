@@ -50,6 +50,7 @@ com\sunrisedental\view\admin\UsersPanel$1.class
 com\sunrisedental\dao\PatientDAO.class
 com\sunrisedental\view\admin\DashboardPanel.class
 com\sunrisedental\service\AppointmentService.class
+com\sunrisedental\util\PdfOpener.class
 com\sunrisedental\view\receptionist\ReceptionistDashboardFrame.class
 com\sunrisedental\view\receptionist\HelpPanel$1.class
 com\sunrisedental\view\dentist\PatientsPanel$1.class
@@ -66,6 +67,7 @@ com\sunrisedental\view\admin\BillingPanel.class
 com\sunrisedental\view\receptionist\AppointmentPanel$1.class
 com\sunrisedental\dao\DentistDAO.class
 com\sunrisedental\view\admin\DentistsPanel$1.class
+com\sunrisedental\utill\ReportPdfGenerator.class
 com\sunrisedental\dao\TreatmentDAO.class
 com\sunrisedental\view\admin\TreatmentsPanel$1.class
 com\sunrisedental\dao\BillDAO.class

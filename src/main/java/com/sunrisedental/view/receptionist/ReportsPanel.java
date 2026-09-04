@@ -6,6 +6,9 @@ import com.github.lgooddatepicker.components.DatePickerSettings;
 import com.sunrisedental.model.ReportSummary;
 import com.sunrisedental.service.ReportService;
 
+import com.sunrisedental.util.PdfOpener;
+import com.sunrisedental.utill.ReportPdfGenerator;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -15,6 +18,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+
+import java.io.File;
 
 import java.text.MessageFormat;
 
@@ -30,30 +35,49 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
 import javax.swing.table.DefaultTableModel;
 
 public class ReportsPanel extends JPanel {
 
+    // ==========================================================
+    // SERVICE
+    // ==========================================================
     private final ReportService reportService;
 
+    // ==========================================================
+    // FILTER COMPONENTS
+    // ==========================================================
     private JComboBox<String> cmbReportType;
 
     private DatePicker datePickerFrom;
     private DatePicker datePickerTo;
 
+    // ==========================================================
+    // BUTTONS
+    // ==========================================================
     private JButton btnGenerate;
     private JButton btnPrint;
     private JButton btnReset;
 
+    // ==========================================================
+    // SUMMARY LABELS
+    // ==========================================================
     private JLabel lblTotalValue;
     private JLabel lblCompletedValue;
     private JLabel lblPendingValue;
     private JLabel lblRevenueValue;
 
+    // ==========================================================
+    // REPORT TABLE
+    // ==========================================================
     private JTable tblReport;
 
     private DefaultTableModel tableModel;
 
+    // ==========================================================
+    // CONSTRUCTOR
+    // ==========================================================
     public ReportsPanel() {
 
         reportService
@@ -63,7 +87,14 @@ public class ReportsPanel extends JPanel {
 
         setDefaultDates();
 
-        generateReport();
+        /*
+         * Load initial report information only.
+         *
+         * We do NOT generate/open a PDF here because otherwise
+         * Chrome would open automatically whenever the user
+         * visits the Reports page.
+         */
+        loadReportData();
     }
 
     // ==========================================================
@@ -118,7 +149,9 @@ public class ReportsPanel extends JPanel {
                         )
                 );
 
-        panel.setOpaque(false);
+        panel.setOpaque(
+                false
+        );
 
         JLabel lblTitle
                 = new JLabel(
@@ -179,7 +212,9 @@ public class ReportsPanel extends JPanel {
                         )
                 );
 
-        main.setOpaque(false);
+        main.setOpaque(
+                false
+        );
 
         main.setBorder(
                 BorderFactory.createEmptyBorder(
@@ -203,7 +238,9 @@ public class ReportsPanel extends JPanel {
                         )
                 );
 
-        center.setOpaque(false);
+        center.setOpaque(
+                false
+        );
 
         center.add(
                 createSummaryPanel(),
@@ -258,9 +295,9 @@ public class ReportsPanel extends JPanel {
                 )
         );
 
-        // ==========================================================
+        // ======================================================
         // TITLE
-        // ==========================================================
+        // ======================================================
         JLabel lblTitle
                 = new JLabel(
                         "Report Filters"
@@ -279,15 +316,17 @@ public class ReportsPanel extends JPanel {
                 BorderLayout.NORTH
         );
 
-        // ==========================================================
-        // FILTER FIELDS
-        // ==========================================================
+        // ======================================================
+        // FILTER FIELDS PANEL
+        // ======================================================
         JPanel pnlFields
                 = new JPanel(
                         new GridBagLayout()
                 );
 
-        pnlFields.setOpaque(false);
+        pnlFields.setOpaque(
+                false
+        );
 
         pnlFields.setBorder(
                 BorderFactory.createEmptyBorder(
@@ -298,9 +337,9 @@ public class ReportsPanel extends JPanel {
                 )
         );
 
-        // ----------------------------------------------------------
-        // Report type
-        // ----------------------------------------------------------
+        // ======================================================
+        // REPORT TYPE
+        // ======================================================
         cmbReportType
                 = new JComboBox<>(
                         new String[]{
@@ -318,9 +357,9 @@ public class ReportsPanel extends JPanel {
                 )
         );
 
-        // ----------------------------------------------------------
-        // From Date
-        // ----------------------------------------------------------
+        // ======================================================
+        // FROM DATE
+        // ======================================================
         DatePickerSettings fromSettings
                 = new DatePickerSettings();
 
@@ -344,9 +383,9 @@ public class ReportsPanel extends JPanel {
                 )
         );
 
-        // ----------------------------------------------------------
-        // To Date
-        // ----------------------------------------------------------
+        // ======================================================
+        // TO DATE
+        // ======================================================
         DatePickerSettings toSettings
                 = new DatePickerSettings();
 
@@ -370,9 +409,9 @@ public class ReportsPanel extends JPanel {
                 )
         );
 
-        // ==========================================================
-        // ROW 1 - REPORT TYPE
-        // ==========================================================
+        // ======================================================
+        // GRID BAG
+        // ======================================================
         GridBagConstraints gbc
                 = new GridBagConstraints();
 
@@ -387,8 +426,10 @@ public class ReportsPanel extends JPanel {
         gbc.anchor
                 = GridBagConstraints.WEST;
 
+        // ======================================================
+        // ROW 1 - REPORT TYPE
+        // ======================================================
         gbc.gridy = 0;
-
         gbc.gridx = 0;
 
         JLabel lblReportType
@@ -411,7 +452,6 @@ public class ReportsPanel extends JPanel {
 
         gbc.gridx = 1;
         gbc.gridwidth = 3;
-
         gbc.weightx = 1.0;
 
         gbc.fill
@@ -422,13 +462,12 @@ public class ReportsPanel extends JPanel {
                 gbc
         );
 
-        // ==========================================================
-        // ROW 2 - DATE RANGE
-        // ==========================================================
+        // ======================================================
+        // ROW 2 - FROM DATE
+        // ======================================================
         gbc.gridy = 1;
 
         gbc.gridwidth = 1;
-
         gbc.weightx = 0;
 
         gbc.fill
@@ -455,7 +494,6 @@ public class ReportsPanel extends JPanel {
         );
 
         gbc.gridx = 1;
-
         gbc.weightx = 1.0;
 
         gbc.fill
@@ -466,8 +504,10 @@ public class ReportsPanel extends JPanel {
                 gbc
         );
 
+        // ======================================================
+        // ROW 2 - TO DATE
+        // ======================================================
         gbc.gridx = 2;
-
         gbc.weightx = 0;
 
         gbc.fill
@@ -492,7 +532,6 @@ public class ReportsPanel extends JPanel {
         );
 
         gbc.gridx = 3;
-
         gbc.weightx = 1.0;
 
         gbc.fill
@@ -508,9 +547,9 @@ public class ReportsPanel extends JPanel {
                 BorderLayout.CENTER
         );
 
-        // ==========================================================
-        // BUTTONS
-        // ==========================================================
+        // ======================================================
+        // BUTTON PANEL
+        // ======================================================
         JPanel pnlButtons
                 = new JPanel(
                         new FlowLayout(
@@ -520,11 +559,13 @@ public class ReportsPanel extends JPanel {
                         )
                 );
 
-        pnlButtons.setOpaque(false);
+        pnlButtons.setOpaque(
+                false
+        );
 
         btnGenerate
                 = new JButton(
-                        "Generate Report"
+                        "Generate PDF"
                 );
 
         btnPrint
@@ -575,9 +616,9 @@ public class ReportsPanel extends JPanel {
                 BorderLayout.SOUTH
         );
 
-        // ==========================================================
+        // ======================================================
         // EVENTS
-        // ==========================================================
+        // ======================================================
         btnGenerate.addActionListener(
                 e -> generateReport()
         );
@@ -590,11 +631,26 @@ public class ReportsPanel extends JPanel {
                 e -> resetReport()
         );
 
+        /*
+         * Changing the report type updates the table only.
+         * It does not automatically create a PDF.
+         */
+        cmbReportType.addActionListener(
+                e -> {
+
+                    if (datePickerFrom != null
+                            && datePickerTo != null) {
+
+                        loadReportData();
+                    }
+                }
+        );
+
         return container;
     }
 
     // ==========================================================
-    // SUMMARY CARDS
+    // SUMMARY PANEL
     // ==========================================================
     private JPanel createSummaryPanel() {
 
@@ -608,7 +664,9 @@ public class ReportsPanel extends JPanel {
                         )
                 );
 
-        panel.setOpaque(false);
+        panel.setOpaque(
+                false
+        );
 
         lblTotalValue
                 = new JLabel(
@@ -661,6 +719,9 @@ public class ReportsPanel extends JPanel {
         return panel;
     }
 
+    // ==========================================================
+    // SUMMARY CARD
+    // ==========================================================
     private JPanel createSummaryCard(
             String title,
             JLabel valueLabel) {
@@ -798,6 +859,10 @@ public class ReportsPanel extends JPanel {
                 28
         );
 
+        tblReport.setFillsViewportHeight(
+                true
+        );
+
         tblReport.getTableHeader()
                 .setFont(
                         new Font(
@@ -807,15 +872,18 @@ public class ReportsPanel extends JPanel {
                         )
                 );
 
+        JScrollPane scrollPane
+                = new JScrollPane(
+                        tblReport
+                );
+
         panel.add(
                 title,
                 BorderLayout.NORTH
         );
 
         panel.add(
-                new JScrollPane(
-                        tblReport
-                ),
+                scrollPane,
                 BorderLayout.CENTER
         );
 
@@ -823,9 +891,9 @@ public class ReportsPanel extends JPanel {
     }
 
     // ==========================================================
-    // GENERATE REPORT
+    // LOAD REPORT DATA ONLY
     // ==========================================================
-    private void generateReport() {
+    private void loadReportData() {
 
         try {
 
@@ -835,16 +903,28 @@ public class ReportsPanel extends JPanel {
             LocalDate toDate
                     = datePickerTo.getDate();
 
-            // Service validates null / incorrect range.
+            /*
+             * getSummary() already performs the service-level
+             * date validation.
+             */
             updateSummary(
                     fromDate,
                     toDate
             );
 
-            String reportType
+            Object selectedItem
                     = cmbReportType
-                            .getSelectedItem()
-                            .toString();
+                            .getSelectedItem();
+
+            if (selectedItem == null) {
+
+                throw new IllegalArgumentException(
+                        "Please select a report type."
+                );
+            }
+
+            String reportType
+                    = selectedItem.toString();
 
             switch (reportType) {
 
@@ -875,7 +955,149 @@ public class ReportsPanel extends JPanel {
                             fromDate,
                             toDate
                     );
+
+                default ->
+
+                    throw new IllegalArgumentException(
+                            "Invalid report type."
+                    );
             }
+
+        } catch (IllegalArgumentException e) {
+
+            clearReportTable();
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    e.getMessage(),
+                    "Report Error",
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+        } catch (Exception e) {
+
+            clearReportTable();
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Unable to load report data.\n"
+                    + e.getMessage(),
+                    "Report Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }
+
+    // ==========================================================
+    // GENERATE PDF REPORT
+    // ==========================================================
+    private void generateReport() {
+
+        try {
+
+            LocalDate fromDate
+                    = datePickerFrom.getDate();
+
+            LocalDate toDate
+                    = datePickerTo.getDate();
+
+            Object selectedItem
+                    = cmbReportType
+                            .getSelectedItem();
+
+            if (selectedItem == null) {
+
+                throw new IllegalArgumentException(
+                        "Please select a report type."
+                );
+            }
+
+            String reportType
+                    = selectedItem.toString();
+
+            /*
+             * Load the latest information before creating PDF.
+             */
+            updateSummary(
+                    fromDate,
+                    toDate
+            );
+
+            switch (reportType) {
+
+                case "Appointment Summary" ->
+
+                    loadAppointmentReport(
+                            fromDate,
+                            toDate
+                    );
+
+                case "Revenue by Treatment" ->
+
+                    loadRevenueReport(
+                            fromDate,
+                            toDate
+                    );
+
+                case "Dentist Workload" ->
+
+                    loadDentistReport(
+                            fromDate,
+                            toDate
+                    );
+
+                case "Payment Method Summary" ->
+
+                    loadPaymentReport(
+                            fromDate,
+                            toDate
+                    );
+
+                default ->
+
+                    throw new IllegalArgumentException(
+                            "Invalid report type."
+                    );
+            }
+
+            // ==================================================
+            // EMPTY REPORT CHECK
+            // ==================================================
+            if (tblReport.getRowCount() == 0) {
+
+                throw new IllegalArgumentException(
+                        "There is no report data "
+                        + "for the selected date range."
+                );
+            }
+
+            // ==================================================
+            // GENERATE PDF
+            // ==================================================
+            File pdfFile
+                    = ReportPdfGenerator
+                            .generateReport(
+                                    reportType,
+                                    fromDate,
+                                    toDate,
+                                    tblReport
+                            );
+
+            // ==================================================
+            // OPEN PDF IN DEFAULT BROWSER
+            // ==================================================
+            PdfOpener.open(
+                    pdfFile
+            );
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Report generated successfully.\n\n"
+                    + "Saved to:\n"
+                    + pdfFile.getAbsolutePath(),
+                    "Report Generated",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
 
         } catch (IllegalArgumentException e) {
 
@@ -885,11 +1107,21 @@ public class ReportsPanel extends JPanel {
                     "Report Error",
                     JOptionPane.WARNING_MESSAGE
             );
+
+        } catch (Exception e) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Unable to generate PDF report.\n"
+                    + e.getMessage(),
+                    "PDF Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 
     // ==========================================================
-    // SUMMARY
+    // UPDATE SUMMARY
     // ==========================================================
     private void updateSummary(
             LocalDate fromDate,
@@ -980,7 +1212,7 @@ public class ReportsPanel extends JPanel {
     }
 
     // ==========================================================
-    // DENTIST REPORT
+    // DENTIST WORKLOAD REPORT
     // ==========================================================
     private void loadDentistReport(
             LocalDate fromDate,
@@ -1006,7 +1238,7 @@ public class ReportsPanel extends JPanel {
     }
 
     // ==========================================================
-    // PAYMENT REPORT
+    // PAYMENT METHOD REPORT
     // ==========================================================
     private void loadPaymentReport(
             LocalDate fromDate,
@@ -1039,10 +1271,28 @@ public class ReportsPanel extends JPanel {
                 0
         );
 
+        if (rows == null) {
+
+            return;
+        }
+
         for (Object[] row : rows) {
 
             tableModel.addRow(
                     row
+            );
+        }
+    }
+
+    // ==========================================================
+    // CLEAR REPORT TABLE
+    // ==========================================================
+    private void clearReportTable() {
+
+        if (tableModel != null) {
+
+            tableModel.setRowCount(
+                    0
             );
         }
     }
@@ -1070,7 +1320,7 @@ public class ReportsPanel extends JPanel {
     }
 
     // ==========================================================
-    // RESET
+    // RESET REPORT
     // ==========================================================
     private void resetReport() {
 
@@ -1080,11 +1330,15 @@ public class ReportsPanel extends JPanel {
 
         setDefaultDates();
 
-        generateReport();
+        /*
+         * Reset only reloads the default report.
+         * It does not create/open a PDF.
+         */
+        loadReportData();
     }
 
     // ==========================================================
-    // PRINT
+    // PRINT REPORT
     // ==========================================================
     private void printReport() {
 
@@ -1092,7 +1346,9 @@ public class ReportsPanel extends JPanel {
 
             JOptionPane.showMessageDialog(
                     this,
-                    "There is no report data to print."
+                    "There is no report data to print.",
+                    "Print Report",
+                    JOptionPane.WARNING_MESSAGE
             );
 
             return;
@@ -1100,10 +1356,19 @@ public class ReportsPanel extends JPanel {
 
         try {
 
-            String reportType
+            Object selectedItem
                     = cmbReportType
-                            .getSelectedItem()
-                            .toString();
+                            .getSelectedItem();
+
+            if (selectedItem == null) {
+
+                throw new IllegalArgumentException(
+                        "Please select a report type."
+                );
+            }
+
+            String reportType
+                    = selectedItem.toString();
 
             LocalDate fromDate
                     = datePickerFrom.getDate();
@@ -1120,21 +1385,42 @@ public class ReportsPanel extends JPanel {
                     + toDate
                     + ")";
 
-            tblReport.print(
-                    JTable.PrintMode.FIT_WIDTH,
-                    new MessageFormat(
-                            headerText
-                    ),
-                    new MessageFormat(
-                            "Page {0}"
-                    )
+            boolean printed
+                    = tblReport.print(
+                            JTable.PrintMode.FIT_WIDTH,
+                            new MessageFormat(
+                                    headerText
+                            ),
+                            new MessageFormat(
+                                    "Page {0}"
+                            )
+                    );
+
+            if (printed) {
+
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Report sent to printer successfully.",
+                        "Print Report",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+            }
+
+        } catch (IllegalArgumentException e) {
+
+            JOptionPane.showMessageDialog(
+                    this,
+                    e.getMessage(),
+                    "Print Error",
+                    JOptionPane.WARNING_MESSAGE
             );
 
         } catch (Exception e) {
 
             JOptionPane.showMessageDialog(
                     this,
-                    "Unable to print report.",
+                    "Unable to print report.\n"
+                    + e.getMessage(),
                     "Print Error",
                     JOptionPane.ERROR_MESSAGE
             );
