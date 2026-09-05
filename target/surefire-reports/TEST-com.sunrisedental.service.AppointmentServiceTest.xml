@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.sunrisedental.service.AppointmentServiceTest" time="0.254" tests="43" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="26"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\target\test-classes;C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\target\classes;C:\Users\Thisal_Karunarathna\.m2\repository\com\mysql\mysql-connector-j\26.7.0\mysql-connector-j-26.7.0.jar;C:\Users\Thisal_Karunarathna\.m2\repository\com\google\protobuf\protobuf-java\4.31.1\protobuf-java-4.31.1.jar;C:\Users\Thisal_Karunarathna\.m2\repository\com\github\lgooddatepicker\LGoodDatePicker\11.2.1\LGoodDatePicker-11.2.1.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\apache\pdfbox\pdfbox\2.0.31\pdfbox-2.0.31.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\apache\pdfbox\fontbox\2.0.31\fontbox-2.0.31.jar;C:\Users\Thisal_Karunarathna\.m2\repository\commons-logging\commons-logging\1.2\commons-logging-1.2.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\junit\jupiter\junit-jupiter\6.0.3\junit-jupiter-6.0.3.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\junit\jupiter\junit-jupiter-api\6.0.3\junit-jupiter-api-6.0.3.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\junit\platform\junit-platform-commons\6.0.3\junit-platform-commons-6.0.3.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\jspecify\jspecify\1.0.0\jspecify-1.0.0.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\junit\jupiter\junit-jupiter-params\6.0.3\junit-jupiter-params-6.0.3.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\junit\jupiter\junit-jupiter-engine\6.0.3\junit-jupiter-engine-6.0.3.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\junit\platform\junit-platform-engine\6.0.3\junit-platform-engine-6.0.3.jar;"/>
+    <property name="java.vm.vendor" value="Eclipse Adoptium"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://adoptium.net/"/>
+    <property name="user.timezone" value="Asia/Colombo"/>
+    <property name="os.name" value="Windows 10"/>
+    <property name="java.vm.specification.version" value="26"/>
+    <property name="user.country" value="GB"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.boot.library.path" value="G:\Apache NetBeans\jdk\bin"/>
+    <property name="sun.java.command" value="C:\Users\Thisal_Karunarathna\AppData\Local\Temp\surefire5221768472694529499\surefirebooter-20260905070236013_3.jar C:\Users\Thisal_Karunarathna\AppData\Local\Temp\surefire5221768472694529499 2026-09-05T07-02-35_781-jvmRun1 surefire-20260905070236013_1tmp surefire_0-20260905070236013_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="test" value="com.sunrisedental.service.AppointmentServiceTest"/>
+    <property name="surefire.test.class.path" value="C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\target\test-classes;C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic\target\classes;C:\Users\Thisal_Karunarathna\.m2\repository\com\mysql\mysql-connector-j\26.7.0\mysql-connector-j-26.7.0.jar;C:\Users\Thisal_Karunarathna\.m2\repository\com\google\protobuf\protobuf-java\4.31.1\protobuf-java-4.31.1.jar;C:\Users\Thisal_Karunarathna\.m2\repository\com\github\lgooddatepicker\LGoodDatePicker\11.2.1\LGoodDatePicker-11.2.1.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\apache\pdfbox\pdfbox\2.0.31\pdfbox-2.0.31.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\apache\pdfbox\fontbox\2.0.31\fontbox-2.0.31.jar;C:\Users\Thisal_Karunarathna\.m2\repository\commons-logging\commons-logging\1.2\commons-logging-1.2.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\junit\jupiter\junit-jupiter\6.0.3\junit-jupiter-6.0.3.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\junit\jupiter\junit-jupiter-api\6.0.3\junit-jupiter-api-6.0.3.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\junit\platform\junit-platform-commons\6.0.3\junit-platform-commons-6.0.3.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\jspecify\jspecify\1.0.0\jspecify-1.0.0.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\junit\jupiter\junit-jupiter-params\6.0.3\junit-jupiter-params-6.0.3.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\junit\jupiter\junit-jupiter-engine\6.0.3\junit-jupiter-engine-6.0.3.jar;C:\Users\Thisal_Karunarathna\.m2\repository\org\junit\platform\junit-platform-engine\6.0.3\junit-platform-engine-6.0.3.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\Thisal_Karunarathna"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2026-04-21"/>
+    <property name="java.home" value="G:\Apache NetBeans\jdk"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\Thisal_Karunarathna\AppData\Local\Temp\surefire5221768472694529499\surefirebooter-20260905070236013_3.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="26.0.1+8"/>
+    <property name="user.name" value="Thisal_Karunarathna"/>
+    <property name="stdout.encoding" value="Cp1252"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Temurin-26.0.1+8"/>
+    <property name="maven.ext.class.path" value="G:\Apache NetBeans\java\maven-nblib\netbeans-eventspy.jar"/>
+    <property name="localRepository" value="C:\Users\Thisal_Karunarathna\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
+    <property name="java.io.tmpdir" value="C:\Users\THISAL~1\AppData\Local\Temp\"/>
+    <property name="java.version" value="26.0.1"/>
+    <property name="user.dir" value="C:\Users\Thisal_Karunarathna\Documents\NetBeansProjects\SunriseDentalClinic"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="G:\Apache NetBeans\jdk\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\ProgramData\chocolatey\bin;C:\Users\Thisal_Karunarathna\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\Program Files\NVIDIA Corporation\NVIDIA app\NvDLISR;C:\Program Files\Amazon\AWSCLIV2\;C:\Program Files\Docker\Docker\resources\bin;C:\Users\Thisal_Karunarathna\AppData\Local\Microsoft\WindowsApps;C:\Users\Thisal_Karunarathna\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\Thisal_Karunarathna\AppData\Roaming\npm;C:\Users\Thisal_Karunarathna\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\Thisal_Karunarathna\AppData\Local\GitHubDesktop\bin;C:\Users\Thisal_Karunarathna\AppData\Local\PowerToys\DSCModules\;C:\Users\Thisal_Karunarathna\AppData\Local\Programs\Antigravity\bin;G:\Apache NetBeans\bin\;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="Cp1252"/>
+    <property name="java.vendor" value="Eclipse Adoptium"/>
+    <property name="java.vm.version" value="26.0.1+8"/>
+    <property name="stdin.encoding" value="Cp1252"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="70.0"/>
+  </properties>
+  <testcase name="shouldRejectPastAppointmentDate" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.066"/>
+  <testcase name="shouldRejectMissingAppointmentNumber" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.011"/>
+  <testcase name="shouldRejectDefaultTreatmentOption" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.004"/>
+  <testcase name="shouldRejectInvalidAppointmentDateFormat" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.003"/>
+  <testcase name="shouldRejectEmptyAppointmentNumberWhenUpdatingStatus" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.003"/>
+  <testcase name="shouldRejectNullAppointmentNumberWhenFindingAppointment" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="shouldRejectInvalidDentistIdWhenLoadingSchedule" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="shouldRejectNullTreatment" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="shouldRejectInvalidDentistIdWhenGettingAppointments" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="shouldRejectInvalidAppointmentTimeFormat" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="shouldRejectNullScheduleDate" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="shouldRejectEmptyAppointmentNumberWhenCancelling" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.003"/>
+  <testcase name="shouldRejectNullAppointmentNumber" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="shouldRejectInvalidDentistId" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="shouldRejectNullAppointmentStatus" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="shouldRejectInvalidDentistIdForTodayCompletedCount" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.003"/>
+  <testcase name="shouldRejectNegativeDentistId" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="shouldRejectEmptyScheduleDate" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="shouldRejectNullAppointment" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="shouldRejectBlankAppointmentNumberWhenCancelling" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.003"/>
+  <testcase name="shouldRejectAppointmentBeforeOpeningTime" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.003"/>
+  <testcase name="shouldRejectEmptyAppointmentNumberWhenFindingAppointment" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.005"/>
+  <testcase name="shouldRejectNullAppointmentDate" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.003"/>
+  <testcase name="shouldRejectNullAppointmentTime" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="shouldRejectNullAppointmentNumberWhenUpdatingStatus" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="shouldRejectInvalidTextAppointmentDate" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.003"/>
+  <testcase name="shouldRejectInvalidTextAppointmentTime" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.001"/>
+  <testcase name="shouldRejectEmptyTreatment" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="shouldRejectNegativeDentistIdWhenGettingAppointments" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.001"/>
+  <testcase name="shouldRejectNullAppointmentNumberWhenCancelling" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.001"/>
+  <testcase name="shouldRejectEmptyAppointmentStatus" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.001"/>
+  <testcase name="shouldRejectInvalidDentistIdForTodayAppointmentCount" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="shouldRejectBlankTreatment" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.003"/>
+  <testcase name="shouldRejectInvalidPatientId" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="shouldRejectNegativePatientId" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.003"/>
+  <testcase name="shouldRejectBlankAppointmentNumberWhenFindingAppointment" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="shouldRejectBlankAppointmentStatus" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.001"/>
+  <testcase name="shouldRejectAppointmentAfterClosingTime" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="shouldRejectBlankScheduleDate" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="shouldRejectInvalidDentistIdForTodayPendingCount" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.001"/>
+  <testcase name="shouldRejectInvalidDentistIdWhenSearchingAppointments" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.002"/>
+  <testcase name="shouldRejectEmptyAppointmentDate" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.006"/>
+  <testcase name="shouldRejectEmptyAppointmentTime" classname="com.sunrisedental.service.AppointmentServiceTest" time="0.001"/>
+</testsuite>
