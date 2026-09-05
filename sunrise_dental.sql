@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 30, 2026 at 09:26 PM
+-- Generation Time: Sep 05, 2026 at 04:36 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -31,22 +31,21 @@ CREATE TABLE `appointments` (
   `appointment_id` int(11) NOT NULL,
   `appointment_no` varchar(30) NOT NULL,
   `patient_id` int(11) NOT NULL,
-  `dentist_name` varchar(100) NOT NULL,
   `treatment_type` varchar(100) NOT NULL,
   `appointment_date` date NOT NULL,
   `appointment_time` time NOT NULL,
   `status` varchar(20) NOT NULL DEFAULT 'PENDING',
   `notes` varchar(500) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `dentist_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `appointments`
 --
 
-INSERT INTO `appointments` (`appointment_id`, `appointment_no`, `patient_id`, `dentist_name`, `treatment_type`, `appointment_date`, `appointment_time`, `status`, `notes`, `created_at`) VALUES
-(5, 'APT-2026-0001', 1, 'Dr. Silva', 'Dental Check-up', '2026-08-27', '08:00:00', 'PENDING', 'test note', '2026-08-27 04:51:05'),
-(6, 'APT-2026-0006', 2, 'Dr. Perera', 'Filling', '2026-08-28', '09:30:00', 'PENDING', 'test note', '2026-08-27 05:23:47');
+INSERT INTO `appointments` (`appointment_id`, `appointment_no`, `patient_id`, `treatment_type`, `appointment_date`, `appointment_time`, `status`, `notes`, `created_at`, `dentist_id`) VALUES
+(5, 'APT-2026-0001', 2, 'Dental Check-up', '2026-09-03', '08:00:00', 'COMPLETED', '', '2026-08-27 04:51:05', 2);
 
 -- --------------------------------------------------------
 
@@ -72,8 +71,7 @@ CREATE TABLE `bills` (
 --
 
 INSERT INTO `bills` (`bill_id`, `bill_no`, `appointment_no`, `consultation_fee`, `treatment_fee`, `discount`, `total_amount`, `payment_method`, `payment_status`, `created_at`) VALUES
-(1, 'BILL-2026-0001', 'APT-2026-0001', 1500.00, 1000.00, 10.00, 2490.00, 'CASH', 'PAID', '2026-08-27 04:52:19'),
-(2, 'BILL-2026-0002', 'APT-2026-0006', 1500.00, 6000.00, 0.00, 7500.00, 'BANK TRANSFER', 'PAID', '2026-08-27 05:24:15');
+(3, 'BILL-2026-0001', 'APT-2026-0001', 1500.00, 1000.00, 0.00, 2500.00, 'CASH', 'PAID', '2026-09-03 05:58:47');
 
 -- --------------------------------------------------------
 
@@ -96,7 +94,7 @@ CREATE TABLE `dentists` (
 --
 
 INSERT INTO `dentists` (`dentist_id`, `user_id`, `dentist_name`, `specialization`, `contact_number`, `email`, `status`) VALUES
-(2, 3, 'Dr. Silva', 'General Dentistry', '0771234567', 'silva@sunrisedental.lk', 'ACTIVE');
+(2, 3, 'Dr. Silva', 'General Dentistry', '0771234567', 'ravindu@xessglobal.lk', 'ACTIVE');
 
 -- --------------------------------------------------------
 
@@ -149,6 +147,26 @@ INSERT INTO `treatments` (`treatment_id`, `treatment_name`, `consultation_fee`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `treatment_records`
+--
+
+CREATE TABLE `treatment_records` (
+  `record_id` int(11) NOT NULL,
+  `appointment_no` varchar(50) NOT NULL,
+  `patient_id` int(11) NOT NULL,
+  `dentist_id` int(11) NOT NULL,
+  `diagnosis` varchar(255) DEFAULT NULL,
+  `treatment_performed` varchar(255) DEFAULT NULL,
+  `clinical_notes` text DEFAULT NULL,
+  `recommendation` text DEFAULT NULL,
+  `follow_up_required` tinyint(1) DEFAULT 0,
+  `follow_up_date` date DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -180,7 +198,8 @@ INSERT INTO `users` (`user_id`, `username`, `password`, `full_name`, `role`, `st
 ALTER TABLE `appointments`
   ADD PRIMARY KEY (`appointment_id`),
   ADD UNIQUE KEY `appointment_no` (`appointment_no`),
-  ADD KEY `fk_appointments_patient` (`patient_id`);
+  ADD KEY `fk_appointments_patient` (`patient_id`),
+  ADD KEY `dentist_id` (`dentist_id`);
 
 --
 -- Indexes for table `bills`
@@ -211,6 +230,15 @@ ALTER TABLE `treatments`
   ADD UNIQUE KEY `treatment_name` (`treatment_name`);
 
 --
+-- Indexes for table `treatment_records`
+--
+ALTER TABLE `treatment_records`
+  ADD PRIMARY KEY (`record_id`),
+  ADD KEY `patient_id` (`patient_id`),
+  ADD KEY `dentist_id` (`dentist_id`),
+  ADD KEY `appointment_no` (`appointment_no`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -225,13 +253,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `appointments`
 --
 ALTER TABLE `appointments`
-  MODIFY `appointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `appointment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `bills`
 --
 ALTER TABLE `bills`
-  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `bill_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `dentists`
@@ -252,6 +280,12 @@ ALTER TABLE `treatments`
   MODIFY `treatment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT for table `treatment_records`
+--
+ALTER TABLE `treatment_records`
+  MODIFY `record_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -265,6 +299,7 @@ ALTER TABLE `users`
 -- Constraints for table `appointments`
 --
 ALTER TABLE `appointments`
+  ADD CONSTRAINT `fk_appointment_dentist` FOREIGN KEY (`dentist_id`) REFERENCES `dentists` (`dentist_id`),
   ADD CONSTRAINT `fk_appointments_patient` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`patient_id`);
 
 --
@@ -278,6 +313,14 @@ ALTER TABLE `bills`
 --
 ALTER TABLE `dentists`
   ADD CONSTRAINT `fk_dentist_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `treatment_records`
+--
+ALTER TABLE `treatment_records`
+  ADD CONSTRAINT `treatment_records_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patients` (`patient_id`),
+  ADD CONSTRAINT `treatment_records_ibfk_2` FOREIGN KEY (`dentist_id`) REFERENCES `dentists` (`dentist_id`),
+  ADD CONSTRAINT `treatment_records_ibfk_3` FOREIGN KEY (`appointment_no`) REFERENCES `appointments` (`appointment_no`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
